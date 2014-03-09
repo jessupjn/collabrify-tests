@@ -1,0 +1,13 @@
+﻿<xapCache source="J:\Github\TestClient\TestClient\TestClient\Bin\Debug\TestClient_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="3/9/2014 2:00:55 PM">
+  <file source="J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.dll" archivePath="TestClient.dll" lastWriteTime="3/9/2014 2:00:55 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2/27/2014 8:09:12 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="2/24/2014 1:18:44 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\protobuf-net.dll" archivePath="protobuf-net.dll" lastWriteTime="2/2/2014 2:13:06 PM" />
+  <file source="J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2/27/2014 8:09:12 PM" />
+</xapCache>

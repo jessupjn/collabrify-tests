@@ -1,0 +1,60 @@
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Assets\ApplicationIcon.png
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\TestClient.dll
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\TestClient.pdb
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\AppManifest.xaml
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\Properties\WMAppManifest.xml
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\Bin\Debug\TestClient_Debug_AnyCPU.xap
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\App.g.cs
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\MainPage.g.cs
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\TestClient.g.resources
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\TestClient.Resources.AppResources.resources
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\TestClient.csproj.GenerateResource.Cache
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\TestClient.dll
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\TestClient.pdb
+C:\Users\JillC_000\Documents\GitHub\collabrify-client-wp8\TestClient\TestClient\TestClient\obj\Debug\XapCacheFile.xml
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Assets\ApplicationIcon.png
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\TestClient.dll
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\TestClient.pdb
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\AppManifest.xaml
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\Properties\WMAppManifest.xml
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\TestClient_Debug_AnyCPU.xap
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\Bin\Debug\protobuf-net.dll
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\App.g.cs
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\MainPage.g.cs
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\TestClient.g.resources
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\TestClient.Resources.AppResources.resources
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\TestClient.csproj.GenerateResource.Cache
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\TestClient.dll
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\TestClient.pdb
+C:\Users\JillC_000\Documents\Visual Studio 2012\Projects\TestClient\TestClient\TestClient\obj\Debug\XapCacheFile.xml
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\ApplicationIcon.png
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\TestClient.dll
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\TestClient.pdb
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\AppManifest.xaml
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\Properties\WMAppManifest.xml
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\TestClient_Debug_AnyCPU.xap
+J:\Github\TestClient\TestClient\TestClient\Bin\Debug\protobuf-net.dll
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.csprojResolveAssemblyReference.cache
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\App.g.cs
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\MainPage.g.cs
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.g.resources
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.Resources.AppResources.resources
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.csproj.GenerateResource.Cache
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.dll
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\TestClient.pdb
+J:\Github\TestClient\TestClient\TestClient\obj\Debug\XapCacheFile.xml
