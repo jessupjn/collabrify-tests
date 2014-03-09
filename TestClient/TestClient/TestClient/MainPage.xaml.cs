@@ -19,6 +19,8 @@ namespace TestClient
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private long q1, q2;
+
         // Constructor
         public MainPage()
         {
@@ -52,16 +54,23 @@ namespace TestClient
                 System.IO.Stream postStream = request.EndGetRequestStream(result);
 
                 CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
-                Request_ListSessions_PB req_pb2 = new Request_ListSessions_PB(); 
-                req_pb2.account_gmail = "wp8-collabrify@umich.edu";
-                req_pb2.access_token = "82763BDBCA";
+                Request_ListSessions_PB ls_pb = new Request_ListSessions_PB();
+                ls_pb.account_gmail = "wp8-collabrify@umich.edu";
+                ls_pb.access_token = "82763BDBCA";
 
                 var ms = new MemoryStream();
                 var ms2 = new MemoryStream();
                 Serializer.Serialize<CollabrifyRequest_PB>(ms, req_pb);
-                Serializer.Serialize<Request_ListSessions_PB>(ms2, req_pb2);
-                byte[] byteArr = ms.ToArray().Concat( ms2.ToArray() ).ToArray();
+                Serializer.Serialize<Request_ListSessions_PB>(ms2, ls_pb);
 
+
+                byte[] byteArr = ms.ToArray();
+                q1 = ms.Length;
+                byteArr.Concat( ms2.ToArray() );
+                q2 = ms2.Length;
+
+                System.Diagnostics.Debug.WriteLine("size 1: " + q1.ToString());
+                System.Diagnostics.Debug.WriteLine("size 2: " + q2.ToString());
 
                 //your binary stream to upload
                 postStream.Write(byteArr, 0, byteArr.Length);
@@ -85,9 +94,16 @@ namespace TestClient
                 //to read server responce 
                 Stream streamResponse = response.GetResponseStream();
 
+                // ===============================
+                // HERE IS WHERE WE WANT TO DESERIALIZE THE STREAM
+                // AHHH
+                // ===============================
+                Response_ListSessions_PB resp_ls_pb = Serializer.Deserialize<Response_ListSessions_PB>(streamResponse);
+
+
                 System.Diagnostics.Debug.WriteLine("RESP\n"+streamResponse);
 
-                string responseString = new StreamReader(streamResponse).ReadToEnd();
+                string responseString = resp_ls_pb.session[0].session_name;
 
                 System.Diagnostics.Debug.WriteLine("RESP string\n" + responseString);
 
@@ -101,6 +117,7 @@ namespace TestClient
                     {
                         //Update UI here
                         TextBlock1.Text = responseString;
+
                     });
             }
             catch (WebException e)
