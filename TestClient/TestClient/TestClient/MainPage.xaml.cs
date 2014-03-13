@@ -55,22 +55,24 @@ namespace TestClient
 
                 CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
                 Request_ListSessions_PB ls_pb = new Request_ListSessions_PB();
+                req_pb.request_type = CollabrifyRequestType_PB.WARMUP_REQUEST;
                 ls_pb.account_gmail = "wp8-collabrify@umich.edu";
                 ls_pb.access_token = "82763BDBCA";
 
                 var ms = new MemoryStream();
                 var ms2 = new MemoryStream();
-                Serializer.Serialize<CollabrifyRequest_PB>(ms, req_pb);
-                Serializer.Serialize<Request_ListSessions_PB>(ms2, ls_pb);
+                //Serializer.Serialize<CollabrifyRequest_PB>(ms, req_pb);
+                Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, req_pb, PrefixStyle.None);
+                //Serializer.Serialize<Request_ListSessions_PB>(ms2, ls_pb);
 
 
                 byte[] byteArr = ms.ToArray();
                 q1 = ms.Length;
-                byteArr.Concat( ms2.ToArray() );
-                q2 = ms2.Length;
+                //byteArr.Concat( ms2.ToArray() );
+                //q2 = ms2.Length;
 
                 System.Diagnostics.Debug.WriteLine("size 1: " + q1.ToString());
-                System.Diagnostics.Debug.WriteLine("size 2: " + q2.ToString());
+                //System.Diagnostics.Debug.WriteLine("size 2: " + q2.ToString());
 
                 //your binary stream to upload
                 postStream.Write(byteArr, 0, byteArr.Length);
@@ -98,12 +100,17 @@ namespace TestClient
                 // HERE IS WHERE WE WANT TO DESERIALIZE THE STREAM
                 // AHHH
                 // ===============================
-                Response_ListSessions_PB resp_ls_pb = Serializer.Deserialize<Response_ListSessions_PB>(streamResponse);
+                //CollabrifyResponse_PB resp_pb = Serializer.Deserialize<CollabrifyResponse_PB>(streamResponse);
+                CollabrifyResponse_PB resp_pb = Serializer.DeserializeWithLengthPrefix<CollabrifyResponse_PB>(streamResponse, PrefixStyle.None);
+                
+
+                System.Diagnostics.Debug.WriteLine("RESP\n" + streamResponse);
 
 
-                System.Diagnostics.Debug.WriteLine("RESP\n"+streamResponse);
+                System.Diagnostics.Debug.WriteLine(streamResponse.Length);
 
-                string responseString = resp_ls_pb.session[0].session_name;
+                string responseString = "FAIL";
+                if( resp_pb.success_flag ) responseString = "SUCCESS";
 
                 System.Diagnostics.Debug.WriteLine("RESP string\n" + responseString);
 
