@@ -30,11 +30,20 @@ namespace TestClient
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest request = HttpWebRequest.CreateHttp("http://collabrify-cloud.appspot.com");
+            HttpWebRequest request = HttpWebRequest.CreateHttp("http://collabrify-cloud.appspot.com/request");
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.Credentials = new NetworkCredential("wp8-collabrify@umich.edu", "82763BDBCA");
-            request.BeginGetRequestStream(new AsyncCallback(getReqStream), request);
+
+            try
+            {
+                request.BeginGetRequestStream(new AsyncCallback(getReqStream), request);
+            }
+            catch (WebException ex)
+            {
+                // generic error handling
+                TextBlock1.Text = "EXCEPTION THROWN \n" + ex.Message;
+            }
 
         }
 
@@ -43,21 +52,21 @@ namespace TestClient
             try
             {
                 HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-                System.IO.Stream postStream = request.EndGetRequestStream(result);
+                Stream postStream = request.EndGetRequestStream(result);
+//ls_pb.account_gmail = "wp8-collabrify@umich.edu";
+                //ls_pb.access_token = "82763BDBCA";
+
 
                 CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
                 req_pb.request_type = CollabrifyRequestType_PB.WARMUP_REQUEST;
-                //ls_pb.account_gmail = "wp8-collabrify@umich.edu";
-                //ls_pb.access_token = "82763BDBCA";
-
-                var ms = new MemoryStream();
-                Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, req_pb, PrefixStyle.None);
+                MemoryStream ms = new MemoryStream();
+                Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, req_pb, PrefixStyle.Base128, 0);
                 byte[] byteArr = ms.ToArray();
-                System.Diagnostics.Debug.WriteLine("size 1: " + ms.Length.ToString());
-
-                //your binary stream to upload
                 postStream.Write(byteArr, 0, byteArr.Length);
                 postStream.Close();
+
+
+                System.Diagnostics.Debug.WriteLine("size 1: " + byteArr.Length);
 
                 request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
             }
@@ -74,12 +83,28 @@ namespace TestClient
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
 
+                System.Diagnostics.Debug.WriteLine("***RESPONSE\n Length: " + response.ContentLength.ToString());
+                System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n URI: " + response.ResponseUri.ToString());
+                System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n Status Description: " + response.StatusDescription.ToString());
+                System.Diagnostics.Debug.WriteLine("\n");
+
+                string responseString = "FAIL";
+
+                CollabrifyResponse_PB resp_pb = new CollabrifyResponse_PB();
+
                 //to read server responce 
                 Stream streamResponse = response.GetResponseStream();
-                CollabrifyResponse_PB resp_pb = Serializer.DeserializeWithLengthPrefix<CollabrifyResponse_PB>(streamResponse, PrefixStyle.None);
-                
-                string responseString = "FAIL";
-                //if( resp_pb.success_flag ) responseString = "SUCCESS";
+                try
+                {
+                    //resp_pb = Serializer.DeserializeItems<CollabrifyResponse_PB>(streamResponse, PrefixStyle.Fixed32, 0);
+                    System.Diagnostics.Debug.WriteLine("Before deserializing\n");
+                    resp_pb = Serializer.DeserializeWithLengthPrefix<CollabrifyResponse_PB>(streamResponse, PrefixStyle.Base128, 0);
+                    System.Diagnostics.Debug.WriteLine("after deserializing\n");
+                }
+                catch(Exception e) {
+                    responseString = e.Message.ToString();
+                    System.Diagnostics.Debug.WriteLine("EXCEPTION string\n" + e.Data + "\n -- \n" + e.StackTrace.ToString());
+                }
 
                 System.Diagnostics.Debug.WriteLine("RESP string\n" + responseString);
 
