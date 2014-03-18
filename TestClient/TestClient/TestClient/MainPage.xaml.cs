@@ -53,25 +53,36 @@ namespace TestClient
             {
                 HttpWebRequest request = (HttpWebRequest)result.AsyncState;
                 Stream postStream = request.EndGetRequestStream(result);
-//ls_pb.account_gmail = "wp8-collabrify@umich.edu";
-                //ls_pb.access_token = "82763BDBCA";
 
 
                 CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
-                req_pb.request_type = CollabrifyRequestType_PB.WARMUP_REQUEST;
+                req_pb.request_type = CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST;
                 MemoryStream ms = new MemoryStream();
                 Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, req_pb, PrefixStyle.Base128, 0);
-                byte[] byteArr = ms.ToArray();
+
+                Request_ListSessions_PB ls_pb = new Request_ListSessions_PB();
+                ls_pb.account_gmail = "wp8-collabrify@umich.edu";
+                ls_pb.access_token = "82763BDBCA";
+                MemoryStream ms2 = new MemoryStream();
+                Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms, ls_pb, PrefixStyle.Base128, 1);
+
+                System.Diagnostics.Debug.WriteLine("size of ms: " + ms.Length.ToString());
+                System.Diagnostics.Debug.WriteLine("size of ms2: " + ms2.Length.ToString());
+
+                byte[] byteArr = (ms.ToArray()).Concat(ms2.ToArray()).ToArray();
+
+
                 postStream.Write(byteArr, 0, byteArr.Length);
                 postStream.Close();
 
 
-                System.Diagnostics.Debug.WriteLine("size 1: " + byteArr.Length);
+                System.Diagnostics.Debug.WriteLine("size of byte array: " + byteArr.Length);
 
                 request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
             }
             catch (WebException e)
-            { 
+            {
+                System.Diagnostics.Debug.WriteLine("web exception");
             }
             
         }
@@ -92,14 +103,14 @@ namespace TestClient
 
                 CollabrifyResponse_PB resp_pb = new CollabrifyResponse_PB();
 
-                //to read server responce 
+                //to read server response 
                 Stream streamResponse = response.GetResponseStream();
                 try
                 {
-                    //resp_pb = Serializer.DeserializeItems<CollabrifyResponse_PB>(streamResponse, PrefixStyle.Fixed32, 0);
-                    System.Diagnostics.Debug.WriteLine("Before deserializing\n");
                     resp_pb = Serializer.DeserializeWithLengthPrefix<CollabrifyResponse_PB>(streamResponse, PrefixStyle.Base128, 0);
-                    System.Diagnostics.Debug.WriteLine("after deserializing\n");
+
+                    responseString = resp_pb.success_flag.ToString();
+                    responseString += "\n" + resp_pb.backend_version.ToString();
                 }
                 catch(Exception e) {
                     responseString = e.Message.ToString();
@@ -123,7 +134,9 @@ namespace TestClient
             }
             catch (WebException e)
             {
-                //Handle non success exception here                
+                //Handle non success exception here  
+                System.Diagnostics.Debug.WriteLine("responses suck");
+
             }       
         }
 
