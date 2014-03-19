@@ -56,7 +56,7 @@ namespace TestClient
 
 
                 CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
-                req_pb.request_type = CollabrifyRequestType_PB.WARMUP_REQUEST;
+                req_pb.request_type = CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST;
                 MemoryStream ms = new MemoryStream();
                 Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, req_pb, PrefixStyle.Base128, 0);
 
@@ -64,18 +64,18 @@ namespace TestClient
                 ls_pb.account_gmail = "wp8-collabrify@umich.edu";
                 ls_pb.access_token = "82763BDBCA";
                 MemoryStream ms2 = new MemoryStream();
-                //Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms, ls_pb, PrefixStyle.Base128, 1);
+                Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, ls_pb, PrefixStyle.Base128, 0);
 
-                System.Diagnostics.Debug.WriteLine("size of ms: " + ms.Length.ToString());
-                System.Diagnostics.Debug.WriteLine("size of ms2: " + ms2.Length.ToString());
-
-                byte[] byteArr = (ms.ToArray()).Concat(ms2.ToArray()).ToArray();
-
+                
+                byte[] byteArr = ms.ToArray();
                 postStream.Write(byteArr, 0, byteArr.Length);
+                System.Diagnostics.Debug.WriteLine("writing ms... size: " + byteArr.Length.ToString());
+
+                byteArr = ms2.ToArray();
+                postStream.Write(byteArr, 0, byteArr.Length);
+                System.Diagnostics.Debug.WriteLine("writing ms2... size: " + byteArr.Length.ToString());
+
                 postStream.Close();
-
-
-                System.Diagnostics.Debug.WriteLine("size of byte array: " + byteArr.Length);
 
                 request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
             }
@@ -91,7 +91,11 @@ namespace TestClient
             try
             {
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+                System.Diagnostics.Debug.WriteLine("\t-- GOT REQUEST");
+
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
+                System.Diagnostics.Debug.WriteLine("\t-- GOT RESPONSE\n");
+
 
                 System.Diagnostics.Debug.WriteLine("***RESPONSE\n Length: " + response.ContentLength.ToString());
                 System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n URI: " + response.ResponseUri.ToString());
@@ -134,6 +138,8 @@ namespace TestClient
             catch (WebException e)
             {
                 //Handle non success exception here  
+                HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+
                 System.Diagnostics.Debug.WriteLine("responses suck");
 
             }       
