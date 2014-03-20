@@ -56,15 +56,21 @@ namespace TestClient
 
 
                 CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
-                req_pb.request_type = CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST;
+                req_pb.request_type = CollabrifyRequestType_PB.CREATE_SESSION_REQUEST;
                 MemoryStream ms = new MemoryStream();
                 Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, req_pb, PrefixStyle.Base128, 0);
 
-                Request_ListSessions_PB ls_pb = new Request_ListSessions_PB();
+                Request_CreateSession_PB ls_pb = new Request_CreateSession_PB();
                 ls_pb.account_gmail = "wp8-collabrify@umich.edu";
                 ls_pb.access_token = "82763BDBCA";
+                ls_pb.session_tag.Add("none");
+                ls_pb.session_name = "this is a test session5";
+                ls_pb.owner_display_name = "Jack";
+                ls_pb.owner_gmail = "wp8-collabrify@umich.edu";
+                ls_pb.owner_notification_id = "Jack";
+                ls_pb.owner_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
                 MemoryStream ms2 = new MemoryStream();
-                Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, ls_pb, PrefixStyle.Base128, 0);
+                Serializer.SerializeWithLengthPrefix<Request_CreateSession_PB>(ms2, ls_pb, PrefixStyle.Base128, 0);
 
                 
                 byte[] byteArr = ms.ToArray();
@@ -105,6 +111,7 @@ namespace TestClient
                 string responseString = "FAIL";
 
                 CollabrifyResponse_PB resp_pb = new CollabrifyResponse_PB();
+                Response_CreateSession_PB resp_list_pb = new Response_CreateSession_PB();
 
                 //to read server response 
                 Stream streamResponse = response.GetResponseStream();
@@ -114,6 +121,13 @@ namespace TestClient
 
                     responseString = resp_pb.success_flag.ToString();
                     responseString += "\n" + resp_pb.backend_version.ToString();
+
+                    resp_list_pb = Serializer.DeserializeWithLengthPrefix<Response_CreateSession_PB>(streamResponse, PrefixStyle.Base128, 0);
+                    if (resp_pb.success_flag) responseString += "\n" + resp_list_pb.session.session_name;
+                    else
+                    {
+                      responseString += "\n" + resp_pb.exception.message;
+                    }
                 }
                 catch(Exception e) {
                     responseString = e.Message.ToString();
