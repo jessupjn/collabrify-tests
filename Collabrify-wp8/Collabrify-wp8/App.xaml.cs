@@ -6,12 +6,10 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using TestClient.Resources;
+using Collabrify_wp8.Resources;
 
-namespace TestClient
+namespace Collabrify_wp8
 {
-    public string BASE_URI = "http://collabrify-cloud.appspot.com/";
-
     public partial class App : Application
     {
         /// <summary>

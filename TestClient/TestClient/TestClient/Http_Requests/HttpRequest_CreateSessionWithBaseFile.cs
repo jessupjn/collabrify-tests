@@ -1,0 +1,49 @@
+﻿using Collabrify_v2.CollabrifyProtocolBuffer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Collabrify.http
+{
+
+    public class HttpRequest_CreateSessionWithBaseFile : HttpRequest_BasicCollabrifyPostRequest<Request_CreateSessionWithBaseFile_PB, Response_CreateSessionWithBaseFile_PB>
+    {
+      public static sealed String servletExtension = new ServletUrlExtension_PB().url_for_create_session_with_base_file;
+
+      // ---------------------------------------------------------------------------
+      // ---------------------------------------------------------------------------
+
+      /**
+       * 
+       * @param baseURL
+       * 
+       * @param request_pb
+       * 
+       * @param useUnifiedServlet
+       *          If true, the request object will be prefixed by
+       *          CollabrifyRequest_PB, and will be sent to the unified servlet.
+       *          Otherwise, the request object will be sent alone to the old
+       *          specific servlet.
+       * 
+       * @param writeCallback
+       *          This will be called when it is time to write trailing data. This
+       *          can be null.
+       * 
+       */
+      public HttpRequest_CreateSessionWithBaseFile(String baseURL,
+          Request_CreateSessionWithBaseFile_PB request_pb,
+          bool useUnifiedServlet, TrailingDataWriteCallback writeCallback)
+          : base(baseURL,
+            (useUnifiedServlet ? mainServletExtension : servletExtension),
+            request_pb,
+            CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST,
+            new Response_CreateSessionWithBaseFile_PB(),
+            useUnifiedServlet, writeCallback, null)
+      { }// ctor
+
+      // ---------------------------------------------------------------------------
+
+    }// class
+
+}

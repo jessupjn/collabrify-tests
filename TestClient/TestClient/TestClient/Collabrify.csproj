@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestClient</RootNamespace>
-    <AssemblyName>TestClient</AssemblyName>
+    <AssemblyName>Collabrify-wp8</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -98,6 +98,28 @@
     <Compile Include="Group Protocol Buffers\General\ProtocolBufferRPC.cs" />
     <Compile Include="Group Protocol Buffers\General\ProtocolBufferTransport.cs" />
     <Compile Include="Group Protocol Buffers\IMLC\IMLCProtocolBuffer.cs" />
+    <Compile Include="Http_Requests\HttpRequest_AddEvent.cs" />
+    <Compile Include="Http_Requests\HttpRequest_AddParticipant.cs" />
+    <Compile Include="Http_Requests\HttpRequest_AddToBaseFile.cs" />
+    <Compile Include="Http_Requests\HttpRequest_BasicCollabrifyPostRequest.cs" />
+    <Compile Include="Http_Requests\HttpRequest_CreateSession.cs" />
+    <Compile Include="Http_Requests\HttpRequest_CreateSessionWithBaseFile.cs" />
+    <Compile Include="Http_Requests\HttpRequest_DeleteSession.cs" />
+    <Compile Include="Http_Requests\HttpRequest_EndSession.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetBaseFile.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetCurrentOrderID.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetEvent.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetEventBatch.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetFromBaseFile.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetNotificationID.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetParticipant.cs" />
+    <Compile Include="Http_Requests\HttpRequest_GetSession.cs" />
+    <Compile Include="Http_Requests\HttpRequest_ListAccounts.cs" />
+    <Compile Include="Http_Requests\HttpRequest_ListSessions.cs" />
+    <Compile Include="Http_Requests\HttpRequest_RemoveParticipant.cs" />
+    <Compile Include="Http_Requests\HttpRequest_UpdateNotificationID.cs" />
+    <Compile Include="Http_Requests\HttpRequest_Warmup.cs" />
+    <Compile Include="Http_Requests\HttpRequest__Object.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -157,6 +179,7 @@
       <HintPath>.\protobuf-net.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
