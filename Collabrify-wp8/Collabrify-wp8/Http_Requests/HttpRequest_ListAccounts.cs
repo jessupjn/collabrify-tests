@@ -6,7 +6,7 @@ using Collabrify_v2.CollabrifyProtocolBuffer;
 using Collabrify_wp8.Http_Requests;
 using System.Net;
 
-namespace Collabrify
+namespace Collabrify_wp8
 {
   public class HttpRequest_ListAccounts : HttpRequest__Object
   {

@@ -93,11 +93,72 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collabrify\CollabrifyClient.cs" />
+    <Compile Include="Collabrify\CollabrifyListener.cs" />
+    <Compile Include="Collabrify\CollabrifyParticipant.cs" />
+    <Compile Include="Collabrify\CollabrifySession.cs" />
     <Compile Include="Group Protocol Buffers\Collabrify-v2\ChatProtocolBuffer.cs" />
     <Compile Include="Group Protocol Buffers\Collabrify-v2\CollabrifyProtocolBuffer.cs" />
     <Compile Include="Group Protocol Buffers\General\ProtocolBufferRPC.cs" />
     <Compile Include="Group Protocol Buffers\General\ProtocolBufferTransport.cs" />
     <Compile Include="Group Protocol Buffers\IMLC\IMLCProtocolBuffer.cs" />
+    <Compile Include="Http_Requests\HttpRequest_AddEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_AddParticipant.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_AddToBaseFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_CreateSession.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_CreateSessionWithBaseFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_DeleteSession.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_EndSession.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetBaseFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetCurrentOrderID.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetEventBatch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetFromBaseFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetNotificationID.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetParticipant.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_GetSession.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_ListAccounts.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_ListSessions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_RemoveParticipant.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Http_Requests\HttpRequest_UpdateNotificationID.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Http_Requests\HttpRequest_Warmup.cs" />
     <Compile Include="Http_Requests\HttpRequest__Object.cs" />
     <Compile Include="LocalizedStrings.cs" />

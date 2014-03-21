@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Collabrify
+namespace Collabrify_wp8
 {
   public class HttpRequest_GetParticipant : HttpRequest__Object
   {

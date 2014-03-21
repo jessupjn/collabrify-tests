@@ -16,8 +16,9 @@ using System.Runtime.Serialization;
 using System.IO;
 using ProtoBuf;
 using Collabrify_wp8.Http_Requests;
+using Collabrify_wp8.Collabrify;
 
-namespace TestClient
+namespace Collabrify_wp8
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -31,8 +32,8 @@ namespace TestClient
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-          HttpRequest_Warmup.make_request();
-
+          //CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
+          HttpRequest_ListSessions.make_request();
         }
 
         public void getReqStream(IAsyncResult result)

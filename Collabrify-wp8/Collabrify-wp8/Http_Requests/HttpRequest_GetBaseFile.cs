@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Collabrify.Http_Requests
+namespace Collabrify_wp8.Http_Requests
 {
 
     public class HttpRequest_GetBaseFile : HttpRequest__Object
@@ -32,6 +32,5 @@ namespace Collabrify.Http_Requests
 
 
   }
-    }// class
 
 }
