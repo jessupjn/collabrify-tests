@@ -11,6 +11,8 @@ using System.Windows.Threading;
 
 namespace Collabrify_wp8.Http_Requests
 {
+    public delegate void ChangedEventHander(object sender, EventArgs e);
+
     public class HttpRequest__Object
     {
         public static readonly string BASE_URI = "http://collabrify-cloud.appspot.com/request";
@@ -21,6 +23,13 @@ namespace Collabrify_wp8.Http_Requests
         private object trail_info;
         private object returned_secondary_pb;
         private object returned_trail_info;
+
+        public object response_object_pb;
+        public object response_specific_pb;
+        public CollabrifyRequestType_PB response_type;
+        public event ChangedEventHander Changed;
+        protected virtual void OnChanged(EventArgs e)
+        { Changed(this, e); }
 
         public HttpWebRequest BuildRequest( CollabrifyRequest_PB req_pb, object _secondary_pb = null, object _trail_info = null )
         {
@@ -196,12 +205,6 @@ namespace Collabrify_wp8.Http_Requests
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
                 System.Diagnostics.Debug.WriteLine("\t-- GOT RESPONSE\n");
 
-
-                //System.Diagnostics.Debug.WriteLine("***RESPONSE\n Length: " + response.ContentLength.ToString());
-                //System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n URI: " + response.ResponseUri.ToString());
-                //System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n Status Description: " + response.StatusDescription.ToString());
-                //System.Diagnostics.Debug.WriteLine("\n");
-
                 string responseString = "FAIL";
 
                 //to read server response 
@@ -227,12 +230,10 @@ namespace Collabrify_wp8.Http_Requests
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_OR_GET_USER)
                   {
                     returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_CreateOrGetUser_PB>(streamResponse, PrefixStyle.Base128, 0);
-                    responseString += "\nSession Name: " + ((Response_CreateOrGetUser_PB)returned_secondary_pb).user.first_name; 
                   }
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST)
                   {
                     returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_CreateSession_PB>(streamResponse, PrefixStyle.Base128, 0);
-                    responseString += "\nSession Name: " + ((Response_CreateSession_PB)returned_secondary_pb).session.session_name;
                   }
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST)
                   {
@@ -325,7 +326,17 @@ namespace Collabrify_wp8.Http_Requests
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST) ;
                   {
                       returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_Warmup_PB>(streamResponse, PrefixStyle.Base128, 0);
-                  }  
+                  }
+
+                  // ========================================================
+                  // sets information that is used by the client upon return
+                  response_type = collabrify_req_pb.request_type;
+                  response_object_pb = collabrify_resp_pb;
+                  response_specific_pb = returned_secondary_pb;
+                  OnChanged(EventArgs.Empty);
+                  // ========================================================
+
+
                 }
                 catch (Exception e)
                 {
@@ -334,7 +345,6 @@ namespace Collabrify_wp8.Http_Requests
                 }
 
                 if (!collabrify_resp_pb.success_flag) responseString += "\nex type: " + collabrify_resp_pb.exception_type.ToString() + "\nmessage: " + collabrify_resp_pb.exception.message;
-                System.Diagnostics.Debug.WriteLine("Success Flag: " + responseString);
 
                 // Close the stream object
                 streamResponse.Close();
@@ -342,12 +352,6 @@ namespace Collabrify_wp8.Http_Requests
                 // Release the HttpWebResponse
                 response.Close();
 
-              //Dispatcher.BeginInvoke(() =>
-                //{
-                //    //Update UI here
-                //  System.Diagnostics.Debug.WriteLine( responseString );
-                //
-                //});
             }
             catch (WebException e)
             {

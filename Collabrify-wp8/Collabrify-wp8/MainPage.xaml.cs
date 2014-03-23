@@ -32,8 +32,8 @@ namespace Collabrify_wp8
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-          //CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
-          HttpRequest_ListSessions.make_request();
+          CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
+          //HttpRequest_Warmup.make_request();
         }
 
         public void getReqStream(IAsyncResult result)

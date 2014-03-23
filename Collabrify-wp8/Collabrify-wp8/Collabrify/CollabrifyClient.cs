@@ -7,6 +7,8 @@ using Collabrify_v2.CollabrifyProtocolBuffer;
 using System.IO;
 using System.Threading;
 using Collabrify_wp8.Http_Requests;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -19,7 +21,6 @@ namespace Collabrify_wp8.Collabrify
     private bool getLatest;
 
     // Session specific stuff
-    private CollabrifyListener.CollabrifySessionListener sessionListener = null;
 
     //private sealed AtomicBoolean joined = new AtomicBoolean(false);
     //private sealed AtomicBoolean pending = new AtomicBoolean(false);
@@ -46,14 +47,28 @@ namespace Collabrify_wp8.Collabrify
     private CollabrifySessionLogger sessionLogger;
     private bool log = false;*/
 
+    public ObservableCollection<CollabrifySession> session_list = new ObservableCollection<CollabrifySession>();
+    public bool success_flag;
+    HttpRequest__Object http_object = new HttpRequest__Object();
+
     public CollabrifyClient(string _gmail, string _accountGmail, string _access_token, bool _get_latest)
     {
+      http_object.Changed += new ChangedEventHander(httpReturned);
+
       gmail = _gmail;
       accountGmail = _accountGmail;
       accessToken = _access_token;
       getLatest = _get_latest;
 
-      HttpRequest_Warmup.make_request();
+      HttpRequest_Warmup.make_request( this, http_object );
+    }
+
+    private void httpReturned(object sender, EventArgs e)
+    {
+      CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
+      Debug.WriteLine("SUCCESS FLAG:   " + res_pb.success_flag.ToString());
+
+      if (http_object.response_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST) Debug.WriteLine((http_object.response_specific_pb as Response_CreateSession_PB).session.session_name);
     }
 
 
