@@ -57,10 +57,6 @@ namespace Collabrify_wp8.Collabrify
     }
 
 
-
-
-
-
     // TODO: listSessions
     public List<CollabrifySession> listSessions(List<string> tags) { return new List<CollabrifySession>(); }
 

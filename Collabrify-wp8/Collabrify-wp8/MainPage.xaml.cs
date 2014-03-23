@@ -24,6 +24,8 @@ namespace Collabrify_wp8
     {
         private long q1, q2;
 
+        private ListPickerItem RequestType = new ListPickerItem();
+
         // Constructor
         public MainPage()
         {
@@ -33,7 +35,19 @@ namespace Collabrify_wp8
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
           //CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
-          HttpRequest_ListSessions.make_request();
+            if (RequestType.Name == "Warmup")
+            {
+                HttpRequest_Warmup.make_request();
+            }
+            else if (RequestType.Name == "CreateSession")
+            {
+                HttpRequest_CreateSession.make_request();
+            }
+            else if (RequestType.Name == "ListSessions")
+            {
+                HttpRequest_ListSessions.make_request();
+            }
+
         }
 
         public void getReqStream(IAsyncResult result)
@@ -134,7 +148,7 @@ namespace Collabrify_wp8
                 Dispatcher.BeginInvoke(() =>
                     {
                         //Update UI here
-                        TextBlock1.Text = responseString;
+                        ResponseTextBlock.Text = responseString;
 
                     });
             }
@@ -150,7 +164,14 @@ namespace Collabrify_wp8
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            TextBlock1.Text = "Press the button to send a request to the server.";
+            // clear response text
+            ResponseTextBlock.Text = "";
+        }
+
+        private void OptionSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListPickerItem lpi = (sender as ListPicker).SelectedItem as ListPickerItem;
+            RequestType = lpi;
         }
 
     }

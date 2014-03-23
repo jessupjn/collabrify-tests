@@ -12,6 +12,13 @@ namespace Collabrify_wp8.Http_Requests
   public class HttpRequest_CreateSession : HttpRequest__Object
   {
 
+      public static long SessionID;
+
+      public HttpRequest_CreateSession()
+      {
+          SessionID = 0;
+      }
+
     /// <summary>
     /// baseURL
     ///

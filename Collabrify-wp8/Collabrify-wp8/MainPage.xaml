@@ -6,15 +6,16 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
+    Foreground="Black"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -41,19 +42,38 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Test Client" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="MVP Demo" Margin="9,-7,0,0" Foreground="Black" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="270" />
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="TextBlock1" Grid.Row="0" HorizontalAlignment="Left" Text="Press the button to send a request to the server" TextWrapping="Wrap" Margin="12,12,12,12" FontSize="28"/>
+
+            <TextBlock x:Name="TextBlock1" Grid.Row="0" HorizontalAlignment="Left" Text="Select an option and press send event." TextWrapping="Wrap" Margin="12,12,12,12" FontSize="18"/>
             <StackPanel Grid.Row="1">
-                <Button x:Name="Button2" Click="Button2_Click" Height="100" Background="Black" Content="reset" FontSize="40"/>
-                <Button x:Name="Button1" Click="Button1_Click" Height="150" Background="Blue" Content="send event" FontSize="40"/>
+                <TextBlock x:Name="ResponseTite" HorizontalAlignment="Left" Text="Response" FontWeight="SemiBold" TextWrapping="Wrap" Margin="12,0,0,0" FontSize="25"/>
+
+                <Grid Background="LightGray" Margin="12" Height="220">
+                    <TextBlock x:Name="ResponseTextBlock" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="12,12,12,12" FontSize="25"/>
+                </Grid>
+            </StackPanel>
+
+            <toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
+                <toolkit:ListPickerItem x:Name="Warmup" Content="Warmup Request"/>
+                <toolkit:ListPickerItem x:Name="CreateSession" Content="Create Session"/>
+                <toolkit:ListPickerItem x:Name="DeleteSession" Content="Delete Session"/>
+                <toolkit:ListPickerItem x:Name="ListSessions" Content="List Sessions"/>
+            </toolkit:ListPicker>
+            
+            <StackPanel Grid.Row="3">
+                
+                <Button x:Name="Button2" Click="Button2_Click" Height="100" FontWeight="Thin" Background="Black" Content="reset" FontSize="40"/>
+                <Button x:Name="Button1" Click="Button1_Click" Height="100" FontWeight="Thin" Background="Blue" Content="send event" FontSize="40"/>
             </StackPanel>
  </Grid>
 
