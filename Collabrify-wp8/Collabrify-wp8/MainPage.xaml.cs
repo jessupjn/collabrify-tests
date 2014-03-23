@@ -24,7 +24,7 @@ namespace Collabrify_wp8
     {
         private long q1, q2;
 
-        private ListPickerItem RequestType = new ListPickerItem();
+        public ListPickerItem RequestType = new ListPickerItem();
 
         // Constructor
         public MainPage()
@@ -32,27 +32,21 @@ namespace Collabrify_wp8
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
-        {
-<<<<<<< HEAD
-          //CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
+        private void Button1_Click(object sender, RoutedEventArgs e){
+
+            CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
             if (RequestType.Name == "Warmup")
             {
-                HttpRequest_Warmup.make_request();
+                //HttpRequest_Warmup.make_request();
             }
             else if (RequestType.Name == "CreateSession")
             {
-                HttpRequest_CreateSession.make_request();
+                //HttpRequest_CreateSession.make_request();
             }
             else if (RequestType.Name == "ListSessions")
             {
-                HttpRequest_ListSessions.make_request();
+                //HttpRequest_ListSessions.make_request();
             }
-
-=======
-          CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
-          //HttpRequest_Warmup.make_request();
->>>>>>> a3627ba031e0e1cb0e24a2672ad1e672d95a882b
         }
 
         public void getReqStream(IAsyncResult result)

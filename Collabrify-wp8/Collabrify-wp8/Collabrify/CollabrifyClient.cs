@@ -68,6 +68,8 @@ namespace Collabrify_wp8.Collabrify
       CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
       Debug.WriteLine("SUCCESS FLAG:   " + res_pb.success_flag.ToString());
 
+      
+
       if (http_object.response_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST) Debug.WriteLine((http_object.response_specific_pb as Response_CreateSession_PB).session.session_name);
     }
 
