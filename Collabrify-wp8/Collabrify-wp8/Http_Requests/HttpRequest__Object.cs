@@ -11,6 +11,8 @@ using System.Windows.Threading;
 
 namespace Collabrify_wp8.Http_Requests
 {
+    public delegate void ChangedEventHander(object sender, EventArgs e);
+
     public class HttpRequest__Object
     {
         public static readonly string BASE_URI = "http://collabrify-cloud.appspot.com/request";
@@ -21,6 +23,13 @@ namespace Collabrify_wp8.Http_Requests
         private object trail_info;
         private object returned_secondary_pb;
         private object returned_trail_info;
+
+        public object response_object_pb;
+        public object response_specific_pb;
+        public CollabrifyRequestType_PB response_type;
+        public event ChangedEventHander Changed;
+        protected virtual void OnChanged(EventArgs e)
+        { Changed(this, e); }
 
         public HttpWebRequest BuildRequest( CollabrifyRequest_PB req_pb, object _secondary_pb = null, object _trail_info = null )
         {
@@ -56,48 +65,123 @@ namespace Collabrify_wp8.Http_Requests
             if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
             {
               Serializer.SerializeWithLengthPrefix<Request_AddEvent_PB>(ms2, (Request_AddEvent_PB)secondary_pb, PrefixStyle.Base128, 0);
-              byteArr = ms2.ToArray();
-              postStream.Write(byteArr, 0, byteArr.Length);
-              System.Diagnostics.Debug.WriteLine("writing ms2 to stream... size: " + byteArr.Length.ToString());
             }
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_OR_GET_USER) ;
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_AddParticipant_PB>(ms2, (Request_AddParticipant_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_AddToBaseFile_PB>(ms2, (Request_AddToBaseFile_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_OR_GET_USER)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_CreateOrGetUser_PB>(ms2, (Request_CreateOrGetUser_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
             else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST)
             {
               Serializer.SerializeWithLengthPrefix<Request_CreateSession_PB>(ms2, (Request_CreateSession_PB)secondary_pb, PrefixStyle.Base128, 0);
-              writeSecondObject(ms2, postStream);
             }
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_OLD_SESSIONS_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_SESSION_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_USER) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.END_SESSION_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_CURRENT_ORDER_ID_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_BATCH_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_LAST_EVENT_BY_PARTICIPANT_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_SESSION_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST) ;
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_CreateSessionWithBaseFile_PB>(ms2, (Request_CreateSessionWithBaseFile_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_DeleteAllSessions_PB>(ms2, (Request_DeleteAllSessions_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_OLD_SESSIONS_REQUEST)
+            {
+                // TODO: NO DELETE USER PB
+                // Serializer.SerializeWithLengthPrefix<Request_DeleteAllSessions_PB>(ms2, (Request_DeleteAllSessions_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_SESSION_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_DeleteSession_PB>(ms2, (Request_DeleteSession_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_USER)
+            {
+                // TODO: NO DELETE USER PB
+                // Serializer.SerializeWithLengthPrefix<Request_DeleteSession_PB>(ms2, (Request_DeleteSession_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.END_SESSION_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_EndSession_PB>(ms2, (Request_EndSession_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetBaseFile_PB>(ms2, (Request_GetBaseFile_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_CURRENT_ORDER_ID_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetCurrentOrderID_PB>(ms2, (Request_GetCurrentOrderID_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_BATCH_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetEventBatch_PB>(ms2, (Request_GetEventBatch_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetEvent_PB>(ms2, (Request_GetEvent_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetFromBaseFile_PB>(ms2, (Request_GetFromBaseFile_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_LAST_EVENT_BY_PARTICIPANT_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetLastEventByParticipant_PB>(ms2, (Request_GetLastEventByParticipant_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetNotificationID_PB>(ms2, (Request_GetNotificationID_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetParticipant_PB>(ms2, (Request_GetParticipant_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_SESSION_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_GetSession_PB>(ms2, (Request_GetSession_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_ListAccounts_PB>(ms2, (Request_ListAccounts_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
             else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST)
             {
-              Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, (Request_ListSessions_PB)secondary_pb, PrefixStyle.Base128, 0);
-              writeSecondObject(ms2, postStream);
+                Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, (Request_ListSessions_PB)secondary_pb, PrefixStyle.Base128, 0);
             }
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_USER) ;
-            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST) ;
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_PreventFurtherJoins_PB>(ms2, (Request_PreventFurtherJoins_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_RemoveParticipant_PB>(ms2, (Request_RemoveParticipant_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET)
+            { }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_UpdateNotificationID_PB>(ms2, (Request_UpdateNotificationID_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_USER)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_UpdateUser>(ms2, (Request_UpdateUser)secondary_pb, PrefixStyle.Base128, 0);
+            }
+            else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST)
+            {
+                Serializer.SerializeWithLengthPrefix<Request_Warmup_PB>(ms2, (Request_Warmup_PB)secondary_pb, PrefixStyle.Base128, 0);
+            }
 
+            // if the second memory stream has data in it - add it to the request.
+            if (ms2.Length > 0) writeSecondObject(ms2, postStream);
+
+            // close the request stream.
             postStream.Close();
 
+            // get our response.
             request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
           }
           catch (WebException e) { System.Diagnostics.Debug.WriteLine("  -- A WEB EXCEPTION OCCURED\n" + e.Message); }
@@ -121,12 +205,6 @@ namespace Collabrify_wp8.Http_Requests
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
                 System.Diagnostics.Debug.WriteLine("\t-- GOT RESPONSE\n");
 
-
-                //System.Diagnostics.Debug.WriteLine("***RESPONSE\n Length: " + response.ContentLength.ToString());
-                //System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n URI: " + response.ResponseUri.ToString());
-                //System.Diagnostics.Debug.WriteLine("\n\n***RESPONSE\n Status Description: " + response.StatusDescription.ToString());
-                //System.Diagnostics.Debug.WriteLine("\n");
-
                 string responseString = "FAIL";
 
                 //to read server response 
@@ -137,46 +215,128 @@ namespace Collabrify_wp8.Http_Requests
 
                   responseString = collabrify_resp_pb.success_flag.ToString();
 
-                  if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST) ;
+                  if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_AddEvent_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_AddParticipant_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_AddToBaseFile_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_OR_GET_USER)
                   {
                     returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_CreateOrGetUser_PB>(streamResponse, PrefixStyle.Base128, 0);
-                    responseString += "\nSession Name: " + ((Response_CreateOrGetUser_PB)returned_secondary_pb).user.first_name; 
                   }
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST)
                   {
                     returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_CreateSession_PB>(streamResponse, PrefixStyle.Base128, 0);
-                    responseString += "\nSession Name: " + ((Response_CreateSession_PB)returned_secondary_pb).session.session_name;
                   }
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_OLD_SESSIONS_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_SESSION_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_USER) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.END_SESSION_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_CURRENT_ORDER_ID_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_BATCH_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_LAST_EVENT_BY_PARTICIPANT_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_SESSION_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST) ;
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_CreateSessionWithBaseFile_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_DeleteAllSessions_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_OLD_SESSIONS_REQUEST)
+                  {
+                      // TODO: DELETE OLD SESSIONS??
+                      // returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_DeleteAllSessions_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_SESSION_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_DeleteSession_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.DELETE_USER)
+                  {
+                      // TODO: DELETE USER??
+                      // returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_DeleteSession_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.END_SESSION_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_EndSession_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetBaseFile_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_CURRENT_ORDER_ID_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetCurrentOrderID_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_BATCH_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetEventBatch_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_EVENT_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetEvent_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetFromBaseFile_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_LAST_EVENT_BY_PARTICIPANT_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetLastEventByParticipant_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetNotificationID_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetParticipant_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.GET_SESSION_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_GetSession_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_ListAccounts_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
                   else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST)
                   {
                     returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_ListSessions_PB>(streamResponse, PrefixStyle.Base128, 0);
-                    //responseString += "\nSession Name: " + ((Response_ListSessions_PB)returned_secondary_pb).session[0].session_name;
                   }
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_USER) ;
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST) ;   
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_PreventFurtherJoins_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_RemoveParticipant_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET)
+                  { }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_UpdateNotificationID_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.UPDATE_USER)
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_UpdateUser>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST) ;
+                  {
+                      returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_Warmup_PB>(streamResponse, PrefixStyle.Base128, 0);
+                  }
+
+                  // ========================================================
+                  // sets information that is used by the client upon return
+                  response_type = collabrify_req_pb.request_type;
+                  response_object_pb = collabrify_resp_pb;
+                  response_specific_pb = returned_secondary_pb;
+                  OnChanged(EventArgs.Empty);
+                  // ========================================================
+
+
                 }
                 catch (Exception e)
                 {
@@ -185,7 +345,6 @@ namespace Collabrify_wp8.Http_Requests
                 }
 
                 if (!collabrify_resp_pb.success_flag) responseString += "\nex type: " + collabrify_resp_pb.exception_type.ToString() + "\nmessage: " + collabrify_resp_pb.exception.message;
-                System.Diagnostics.Debug.WriteLine("Success Flag: " + responseString);
 
                 // Close the stream object
                 streamResponse.Close();
@@ -193,12 +352,6 @@ namespace Collabrify_wp8.Http_Requests
                 // Release the HttpWebResponse
                 response.Close();
 
-              //Dispatcher.BeginInvoke(() =>
-                //{
-                //    //Update UI here
-                //  System.Diagnostics.Debug.WriteLine( responseString );
-                //
-                //});
             }
             catch (WebException e)
             {

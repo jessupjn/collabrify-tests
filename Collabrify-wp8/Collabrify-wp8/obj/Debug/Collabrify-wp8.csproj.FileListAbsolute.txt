@@ -19,6 +19,7 @@ J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp
 J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\XapCacheFile.xml
 J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csprojResolveAssemblyReference.cache
 J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\protobuf-net.dll
+<<<<<<< HEAD
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\ApplicationIcon.png
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
@@ -64,3 +65,26 @@ C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-w
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.dll
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.pdb
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\XapCacheFile.xml
+=======
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\ApplicationIcon.png
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Collabrify-wp8.dll
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Collabrify-wp8.pdb
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\AppManifest.xaml
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Properties\WMAppManifest.xml
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Collabrify_wp8_Debug_AnyCPU.xap
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\protobuf-net.dll
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csprojResolveAssemblyReference.cache
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\App.g.cs
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\MainPage.g.cs
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.g.resources
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify_wp8.Resources.AppResources.resources
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csproj.GenerateResource.Cache
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.dll
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.pdb
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\XapCacheFile.xml
+>>>>>>> a3627ba031e0e1cb0e24a2672ad1e672d95a882b

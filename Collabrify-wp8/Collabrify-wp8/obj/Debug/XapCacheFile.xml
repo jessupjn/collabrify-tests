@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<xapCache source="C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Collabrify_wp8_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="3/23/2014 3:59:05 PM">
   <file source="C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.dll" archivePath="Collabrify-wp8.dll" lastWriteTime="3/23/2014 3:59:02 PM" />
   <file source="C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="3/20/2014 4:24:53 PM" />
@@ -24,4 +25,24 @@
   <file source="C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="3/20/2014 4:24:53 PM" />
   <file source="C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="3/20/2014 4:24:53 PM" />
   <file source="C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="3/20/2014 4:24:53 PM" />
+=======
+﻿<xapCache source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Collabrify_wp8_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="3/23/2014 4:03:35 PM">
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.dll" archivePath="Collabrify-wp8.dll" lastWriteTime="3/23/2014 4:03:33 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="3/23/2014 1:34:24 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="3/23/2014 1:34:24 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="3/23/2014 2:06:41 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\protobuf-net.dll" archivePath="protobuf-net.dll" lastWriteTime="3/23/2014 1:34:28 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="3/23/2014 1:34:24 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="3/23/2014 1:34:27 PM" />
+  <file source="C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="3/23/2014 1:34:27 PM" />
+>>>>>>> a3627ba031e0e1cb0e24a2672ad1e672d95a882b
 </xapCache>

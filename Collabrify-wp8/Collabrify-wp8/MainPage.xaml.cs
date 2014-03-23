@@ -34,6 +34,7 @@ namespace Collabrify_wp8
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
           //CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
             if (RequestType.Name == "Warmup")
             {
@@ -48,6 +49,10 @@ namespace Collabrify_wp8
                 HttpRequest_ListSessions.make_request();
             }
 
+=======
+          CollabrifyClient c = new CollabrifyClient("A", "A", "A", true);
+          //HttpRequest_Warmup.make_request();
+>>>>>>> a3627ba031e0e1cb0e24a2672ad1e672d95a882b
         }
 
         public void getReqStream(IAsyncResult result)
