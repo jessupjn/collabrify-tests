@@ -7,7 +7,7 @@ using Collabrify_wp8.Http_Requests;
 using System.Net;
 using Collabrify_wp8.Collabrify;
 
-namespace Collabrify_wp8
+namespace Collabrify_wp8.Http_Requests
 {
   public class HttpRequest_RemoveParticipant : HttpRequest__Object
   {

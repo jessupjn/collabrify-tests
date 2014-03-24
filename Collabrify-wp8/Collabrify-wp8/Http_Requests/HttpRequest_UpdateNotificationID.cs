@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Collabrify_wp8
+namespace Collabrify_wp8.Http_Requests
 {
   public class HttpRequest_UpdateNotificationID : HttpRequest__Object
   {

@@ -23,8 +23,8 @@ namespace Collabrify_wp8.Http_Requests
       req_pb.request_type = CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST;
 
       Request_ListSessions_PB cs_pb = new Request_ListSessions_PB();
-      cs_pb.account_gmail = "wp8-collabrify@umich.edu";
-      cs_pb.access_token = "82763BDBCA";
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.access_token = c.getAccessToken();
       cs_pb.session_tag.Add("[none]");
       cs_pb.include_sessions_with_incomplete_base_files_flag = true;
       cs_pb.limit_query_to_organization_account = true;

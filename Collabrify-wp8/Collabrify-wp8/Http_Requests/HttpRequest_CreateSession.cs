@@ -35,8 +35,8 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.owner_display_name = "Jack";
       cs_pb.session_name = rd.Next(1, 2000000000).ToString();
       cs_pb.session_tag.Add( "[none]" );
-      cs_pb.account_gmail = "wp8-collabrify@umich.edu"; 
-      cs_pb.access_token = "82763BDBCA";
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.access_token = c.getAccessToken();
       cs_pb.owner_notification_id = "123123123";
       cs_pb.owner_display_name = "Jack";
       cs_pb.owner_gmail = "wp8-collabrify@umich.edu";

@@ -123,6 +123,9 @@ namespace Collabrify_wp8.Collabrify
     // TODO: currentSessionName
     public string currentSessionName() { return ""; }
 
+    public string getAccountGmail() { return accountGmail; }
+    public string getAccessToken() { return accessToken; }
+
     // TODO: currentSessionOrderID
     public long currentSessionOrderID() { return 0; }
 

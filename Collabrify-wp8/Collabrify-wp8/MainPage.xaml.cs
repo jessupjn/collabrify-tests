@@ -19,7 +19,7 @@ using Collabrify_wp8.Http_Requests;
 using Collabrify_wp8.Collabrify;
 using System.Diagnostics;
 
-namespace Collabrify_wp8
+namespace Collabrify_wp8.Http_Requests
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -32,8 +32,7 @@ namespace Collabrify_wp8
         public MainPage()
         {
           InitializeComponent();
-
-          c = new CollabrifyClient("A", "A", "A", true);
+          c = new CollabrifyClient("A", "wp8-collabrify@umich.edu", "82763BDBCA", true);
           c.Changed += new ChangedEventHander(updateInfo);
         }
 

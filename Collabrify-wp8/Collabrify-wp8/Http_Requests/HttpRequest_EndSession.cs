@@ -23,6 +23,13 @@ namespace Collabrify_wp8.Http_Requests
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.END_SESSION_REQUEST;
 
+      Request_EndSession_PB cs_pb = new Request_EndSession_PB();
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.access_token = c.getAccessToken();
+      cs_pb.session_id = 1;
+      cs_pb.session_password = "";
+      cs_pb.owner_id = c.currentSessionOwner().getId();
+
       obj = new HttpRequest__Object();
       HttpWebRequest request = obj.BuildRequest( req_pb );
 
