@@ -9,6 +9,9 @@ using System.Threading;
 using Collabrify_wp8.Http_Requests;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Microsoft.Phone.Controls;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -51,6 +54,13 @@ namespace Collabrify_wp8.Collabrify
     public bool success_flag;
     HttpRequest__Object http_object = new HttpRequest__Object();
 
+
+    // USED TO UPDATE MAINPAGE INFORMATION
+    public event ChangedEventHander Changed;
+    public string ret;
+    protected virtual void OnChanged(EventArgs e)
+    { Changed(this, e); }
+
     public CollabrifyClient(string _gmail, string _accountGmail, string _access_token, bool _get_latest)
     {
       http_object.Changed += new ChangedEventHander(httpReturned);
@@ -66,12 +76,21 @@ namespace Collabrify_wp8.Collabrify
     private void httpReturned(object sender, EventArgs e)
     {
       CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
-      Debug.WriteLine("SUCCESS FLAG:   " + res_pb.success_flag.ToString());
+      ret = "SUCCESS FLAG:   " + res_pb.success_flag.ToString();
+      ret += "\nTYPE:   " + http_object.response_type.ToString();
+      OnChanged(EventArgs.Empty);
+      //var mp = ((PhoneApplicationFrame)Application.Current.RootVisual).Content as MainPage;
+      //mp.ResponseTextBlock.Text = ret;
+      //mp.TextBlock1.Text = ret;
+     // mp.ResponseTextBlock.Foreground = new SolidColorBrush(Colors.Red);
+      //Debug.WriteLine(ret);
 
-      
-
-      if (http_object.response_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST) Debug.WriteLine((http_object.response_specific_pb as Response_CreateSession_PB).session.session_name);
+      //if (http_object.response_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST) Debug.WriteLine((http_object.response_specific_pb as Response_CreateSession_PB).session.session_name);
     }
+
+    public void makeWarmup() { HttpRequest_Warmup.make_request(this, http_object); }
+    public void makeCreateSession() { HttpRequest_CreateSession.make_request(this, http_object); }
+    public void makeListSession() { HttpRequest_ListSessions.make_request(this, http_object); }
 
 
     // TODO: listSessions
