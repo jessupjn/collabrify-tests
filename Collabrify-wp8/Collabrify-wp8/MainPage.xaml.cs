@@ -28,8 +28,6 @@ namespace Collabrify_wp8
         CollabrifyClient c;
 
 
-
-
         // Constructor
         public MainPage()
         {
@@ -41,25 +39,37 @@ namespace Collabrify_wp8
 
         private void updateInfo(object sender, EventArgs e)
         {
-          Debug.WriteLine("JILL CHANGE THE TEXT HERE!!!");
+            ResponseTextBlock.Text = "Success";
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e){
             if (RequestType.Name == "Warmup")
-            { c.makeWarmup(); }
+            {
+                ResponseTextBlock.Text = "Warmup";
+                c.makeWarmup(); 
+            }
             else if (RequestType.Name == "CreateSession")
-            { c.makeCreateSession(); }
+            {
+                ResponseTextBlock.Text = "Create Session";
+                c.makeCreateSession(); 
+            }
             else if (RequestType.Name == "ListSessions")
-            { c.makeListSession(); }
+            {
+                ResponseTextBlock.Text = "List Sessions";
+                c.makeListSession(); 
+            }
             else if (RequestType.Name == "DeleteSessions")
-            { c.makeDeleteSession(); }
+            {
+                ResponseTextBlock.Text = "Delete Session";
+                c.makeDeleteSession(); 
+            }
         }
 
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
             // clear response text
-            ResponseTextBlock.Text = "";
+            ResponseTextBlock.Text = "Foo";
         }
 
         private void OptionSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
