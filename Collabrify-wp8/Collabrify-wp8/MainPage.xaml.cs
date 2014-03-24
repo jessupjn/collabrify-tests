@@ -45,19 +45,14 @@ namespace Collabrify_wp8
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e){
-
             if (RequestType.Name == "Warmup")
-            {
-              c.makeWarmup();
-            }
+            { c.makeWarmup(); }
             else if (RequestType.Name == "CreateSession")
-            {
-              c.makeCreateSession();
-            }
+            { c.makeCreateSession(); }
             else if (RequestType.Name == "ListSessions")
-            {
-                //HttpRequest_ListSessions.make_request();
-            }
+            { c.makeListSession(); }
+            else if (RequestType.Name == "DeleteSessions")
+            { c.makeDeleteSession(); }
         }
 
 

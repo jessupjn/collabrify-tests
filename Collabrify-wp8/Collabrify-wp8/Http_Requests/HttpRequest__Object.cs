@@ -1,7 +1,9 @@
 ﻿using Collabrify_v2.CollabrifyProtocolBuffer;
+using Collabrify_wp8.Collabrify;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,7 +13,6 @@ using System.Windows.Threading;
 
 namespace Collabrify_wp8.Http_Requests
 {
-    public delegate void ChangedEventHander(object sender, EventArgs e);
 
     public class HttpRequest__Object
     {
@@ -29,7 +30,10 @@ namespace Collabrify_wp8.Http_Requests
         public CollabrifyRequestType_PB response_type;
         public event ChangedEventHander Changed;
         protected virtual void OnChanged(EventArgs e)
-        { Changed(this, e); }
+        {
+          try { Changed(this, EventArgs.Empty); }
+          catch { Debug.WriteLine("OnChanged exception..."); }
+        }
 
         public HttpWebRequest BuildRequest( CollabrifyRequest_PB req_pb, object _secondary_pb = null, object _trail_info = null )
         {
@@ -214,7 +218,7 @@ namespace Collabrify_wp8.Http_Requests
                   collabrify_resp_pb = Serializer.DeserializeWithLengthPrefix<CollabrifyResponse_PB>(streamResponse, PrefixStyle.Base128, 0);
 
                   responseString = collabrify_resp_pb.success_flag.ToString();
-
+                  returned_secondary_pb = null;
                   if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
                   {
                       returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_AddEvent_PB>(streamResponse, PrefixStyle.Base128, 0);
@@ -323,7 +327,7 @@ namespace Collabrify_wp8.Http_Requests
                   {
                       returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_UpdateUser>(streamResponse, PrefixStyle.Base128, 0);
                   }
-                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST) ;
+                  else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.WARMUP_REQUEST)
                   {
                       returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_Warmup_PB>(streamResponse, PrefixStyle.Base128, 0);
                   }
@@ -333,6 +337,7 @@ namespace Collabrify_wp8.Http_Requests
                   response_type = collabrify_req_pb.request_type;
                   response_object_pb = collabrify_resp_pb;
                   response_specific_pb = returned_secondary_pb;
+
                   OnChanged(EventArgs.Empty);
                   // ========================================================
 
@@ -340,11 +345,8 @@ namespace Collabrify_wp8.Http_Requests
                 }
                 catch (Exception e)
                 {
-                    responseString = e.Message.ToString();
-                    System.Diagnostics.Debug.WriteLine("EXCEPTION string\n" + e.Data + "\n -- \n" + e.StackTrace.ToString());
+                  System.Diagnostics.Debug.WriteLine("EXCEPTION string\nMessage: " + e.Message.ToString() + "\ndata: " + e.Data.ToString() + "\n -- \n" + e.StackTrace.ToString());
                 }
-
-                if (!collabrify_resp_pb.success_flag) responseString += "\nex type: " + collabrify_resp_pb.exception_type.ToString() + "\nmessage: " + collabrify_resp_pb.exception.message;
 
                 // Close the stream object
                 streamResponse.Close();
