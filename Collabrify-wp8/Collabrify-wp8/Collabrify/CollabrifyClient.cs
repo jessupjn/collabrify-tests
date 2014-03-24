@@ -9,9 +9,14 @@ using System.Threading;
 using Collabrify_wp8.Http_Requests;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Microsoft.Phone.Controls;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Collabrify_wp8.Collabrify
 {
+  public delegate void ChangedEventHander(object sender, EventArgs e);
+
   public class CollabrifyClient
   {
     private readonly String accountGmail;
@@ -47,9 +52,16 @@ namespace Collabrify_wp8.Collabrify
     private CollabrifySessionLogger sessionLogger;
     private bool log = false;*/
 
-    public ObservableCollection<CollabrifySession> session_list = new ObservableCollection<CollabrifySession>();
+    public ObservableCollection<Session_PB> session_list = new ObservableCollection<Session_PB>();
     public bool success_flag;
     HttpRequest__Object http_object = new HttpRequest__Object();
+
+
+    // USED TO UPDATE MAINPAGE INFORMATION
+    public event ChangedEventHander Changed;
+    public string ret;
+    protected virtual void OnChanged(EventArgs e)
+    { Changed(this, e); }
 
     public CollabrifyClient(string _gmail, string _accountGmail, string _access_token, bool _get_latest)
     {
@@ -65,13 +77,29 @@ namespace Collabrify_wp8.Collabrify
 
     private void httpReturned(object sender, EventArgs e)
     {
-      CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
-      Debug.WriteLine("SUCCESS FLAG:   " + res_pb.success_flag.ToString());
-
+      /* Handles the response from the server within the CollabrifyClient object */
       
+      CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
+      ret = "SUCCESS FLAG:   " + res_pb.success_flag.ToString();
+      ret += "\nTYPE:   " + http_object.response_type.ToString();
+      //OnChanged(EventArgs.Empty);
 
-      if (http_object.response_type == CollabrifyRequestType_PB.CREATE_SESSION_REQUEST) Debug.WriteLine((http_object.response_specific_pb as Response_CreateSession_PB).session.session_name);
+
+      /*switch (http_object.response_type)
+      {
+        case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
+          session_list.Add( (http_object.response_specific_pb as Response_CreateSession_PB).session);
+          break;
+        case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
+          session_list.RemoveAt(0);
+          break;
+      }*/
     }
+
+    public void makeWarmup() { HttpRequest_Warmup.make_request(this, http_object); }
+    public void makeCreateSession() { HttpRequest_CreateSession.make_request(this, http_object); }
+    public void makeListSession() { HttpRequest_ListSessions.make_request(this, http_object); }
+    public void makeDeleteSession() { HttpRequest_DeleteSession.make_request(this, http_object); }
 
 
     // TODO: listSessions

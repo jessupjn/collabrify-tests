@@ -3,6 +3,5 @@
     <AssemblyPart x:Name="Collabrify-wp8" Source="Collabrify-wp8.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
     <AssemblyPart x:Name="protobuf-net" Source="protobuf-net.dll" />
-    <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
   </Deployment.Parts>
 </Deployment>

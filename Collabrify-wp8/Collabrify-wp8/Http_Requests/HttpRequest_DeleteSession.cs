@@ -26,6 +26,8 @@ namespace Collabrify_wp8.Http_Requests
       Request_DeleteSession_PB cs_pb = new Request_DeleteSession_PB();
       cs_pb.account_gmail = "wp8-collabrify@umich.edu";
       cs_pb.access_token = "82763BDBCA";
+      if (c.session_list.Count == 0) return;
+      else cs_pb.session_id = c.session_list[0].session_id;
 
 
       obj = new HttpRequest__Object();
