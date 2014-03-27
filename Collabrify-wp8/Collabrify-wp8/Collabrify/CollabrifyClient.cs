@@ -54,25 +54,37 @@ namespace Collabrify_wp8.Collabrify
 
     public ObservableCollection<Session_PB> session_list = new ObservableCollection<Session_PB>();
     public bool success_flag;
-    HttpRequest__Object http_object = new HttpRequest__Object();
+
+    private HttpRequest__Object http_object = new HttpRequest__Object();
+    private CollabrifyParticipant participant = null;
+    private CollabrifySession session = null;
+    private bool eventsPaused = false;
+
+    private event ChangedEventHander ListSessionsHandler;
+
 
 
     // USED TO UPDATE MAINPAGE INFORMATION
-    public event ChangedEventHander Changed;
-    public string ret;
-    protected virtual void OnChanged(EventArgs e)
-    { Changed(this, e); }
+    public event ChangedEventHander ReturnInformation;
+    private string ret;
+    public long id;
+
+    private void BasicClientInitialize()
+    {
+      http_object.Changed += new ChangedEventHander(httpReturned);
+
+      makeWarmup();
+    }
 
     public CollabrifyClient(string _gmail, string _accountGmail, string _access_token, bool _get_latest)
     {
-      http_object.Changed += new ChangedEventHander(httpReturned);
 
       gmail = _gmail;
       accountGmail = _accountGmail;
       accessToken = _access_token;
       getLatest = _get_latest;
 
-      HttpRequest_Warmup.make_request( this, http_object );
+      BasicClientInitialize();
     }
 
     private void httpReturned(object sender, EventArgs e)
@@ -82,18 +94,25 @@ namespace Collabrify_wp8.Collabrify
       CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
       ret = "SUCCESS FLAG:   " + res_pb.success_flag.ToString();
       ret += "\nTYPE:   " + http_object.response_type.ToString();
-      //OnChanged(EventArgs.Empty);
+      Debug.WriteLine(ret);
+
+      if(ReturnInformation != null) ReturnInformation.Invoke(ret, EventArgs.Empty);
 
 
-      /*switch (http_object.response_type)
+      switch (http_object.response_type)
       {
         case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
+          Debug.WriteLine("Adding Session: " + (http_object.response_specific_pb as Response_CreateSession_PB).session.session_id.ToString());
           session_list.Add( (http_object.response_specific_pb as Response_CreateSession_PB).session);
+          id = (http_object.response_specific_pb as Response_CreateSession_PB).owner.participant_id;
           break;
         case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
           session_list.RemoveAt(0);
           break;
-      }*/
+        case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
+          ListSessionsHandler.Invoke(this, EventArgs.Empty);
+          break;
+      }
     }
 
     public void makeWarmup() { HttpRequest_Warmup.make_request(this, http_object); }
@@ -102,44 +121,50 @@ namespace Collabrify_wp8.Collabrify
     public void makeDeleteSession() { HttpRequest_DeleteSession.make_request(this, http_object); }
 
 
+
+
+
+
+
+
+
+
+    public void pauseEvents() { eventsPaused = true; }
+
+    public void resumeEvents() { eventsPaused = false; }
+
     // TODO: listSessions
     public List<CollabrifySession> listSessions(List<string> tags) { return new List<CollabrifySession>(); }
 
-    // TODO: isInSession
-    public bool isInSession() { return false; }
+    public bool isInSession() {
+      if (session == null) return false;
+      else return true;
+    }
 
-    // TODO: currentSessionHasEnded
-    public bool currentSessionHasEnded() { return false; }
+    public bool currentSessionHasEnded() { return session.getSessionEnded(); }
 
-    // TODO: currentSessionHasBaseFile
-    public bool currentSessionHasBaseFile() { return false; }
+    public bool currentSessionHasBaseFile() { return session.getHasBaseFile(); }
 
-    // TODO: currentSessionID
-    public long currentSessionID() { return 0; }
+    public long currentSessionID() { return session.getId(); }
 
-    // TODO: currentSessionIsPasswordProtected
-    public bool currentSessionIsPasswordProtected() { return false; }
+    public bool currentSessionIsPasswordProtected() { return session.getIsPasswordProtected(); }
 
-    // TODO: currentSessionName
-    public string currentSessionName() { return ""; }
+    public string currentSessionName() { return session.getName(); }
 
     public string getAccountGmail() { return accountGmail; }
+
     public string getAccessToken() { return accessToken; }
 
-    // TODO: currentSessionOrderID
-    public long currentSessionOrderID() { return 0; }
+    public long currentSessionOrderID() { return session.getCurrentOrderId(); }
 
-    // TODO: current_session_owner
-    public CollabrifyParticipant currentSessionOwner() { return null; }
+    public CollabrifyParticipant currentSessionOwner() { return session.getOwner(); }
 
-    // TODO: current_session_participants
-    public int currentSessionParticipantCount() { return 0; }
+    public int currentSessionParticipantCount() { return session.getParticipantCount();  }
 
     // TODO: current_session_participants
     public List<CollabrifyParticipant> currentSessionParticipants() { return new List<CollabrifyParticipant>(); }
 
-    // TODO: current_session_tags
-    public List<string> currentSessionTags() { return new List<string>(); }
+    public List<string> currentSessionTags() { return session.getSessionTags(); }
 
     // TODO: has network connection
     public bool hasNetworkConnection() { return true; }

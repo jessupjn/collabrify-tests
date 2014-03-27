@@ -1,0 +1,6 @@
+J:\Github\collabrify-tests\TestClient\TestClient\TestClient\obj\Debug\Collabrify.csprojResolveAssemblyReference.cache
+J:\Github\collabrify-tests\TestClient\TestClient\TestClient\obj\Debug\App.g.cs
+J:\Github\collabrify-tests\TestClient\TestClient\TestClient\obj\Debug\MainPage.g.cs
+J:\Github\collabrify-tests\TestClient\TestClient\TestClient\obj\Debug\Collabrify-wp8.g.resources
+J:\Github\collabrify-tests\TestClient\TestClient\TestClient\obj\Debug\TestClient.Resources.AppResources.resources
+J:\Github\collabrify-tests\TestClient\TestClient\TestClient\obj\Debug\Collabrify.csproj.GenerateResource.Cache

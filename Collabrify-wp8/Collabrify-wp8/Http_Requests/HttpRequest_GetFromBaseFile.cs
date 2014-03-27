@@ -23,7 +23,6 @@ namespace Collabrify_wp8.Http_Requests
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST;
 
-      obj = new HttpRequest__Object();
       HttpWebRequest request = obj.BuildRequest(req_pb);
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }

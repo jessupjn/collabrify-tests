@@ -19,7 +19,7 @@ using Collabrify_wp8.Http_Requests;
 using Collabrify_wp8.Collabrify;
 using System.Diagnostics;
 
-namespace Collabrify_wp8.Http_Requests
+namespace Collabrify_wp8
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -31,37 +31,38 @@ namespace Collabrify_wp8.Http_Requests
         // Constructor
         public MainPage()
         {
-          InitializeComponent();
+          this.InitializeComponent();
           c = new CollabrifyClient("A", "wp8-collabrify@umich.edu", "82763BDBCA", true);
-          c.Changed += new ChangedEventHander(updateInfo);
+          c.ReturnInformation += new ChangedEventHander(updateInfo);
         }
 
         private void updateInfo(object sender, EventArgs e)
         {
-            ResponseTextBlock.Text = "Success";
+
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e){
-            if (RequestType.Name == "Warmup")
-            {
-                ResponseTextBlock.Text = "Warmup";
-                c.makeWarmup(); 
-            }
-            else if (RequestType.Name == "CreateSession")
-            {
-                ResponseTextBlock.Text = "Create Session";
-                c.makeCreateSession(); 
-            }
-            else if (RequestType.Name == "ListSessions")
-            {
-                ResponseTextBlock.Text = "List Sessions";
-                c.makeListSession(); 
-            }
-            else if (RequestType.Name == "DeleteSessions")
-            {
-                ResponseTextBlock.Text = "Delete Session";
-                c.makeDeleteSession(); 
-            }
+          if (RequestType.Name == "Warmup")
+          {
+            ResponseTextBlock.Text = "Warmup";
+            c.makeWarmup();
+          }
+          else if (RequestType.Name == "CreateSession")
+          {
+            ResponseTextBlock.Text = "Create Session";
+            c.makeCreateSession();
+          }
+          else if (RequestType.Name == "ListSessions")
+          {
+            ResponseTextBlock.Text = "List Sessions";
+            c.makeListSession();
+          }
+          else if (RequestType.Name == "DeleteSession")
+          {
+            ResponseTextBlock.Text = "Delete Session";
+            c.makeDeleteSession();
+          }
+          else Debug.WriteLine(RequestType.Name);
         }
 
 

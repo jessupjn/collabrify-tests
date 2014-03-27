@@ -31,7 +31,12 @@ namespace Collabrify_wp8.Http_Requests
         public event ChangedEventHander Changed;
         protected virtual void OnChanged(EventArgs e)
         {
-          try { Changed(this, EventArgs.Empty); }
+          Debug.WriteLine("  -- Back to Client");
+          try
+          {
+            if (Changed != null) Changed.Invoke(this, EventArgs.Empty);
+            else Debug.WriteLine("Changed event is null");
+          }
           catch { Debug.WriteLine("OnChanged exception..."); }
         }
 
@@ -332,18 +337,14 @@ namespace Collabrify_wp8.Http_Requests
                       returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_Warmup_PB>(streamResponse, PrefixStyle.Base128, 0);
                   }
 
-                  System.Diagnostics.Debug.WriteLine("\t~ Before Assignments\n");
-
                   // ========================================================
                   // sets information that is used by the client upon return
                   response_type = collabrify_req_pb.request_type;
                   response_object_pb = collabrify_resp_pb;
                   response_specific_pb = returned_secondary_pb;
-                  System.Diagnostics.Debug.WriteLine("\t~ Before On Changed\n");
 
-                  //OnChanged(EventArgs.Empty);
+                  OnChanged(EventArgs.Empty);
                   // ========================================================
-                  System.Diagnostics.Debug.WriteLine("\t~ After On Changed\n");
 
                 }
                 catch (Exception e)
@@ -364,6 +365,7 @@ namespace Collabrify_wp8.Http_Requests
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
 
                 System.Diagnostics.Debug.WriteLine("responses suck");
+                System.Diagnostics.Debug.WriteLine(e.Message);
 
             }
         }

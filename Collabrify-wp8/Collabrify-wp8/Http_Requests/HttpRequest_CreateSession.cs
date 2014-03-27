@@ -42,7 +42,6 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.owner_gmail = "wp8-collabrify@umich.edu";
       cs_pb.owner_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
 
-      obj = new HttpRequest__Object();
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }

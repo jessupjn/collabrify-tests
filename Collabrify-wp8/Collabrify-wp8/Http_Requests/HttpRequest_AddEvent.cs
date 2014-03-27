@@ -30,7 +30,6 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.event_type = null;
       cs_pb.session_id = c.currentSessionID();
 
-      obj = new HttpRequest__Object();
       HttpWebRequest request = obj.BuildRequest( req_pb, cs_pb );
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }

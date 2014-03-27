@@ -30,7 +30,6 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.session_password = "";
       cs_pb.owner_id = c.currentSessionOwner().getId();
 
-      obj = new HttpRequest__Object();
       HttpWebRequest request = obj.BuildRequest( req_pb );
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }
