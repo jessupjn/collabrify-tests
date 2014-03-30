@@ -83,7 +83,7 @@ namespace Collabrify_wp8.Collabrify
       BasicClientInitialize();
     }
 
-    private void httpReturned(object sender, CollabrifyEventArgs e)
+    private void httpReturned(CollabrifyEventArgs e)
     {
       /* Handles the response from the server within the CollabrifyClient object */
 

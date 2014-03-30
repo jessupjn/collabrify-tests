@@ -30,7 +30,7 @@ namespace Collabrify_wp8.Http_Requests
         {
           try
           {
-            if (HttpRequestDone != null) HttpRequestDone.Invoke(this, e);
+            if (HttpRequestDone != null) HttpRequestDone.Invoke(e);
             else Debug.WriteLine("Changed event is null");
           }
           catch { Debug.WriteLine("OnChanged exception..."); }
