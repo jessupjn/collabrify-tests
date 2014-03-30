@@ -15,7 +15,6 @@ using System.Windows.Media;
 
 namespace Collabrify_wp8.Collabrify
 {
-  public delegate void ChangedEventHander(object sender, EventArgs e);
 
   public class CollabrifyClient
   {
@@ -53,25 +52,23 @@ namespace Collabrify_wp8.Collabrify
     private bool log = false;*/
 
     public ObservableCollection<Session_PB> session_list = new ObservableCollection<Session_PB>();
-    public bool success_flag;
 
     private HttpRequest__Object http_object = new HttpRequest__Object();
-    private CollabrifyParticipant participant = null;
+    public CollabrifyParticipant participant = null;
+    private CollabrifyListener listener = new CollabrifyListener();
     private CollabrifySession session = null;
     private bool eventsPaused = false;
 
-    private event ChangedEventHander ListSessionsHandler;
-
+    private event CreateSessionListener createSessionListener;
 
 
     // USED TO UPDATE MAINPAGE INFORMATION
-    public event ChangedEventHander ReturnInformation;
     private string ret;
     public long id;
 
     private void BasicClientInitialize()
     {
-      http_object.Changed += new ChangedEventHander(httpReturned);
+      http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
 
       makeWarmup();
     }
@@ -87,45 +84,51 @@ namespace Collabrify_wp8.Collabrify
       BasicClientInitialize();
     }
 
-    private void httpReturned(object sender, EventArgs e)
+    private void httpReturned(object sender, CollabrifyEventArgs e)
     {
       /* Handles the response from the server within the CollabrifyClient object */
-      
-      CollabrifyResponse_PB res_pb = http_object.response_object_pb as CollabrifyResponse_PB;
+
+      CollabrifyResponse_PB res_pb = e.response;
       ret = "SUCCESS FLAG:   " + res_pb.success_flag.ToString();
-      ret += "\nTYPE:   " + http_object.response_type.ToString();
+      ret += "\nTYPE:   " + e.type.ToString();
       Debug.WriteLine(ret);
 
-      if(ReturnInformation != null) ReturnInformation.Invoke(ret, EventArgs.Empty);
+      //if(ReturnInformation != null) ReturnInformation.Invoke(ret, EventArgs.Empty);
 
 
       switch (http_object.response_type)
       {
+        case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
+          break;
+        case CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST:
+          break;
         case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
-          Debug.WriteLine("Adding Session: " + (http_object.response_specific_pb as Response_CreateSession_PB).session.session_id.ToString());
-          session_list.Add( (http_object.response_specific_pb as Response_CreateSession_PB).session);
-          id = (http_object.response_specific_pb as Response_CreateSession_PB).owner.participant_id;
+          CreateSession_Args c = new CreateSession_Args(e.specificResponsePB);
+          if (createSessionListener != null) createSessionListener.Invoke(c);
           break;
         case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
           session_list.RemoveAt(0);
           break;
         case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
-          ListSessionsHandler.Invoke(this, EventArgs.Empty);
+          //ListSessionsHandler.Invoke(this, EventArgs.Empty);
           break;
       }
+
     }
 
     public void makeWarmup() { HttpRequest_Warmup.make_request(this, http_object); }
-    public void makeCreateSession() { HttpRequest_CreateSession.make_request(this, http_object); }
     public void makeListSession() { HttpRequest_ListSessions.make_request(this, http_object); }
     public void makeDeleteSession() { HttpRequest_DeleteSession.make_request(this, http_object); }
 
 
 
-
-
-
-
+    public void createSession(string name, List<string> tags, string password, bool startPaused, CreateSessionListener completionHandler)
+    {
+      createSessionListener += completionHandler;
+      HttpRequest_CreateSession.make_request(this, http_object, name, tags, password);
+      
+      // TODO: STARTPAUSE NOT USED YET... CALL IN CLIENT WHEN CREATESESSION RETURNS;
+    }
 
 
 

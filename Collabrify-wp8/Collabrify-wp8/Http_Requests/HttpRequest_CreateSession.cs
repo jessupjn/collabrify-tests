@@ -25,21 +25,27 @@ namespace Collabrify_wp8.Http_Requests
     ///
     /// makes a warmup request to the server and returns a response object in the form of RESPONSE_
     /// </summary> 
-    public static void make_request(CollabrifyClient c, HttpRequest__Object obj)
+    public static void make_request(CollabrifyClient c, HttpRequest__Object obj, string name, List<string> tags, string password)
     {
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.CREATE_SESSION_REQUEST;
       
       Random rd = new Random();
       Request_CreateSession_PB cs_pb = new Request_CreateSession_PB();
-      cs_pb.owner_display_name = "Jack";
-      cs_pb.session_name = rd.Next(1, 2000000000).ToString();
-      cs_pb.session_tag.Add( "[none]" );
+      cs_pb.owner_display_name = c.participant.getDisplayName();
+      cs_pb.session_name = name;
+      if (password != "") cs_pb.session_password = password;
+      foreach (string s in tags)
+      {
+        cs_pb.session_tag.Add(s);
+      }
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
+      cs_pb.owner_display_name = c.participant.getDisplayName();
+      cs_pb.owner_gmail = c.participant.getEmail();
+
+      // IDENTIFY THESE TYPES;
       cs_pb.owner_notification_id = "123123123";
-      cs_pb.owner_display_name = "Jack";
-      cs_pb.owner_gmail = "wp8-collabrify@umich.edu";
       cs_pb.owner_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);

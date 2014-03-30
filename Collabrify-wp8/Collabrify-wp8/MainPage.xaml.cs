@@ -33,7 +33,7 @@ namespace Collabrify_wp8
         {
           this.InitializeComponent();
           c = new CollabrifyClient("A", "wp8-collabrify@umich.edu", "82763BDBCA", true);
-          c.ReturnInformation += new ChangedEventHander(updateInfo);
+          //c.ReturnInformation += new ChangedEventHander(updateInfo);
         }
 
         private void updateInfo(object sender, EventArgs e)
@@ -50,7 +50,13 @@ namespace Collabrify_wp8
           else if (RequestType.Name == "CreateSession")
           {
             ResponseTextBlock.Text = "Create Session";
-            c.makeCreateSession();
+            List<string> tags = new List<string>();
+            tags.Add("[none]");
+
+            c.createSession("sessionName", tags, "", true, delegate
+            {
+              Debug.WriteLine("CREATE SESSION RETURNED\n");
+            });
           }
           else if (RequestType.Name == "ListSessions")
           {

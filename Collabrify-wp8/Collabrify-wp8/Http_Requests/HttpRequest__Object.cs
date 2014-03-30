@@ -28,13 +28,12 @@ namespace Collabrify_wp8.Http_Requests
         public object response_object_pb;
         public object response_specific_pb;
         public CollabrifyRequestType_PB response_type;
-        public event ChangedEventHander Changed;
-        protected virtual void OnChanged(EventArgs e)
+        public event CollabrifyEventListener HttpRequestDone;
+        protected virtual void OnChanged(CollabrifyEventArgs e)
         {
-          Debug.WriteLine("  -- Back to Client");
           try
           {
-            if (Changed != null) Changed.Invoke(this, EventArgs.Empty);
+            if (HttpRequestDone != null) HttpRequestDone.Invoke(this, e);
             else Debug.WriteLine("Changed event is null");
           }
           catch { Debug.WriteLine("OnChanged exception..."); }
@@ -339,11 +338,8 @@ namespace Collabrify_wp8.Http_Requests
 
                   // ========================================================
                   // sets information that is used by the client upon return
-                  response_type = collabrify_req_pb.request_type;
-                  response_object_pb = collabrify_resp_pb;
-                  response_specific_pb = returned_secondary_pb;
-
-                  OnChanged(EventArgs.Empty);
+                  CollabrifyEventArgs e = new CollabrifyEventArgs(collabrify_resp_pb, returned_secondary_pb, collabrify_req_pb.request_type);
+                  OnChanged(e);
                   // ========================================================
 
                 }
