@@ -16,6 +16,7 @@ namespace Collabrify_wp8.Collabrify
       public CollabrifyRequestType_PB type;
       public CollabrifyResponse_PB response;
       public object specificResponsePB;
+      public object trailData;
 
       public CollabrifyEventArgs(CollabrifyResponse_PB response_pb, object specific_response_pb, CollabrifyRequestType_PB request_type)
       {
@@ -40,19 +41,4 @@ namespace Collabrify_wp8.Collabrify
 
 
 
-
-
-
-    public class CollabrifyListener
-    {
-      public event CollabrifyEventListener HttpReturned;
-      public event CollabrifyEventListener ReturnHandled;
-
-
-
-      public CollabrifyListener()
-      {
-        
-      }
-    }
 }

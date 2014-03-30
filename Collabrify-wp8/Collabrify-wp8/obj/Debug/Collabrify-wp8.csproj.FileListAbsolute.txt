@@ -141,7 +141,6 @@ C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-w
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\uk-UA\Microsoft.Phone.Controls.Toolkit.resources.dll
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\uz-Latn-UZ\Microsoft.Phone.Controls.Toolkit.resources.dll
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\vi-VN\Microsoft.Phone.Controls.Toolkit.resources.dll
-C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csprojResolveAssemblyReference.cache
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csprojResolveAssemblyReference.cache
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\App.g.cs
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\MainPage.g.cs

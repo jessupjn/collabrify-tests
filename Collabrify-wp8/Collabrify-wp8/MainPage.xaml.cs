@@ -33,6 +33,8 @@ namespace Collabrify_wp8
         {
           this.InitializeComponent();
           c = new CollabrifyClient("A", "wp8-collabrify@umich.edu", "82763BDBCA", true);
+          CollabrifyParticipant p = new CollabrifyParticipant(1123123, "JACK AND JILL", "lotsofwork@umich.edu", 213123123123);
+          c.participant = p;
           //c.ReturnInformation += new ChangedEventHander(updateInfo);
         }
 
@@ -52,11 +54,8 @@ namespace Collabrify_wp8
             ResponseTextBlock.Text = "Create Session";
             List<string> tags = new List<string>();
             tags.Add("[none]");
-
-            c.createSession("sessionName", tags, "", true, delegate
-            {
-              Debug.WriteLine("CREATE SESSION RETURNED\n");
-            });
+            Random rd = new Random();
+            c.createSession(rd.Next(1, 9999999).ToString(), tags, "", true, createSessionReturn);
           }
           else if (RequestType.Name == "ListSessions")
           {
@@ -71,6 +70,13 @@ namespace Collabrify_wp8
           else Debug.WriteLine(RequestType.Name);
         }
 
+        private void createSessionReturn(CreateSession_Args e)
+        {
+            
+            Debug.WriteLine("     --     RETURNED INFO:");
+            Debug.WriteLine("Session Name: " + e.getReturnedData().session.session_name);
+            Debug.WriteLine("Session ID: " + e.getReturnedData().session.session_id.ToString());
+        }
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {

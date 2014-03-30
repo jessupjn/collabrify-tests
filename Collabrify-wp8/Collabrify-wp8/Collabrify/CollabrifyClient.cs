@@ -55,7 +55,6 @@ namespace Collabrify_wp8.Collabrify
 
     private HttpRequest__Object http_object = new HttpRequest__Object();
     public CollabrifyParticipant participant = null;
-    private CollabrifyListener listener = new CollabrifyListener();
     private CollabrifySession session = null;
     private bool eventsPaused = false;
 
@@ -88,30 +87,35 @@ namespace Collabrify_wp8.Collabrify
     {
       /* Handles the response from the server within the CollabrifyClient object */
 
-      CollabrifyResponse_PB res_pb = e.response;
-      ret = "SUCCESS FLAG:   " + res_pb.success_flag.ToString();
-      ret += "\nTYPE:   " + e.type.ToString();
-      Debug.WriteLine(ret);
-
-      //if(ReturnInformation != null) ReturnInformation.Invoke(ret, EventArgs.Empty);
-
-
-      switch (http_object.response_type)
+      if (e.response.success_flag)
       {
-        case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
-          break;
-        case CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST:
-          break;
-        case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
-          CreateSession_Args c = new CreateSession_Args(e.specificResponsePB);
-          if (createSessionListener != null) createSessionListener.Invoke(c);
-          break;
-        case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
-          session_list.RemoveAt(0);
-          break;
-        case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
-          //ListSessionsHandler.Invoke(this, EventArgs.Empty);
-          break;
+
+          switch (e.type)
+          {
+              case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.CREATE_OR_GET_USER:
+                  break;
+              case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
+                  CreateSession_Args c = new CreateSession_Args(e.specificResponsePB);
+                  if (createSessionListener != null) createSessionListener.Invoke(c);
+                  break;
+              case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
+                  //ListSessionsHandler.Invoke(this, EventArgs.Empty);
+                  break;
+          }
+      }
+      else
+      {
+          Debug.WriteLine("Request Failed:");
+          Debug.WriteLine("Exception Type: " + e.response.exception.exception_type.ToString());
+          Debug.WriteLine("Exception Cause: " + e.response.exception.cause.ToString());
       }
 
     }

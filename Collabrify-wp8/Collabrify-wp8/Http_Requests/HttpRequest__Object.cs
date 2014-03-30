@@ -25,9 +25,6 @@ namespace Collabrify_wp8.Http_Requests
         private object returned_secondary_pb;
         private object returned_trail_info;
 
-        public object response_object_pb;
-        public object response_specific_pb;
-        public CollabrifyRequestType_PB response_type;
         public event CollabrifyEventListener HttpRequestDone;
         protected virtual void OnChanged(CollabrifyEventArgs e)
         {
