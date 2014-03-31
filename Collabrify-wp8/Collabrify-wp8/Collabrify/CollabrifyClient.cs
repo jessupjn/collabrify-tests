@@ -98,10 +98,52 @@ namespace Collabrify_wp8.Collabrify
                   this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
                   if (createSessionListener != null) createSessionListener.Invoke(c);
                   break;
+              case CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST:
+                  break;
               case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.DELETE_OLD_SESSIONS_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.DELETE_USER:
+                  break;
+              case CollabrifyRequestType_PB.END_SESSION_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_CURRENT_ORDER_ID_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_EVENT_BATCH_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_EVENT_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_LAST_EVENT_BY_PARTICIPANT_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.GET_SESSION_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST:
                   break;
               case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
                   //ListSessionsHandler.Invoke(this, EventArgs.Empty);
+                  break;
+              case CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET:
+                  break;
+              case CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST:
+                  break;
+              case CollabrifyRequestType_PB.UPDATE_USER:
+                  break;
+              case CollabrifyRequestType_PB.WARMUP_REQUEST:
                   break;
           }
       }
