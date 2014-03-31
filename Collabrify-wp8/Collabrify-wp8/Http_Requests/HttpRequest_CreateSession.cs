@@ -25,7 +25,7 @@ namespace Collabrify_wp8.Http_Requests
     ///
     /// makes a warmup request to the server and returns a response object in the form of RESPONSE_
     /// </summary> 
-    public static void make_request(CollabrifyClient c, HttpRequest__Object obj, string name, List<string> tags, string password)
+    public static void make_request(CollabrifyClient c, HttpRequest__Object obj, string name, List<string> tags, string password, int participantLimit = 0)
     {
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.CREATE_SESSION_REQUEST;
@@ -43,6 +43,7 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.access_token = c.getAccessToken();
       cs_pb.owner_display_name = c.participant.getDisplayName();
       cs_pb.owner_gmail = c.participant.getEmail();
+      if (participantLimit > 0) cs_pb.participant_limit = participantLimit;
 
       // IDENTIFY THESE TYPES;
       cs_pb.owner_notification_id = "123123123";

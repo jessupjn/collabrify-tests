@@ -27,7 +27,7 @@ namespace Collabrify_wp8.Collabrify
     // ---------------------------------------------------------------------------
     // ---------------------------------------------------------------------------
 
-    CollabrifySession(Session_PB sessionPB)
+    public CollabrifySession(Session_PB sessionPB)
     {
       id = sessionPB.session_id;
       name = sessionPB.session_name;

@@ -16,7 +16,7 @@ namespace Collabrify_wp8.Http_Requests
 
     public class HttpRequest__Object
     {
-        public static readonly string BASE_URI = "http://collabrify-cloud.appspot.com/request";
+        private static readonly string BASE_URI = "http://collabrify-cloud.appspot.com/request";
 
         private CollabrifyRequest_PB collabrify_req_pb;
         private CollabrifyResponse_PB collabrify_resp_pb;

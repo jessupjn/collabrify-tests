@@ -23,43 +23,36 @@ namespace Collabrify_wp8.Collabrify
     private readonly String displayName;
     private readonly String accessToken;
     private bool getLatest;
-
-    // Session specific stuff
-
-    //private sealed AtomicBoolean joined = new AtomicBoolean(false);
-    //private sealed AtomicBoolean pending = new AtomicBoolean(false);
-    //private sealed long lastOrderId = new AtomicLong(-1);
-    //private sealed int sridCounter = new AtomicInteger(1);
-    //private sealed AtomicLong lastOrderId = new AtomicLong(-1);
-    //private sealed AtomicInteger sridCounter = new AtomicInteger(1);
-
-    /**
-     * set of srid, used to track srid that has been sent by addEvent, but not
-     * retrieved by getEvent
-     */
-    /*private sealed Set<int> sridSet = new HashSet<int>();
-    private sealed Map<long, int> oidMap = new HashMap<long, int>();
-    private sealed Semaphore pendingEventsSemaphore = new Semaphore(0);
-    private volatile String sessionPassword;
-    private volatile long participantId;
-    private volatile String notificationId;
-    private volatile CollabrifySession currentSession;
-    private BufferedInputStream baseFileInputStream;
-    private BufferedOutputStream baseFileOutputStream;
-    private File tempBaseFile;
-    private long timeAdjustmentValue = 0;
-    private CollabrifySessionLogger sessionLogger;
-    private bool log = false;*/
-
-    public ObservableCollection<Session_PB> session_list = new ObservableCollection<Session_PB>();
-
-    private HttpRequest__Object http_object = new HttpRequest__Object();
-    public CollabrifyParticipant participant = null;
-    private CollabrifySession session = null;
     private bool eventsPaused = false;
 
-    private event CreateSessionListener createSessionListener;
+    private HttpRequest__Object http_object = new HttpRequest__Object();
+    private CollabrifySession session = null;
+    public CollabrifyParticipant participant = null;
 
+    private event AddEventListener addEventListener;
+    private event AddParticipantListener addParticipantListener;
+    private event AddToBaseFileListener addToBaseFileListener;
+    private event CreateOrGetUserListener createOrGetUserListener;
+    private event CreateSessionListener createSessionListener;
+    private event CreateSessionWithBaseFileListener createSessionWithBaseFileListener;
+    private event DeleteSessionListener deleteSessionListener;
+    private event DeleteAllSessionsListener deleteAllSessionsListener;
+    private event EndSessionListener endSessionListener;
+    private event GetBaseFileListener getBaseFileListener;
+    private event GetCurrentOrderIDListener getCurrentOrderIDListener;
+    private event GetEventListener getEventListener;
+    private event GetEventBatchListener getEventBatchListener;
+    private event GetFromBaseFileListener getFromBaseFileListener;
+    private event GetNotificationIDListener getNotificationIDListener;
+    private event GetParticipantListener getParticipantListener;
+    private event GetSessionListener getSessionListener;
+    private event ListAccountsListener listAccountsListener;
+    private event ListSessionsListener listSessionsListener;
+    private event PreventFurtherJoinsListener preventFurtherJoinsListener;
+    private event RemoveParticipantListener removeParticipantListener;
+    private event UpdateNotificationIDListener updateNotificationIDListener;
+    private event UpdateUserListener updateUserListener;
+    private event WarmupListener warmupListener;
 
     // USED TO UPDATE MAINPAGE INFORMATION
     private string ret;
@@ -69,7 +62,7 @@ namespace Collabrify_wp8.Collabrify
     {
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
 
-      makeWarmup();
+      HttpRequest_Warmup.make_request(this, http_object);
     }
 
     public CollabrifyClient(string _gmail, string _accountGmail, string _access_token, bool _get_latest)
@@ -102,6 +95,7 @@ namespace Collabrify_wp8.Collabrify
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
                   CreateSession_Args c = new CreateSession_Args(e.specificResponsePB);
+                  this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
                   if (createSessionListener != null) createSessionListener.Invoke(c);
                   break;
               case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
@@ -120,7 +114,6 @@ namespace Collabrify_wp8.Collabrify
 
     }
 
-    public void makeWarmup() { HttpRequest_Warmup.make_request(this, http_object); }
     public void makeListSession() { HttpRequest_ListSessions.make_request(this, http_object); }
     public void makeDeleteSession() { HttpRequest_DeleteSession.make_request(this, http_object); }
 
@@ -128,12 +121,39 @@ namespace Collabrify_wp8.Collabrify
 
     public void createSession(string name, List<string> tags, string password, bool startPaused, CreateSessionListener completionHandler)
     {
-      createSessionListener += completionHandler;
+
+      createSessionListener = completionHandler;
       HttpRequest_CreateSession.make_request(this, http_object, name, tags, password);
-      
+
+      if (startPaused) pauseEvents();
+    }
+
+    public void createSession(string name, List<string> tags, string password, int participantLimit, bool startPaused, CreateSessionListener completionHandler)
+    {
+      createSessionListener = completionHandler;
+      HttpRequest_CreateSession.make_request(this, http_object, name, tags, password, participantLimit);
+
+      if (startPaused) pauseEvents();
+    }
+
+    // TODO: createSessionWithBaseFile
+    public void createSessionWithBaseFile(string name, List<string> tags, string password, bool startPaused, CreateSessionListener completionHandler)
+    {
+      createSessionListener += completionHandler;
+      HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password);
+
       // TODO: STARTPAUSE NOT USED YET... CALL IN CLIENT WHEN CREATESESSION RETURNS;
     }
 
+    // TODO: createSessionWithBaseFile
+    public void createSessionWithBaseFile(string name, List<string> tags, string password, int participantLimit, bool startPaused, CreateSessionListener completionHandler)
+    {
+      createSessionListener = null;
+      createSessionListener += completionHandler;
+      HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password, participantLimit);
+
+      // TODO: STARTPAUSE NOT USED YET... CALL IN CLIENT WHEN CREATESESSION RETURNS;
+    }
 
 
     public void pauseEvents() { eventsPaused = true; }

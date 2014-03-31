@@ -47,7 +47,7 @@ namespace Collabrify_wp8
           if (RequestType.Name == "Warmup")
           {
             ResponseTextBlock.Text = "Warmup";
-            c.makeWarmup();
+
           }
           else if (RequestType.Name == "CreateSession")
           {
