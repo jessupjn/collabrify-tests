@@ -39,7 +39,7 @@ namespace Collabrify_wp8.Http_Requests
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }
-      catch (WebException e) { System.Diagnostics.Debug.WriteLine("  -- EXCEPTION THROWN \n" + e.Message); }
+      catch (WebException e) { System.Diagnostics.Debug.WriteLine("BeginGetRequestStream FAILED:\n" + e.Message); }
 
     }
 

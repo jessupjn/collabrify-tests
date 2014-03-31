@@ -118,6 +118,12 @@ namespace Collabrify_wp8.Collabrify
     public void makeDeleteSession() { HttpRequest_DeleteSession.make_request(this, http_object); }
 
 
+    public void pauseEvents() { eventsPaused = true; }
+
+    public void resumeEvents() { eventsPaused = false; }
+
+    // TODO: currentNetworkStatus
+    public void currentNetworkStatus() { return; }
 
     public void createSession(string name, List<string> tags, string password, bool startPaused, CreateSessionListener completionHandler)
     {
@@ -137,34 +143,53 @@ namespace Collabrify_wp8.Collabrify
     }
 
     // TODO: createSessionWithBaseFile
-    public void createSessionWithBaseFile(string name, List<string> tags, string password, bool startPaused, CreateSessionListener completionHandler)
+    public void createSessionWithBaseFile(string name, List<string> tags, string password, bool startPaused, CreateSessionWithBaseFileListener completionHandler)
     {
-      createSessionListener += completionHandler;
+      createSessionWithBaseFileListener = completionHandler;
       HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password);
 
-      // TODO: STARTPAUSE NOT USED YET... CALL IN CLIENT WHEN CREATESESSION RETURNS;
+      if (startPaused) pauseEvents();
     }
 
     // TODO: createSessionWithBaseFile
-    public void createSessionWithBaseFile(string name, List<string> tags, string password, int participantLimit, bool startPaused, CreateSessionListener completionHandler)
+    public void createSessionWithBaseFile(string name, List<string> tags, string password, int participantLimit, bool startPaused, CreateSessionWithBaseFileListener completionHandler)
     {
-      createSessionListener = null;
-      createSessionListener += completionHandler;
+      createSessionWithBaseFileListener = completionHandler;
       HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password, participantLimit);
 
-      // TODO: STARTPAUSE NOT USED YET... CALL IN CLIENT WHEN CREATESESSION RETURNS;
+      if (startPaused) pauseEvents();
     }
 
+    // TODO: joinSession
+    public void joinSession(long id, string password, AddParticipantListener completionHandler)
+    {
 
-    public void pauseEvents() { eventsPaused = true; }
+    }
 
-    public void resumeEvents() { eventsPaused = false; }
+    // TODO: joinSession
+    public void joinSession(long id, string password, bool startPaused, AddParticipantListener completionHandler)
+    {
+      
+      if (startPaused) pauseEvents();
+    }
+
+    // TODO: leaveAndDeleteSession
+    public void leaveAndDeleteSession(DeleteSessionListener completionHandler)
+    {
+    }
+
+    // TODO: broadcast
+    public void broadcast(object data, string eventType)
+    {
+
+    }
 
     // TODO: listSessions
     public List<CollabrifySession> listSessions(List<string> tags) { return new List<CollabrifySession>(); }
 
     public bool isInSession() {
       if (session == null) return false;
+      else if (currentSessionHasEnded()) return false;
       else return true;
     }
 
