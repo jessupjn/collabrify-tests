@@ -65,7 +65,6 @@ namespace Collabrify_wp8.Http_Requests
 
             byte[] byteArr = ms.ToArray();
             postStream.Write(byteArr, 0, byteArr.Length);
-            System.Diagnostics.Debug.WriteLine("writing ms to stream... size: " + byteArr.Length.ToString());
 
             if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
             {
@@ -197,7 +196,6 @@ namespace Collabrify_wp8.Http_Requests
         {
           byte[] byteArr = ms.ToArray();
           postStream.Write(byteArr, 0, byteArr.Length);
-          System.Diagnostics.Debug.WriteLine("writing ms2 to stream... size: " + byteArr.Length.ToString());
         }
 
         private void GetResponseCallback(IAsyncResult asynchronousResult)
@@ -205,10 +203,7 @@ namespace Collabrify_wp8.Http_Requests
             try
             {
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-                System.Diagnostics.Debug.WriteLine("\t-- GOT REQUEST");
-
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
-                System.Diagnostics.Debug.WriteLine("\t-- GOT RESPONSE\n");
 
                 string responseString = "FAIL";
 

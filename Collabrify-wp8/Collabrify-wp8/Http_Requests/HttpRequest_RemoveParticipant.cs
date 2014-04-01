@@ -22,7 +22,18 @@ namespace Collabrify_wp8.Http_Requests
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST;
 
-      HttpWebRequest request = obj.BuildRequest(req_pb);
+      Request_RemoveParticipant_PB cs_pb = new Request_RemoveParticipant_PB();
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.access_token = c.getAccessToken();
+      cs_pb.session_id = c.currentSessionID();
+      if(c.session.getIsPasswordProtected())
+      {
+        cs_pb.session_password = "";
+      }
+      cs_pb.accessing_participant_id = c.participant.getId();
+      cs_pb.to_be_removed_participant_id = c.participant.getId();
+
+      HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }
       catch (WebException e) { System.Diagnostics.Debug.WriteLine("  -- EXCEPTION THROWN \n" + e.Message); }

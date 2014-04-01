@@ -26,7 +26,7 @@ namespace Collabrify_wp8.Collabrify
     private bool eventsPaused = false;
 
     private HttpRequest__Object http_object = new HttpRequest__Object();
-    private CollabrifySession session = null;
+    public CollabrifySession session = null;
     public CollabrifyParticipant participant = null;
 
     private event AddEventListener addEventListener;
@@ -82,25 +82,35 @@ namespace Collabrify_wp8.Collabrify
 
       if (e.response.success_flag)
       {
-
+          Debug.WriteLine(e.type.ToString() + " was successful.\n");
           switch (e.type)
           {
               case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
                   break;
               case CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST:
+                  AddParticipant_Args ap = new AddParticipant_Args(e.specificResponsePB);
+                  this.participant = new CollabrifyParticipant(ap.getReturnedData().participant);
+                  Debug.WriteLine("USER DISPLAY NAME: " + participant.getDisplayName());
+                  Debug.WriteLine("USER ID: " + participant.getId());
                   break;
               case CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST:
                   break;
               case CollabrifyRequestType_PB.CREATE_OR_GET_USER:
+                  CreateOrGetUser_Args cogu = new CreateOrGetUser_Args(e.specificResponsePB);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
-                  CreateSession_Args c = new CreateSession_Args(e.specificResponsePB);
+                  CreateSession_Args cs = new CreateSession_Args(e.specificResponsePB);
                   this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
-                  if (createSessionListener != null) createSessionListener.Invoke(c);
+                  Debug.WriteLine("OWNER DISPLAY NAME: " + session.getOwner().getDisplayName());
+                  Debug.WriteLine("OWNER ID: " + session.getOwner().getId());
+                  this.participant = session.getOwner();
+                  if (createSessionListener != null) createSessionListener.Invoke(cs);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST:
                   break;
               case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
+                  DeleteSession_Args ds = new DeleteSession_Args(e.specificResponsePB);
+                  if (deleteSessionListener != null) deleteSessionListener.Invoke(ds);
                   break;
               case CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST:
                   break;
@@ -131,11 +141,14 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST:
                   break;
               case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
-                  //ListSessionsHandler.Invoke(this, EventArgs.Empty);
+                  ListSessions_Args ls = new ListSessions_Args(e.specificResponsePB);
+                  if (listSessionsListener != null) listSessionsListener.Invoke(ls);
                   break;
               case CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST:
                   break;
               case CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST:
+                  RemoveParticipant_Args rp = new RemoveParticipant_Args(e.specificResponsePB);
+                  if (removeParticipantListener != null) removeParticipantListener.Invoke(rp);
                   break;
               case CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET:
                   break;
@@ -149,9 +162,9 @@ namespace Collabrify_wp8.Collabrify
       }
       else
       {
-          Debug.WriteLine("Request Failed:");
+          Debug.WriteLine(e.type.ToString() + " Failed:");
           Debug.WriteLine("Exception Type: " + e.response.exception.exception_type.ToString());
-          Debug.WriteLine("Exception Cause: " + e.response.exception.cause.ToString());
+          Debug.WriteLine("Exception Cause: " + e.response.exception.cause.ToString() + "\n");
       }
 
     }
@@ -172,13 +185,19 @@ namespace Collabrify_wp8.Collabrify
 
       createSessionListener = completionHandler;
       HttpRequest_CreateSession.make_request(this, http_object, name, tags, password);
-
+      createSessionListener += delegate
+      {
+        HttpRequest_AddParticipant.make_request(this, http_object);
+      };
       if (startPaused) pauseEvents();
     }
 
     public void createSession(string name, List<string> tags, string password, int participantLimit, bool startPaused, CreateSessionListener completionHandler)
     {
       createSessionListener = completionHandler;
+      createSessionListener += delegate {
+        HttpRequest_AddParticipant.make_request(this, http_object);
+      };
       HttpRequest_CreateSession.make_request(this, http_object, name, tags, password, participantLimit);
 
       if (startPaused) pauseEvents();
@@ -216,8 +235,17 @@ namespace Collabrify_wp8.Collabrify
     }
 
     // TODO: leaveAndDeleteSession
-    public void leaveAndDeleteSession(DeleteSessionListener completionHandler)
+    public void leaveSession(bool deleteSession, RemoveParticipantListener completionHandler)
     {
+
+      removeParticipantListener = completionHandler;
+      if (session.getOwner().getId() == participant.getId() && deleteSession)
+        removeParticipantListener += delegate
+        {
+          HttpRequest_DeleteSession.make_request(this, http_object);
+        };
+
+      HttpRequest_RemoveParticipant.make_request(this, http_object);
     }
 
     // TODO: broadcast
@@ -227,7 +255,10 @@ namespace Collabrify_wp8.Collabrify
     }
 
     // TODO: listSessions
-    public List<CollabrifySession> listSessions(List<string> tags) { return new List<CollabrifySession>(); }
+    public List<CollabrifySession> listSessions(List<string> tags) 
+    { 
+      return new List<CollabrifySession>(); 
+    }
 
     public bool isInSession() {
       if (session == null) return false;

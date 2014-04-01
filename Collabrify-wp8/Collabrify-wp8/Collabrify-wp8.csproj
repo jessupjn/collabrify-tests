@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Http_Requests\HttpRequest_Warmup.cs" />
     <Compile Include="Http_Requests\HttpRequest__Object.cs" />
+    <Compile Include="Http_Requests\HttpRequest_CreateOrGetUser.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

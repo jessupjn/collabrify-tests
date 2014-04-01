@@ -30,8 +30,8 @@ namespace Collabrify_wp8.Http_Requests
       req_pb.request_type = CollabrifyRequestType_PB.DELETE_SESSION_REQUEST;
 
       Request_DeleteSession_PB cs_pb = new Request_DeleteSession_PB();
-      cs_pb.account_gmail = "wp8-collabrify@umich.edu";
-      cs_pb.access_token = "82763BDBCA";
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.access_token = c.getAccessToken();
       cs_pb.participant_id = c.participant.getId();
       cs_pb.session_id = c.currentSessionID();
 
