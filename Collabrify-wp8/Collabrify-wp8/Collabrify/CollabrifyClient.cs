@@ -182,34 +182,20 @@ namespace Collabrify_wp8.Collabrify
 
     public void createSession(string name, List<string> tags, string password, bool startPaused, CreateSessionListener completionHandler)
     {
-
-      createSessionListener = completionHandler;
-      HttpRequest_CreateSession.make_request(this, http_object, name, tags, password);
-      createSessionListener += delegate
-      {
-        HttpRequest_AddParticipant.make_request(this, http_object);
-      };
-      if (startPaused) pauseEvents();
+      createSession(name, tags, password, 0, startPaused, completionHandler);
     }
 
     public void createSession(string name, List<string> tags, string password, int participantLimit, bool startPaused, CreateSessionListener completionHandler)
     {
       createSessionListener = completionHandler;
-      createSessionListener += delegate {
-        HttpRequest_AddParticipant.make_request(this, http_object);
-      };
       HttpRequest_CreateSession.make_request(this, http_object, name, tags, password, participantLimit);
-
       if (startPaused) pauseEvents();
     }
 
     // TODO: createSessionWithBaseFile
     public void createSessionWithBaseFile(string name, List<string> tags, string password, bool startPaused, CreateSessionWithBaseFileListener completionHandler)
     {
-      createSessionWithBaseFileListener = completionHandler;
-      HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password);
-
-      if (startPaused) pauseEvents();
+      createSessionWithBaseFile(name, tags, password, 0, startPaused, completionHandler);
     }
 
     // TODO: createSessionWithBaseFile
@@ -221,16 +207,15 @@ namespace Collabrify_wp8.Collabrify
       if (startPaused) pauseEvents();
     }
 
-    // TODO: joinSession
     public void joinSession(long id, string password, AddParticipantListener completionHandler)
     {
-
+      addParticipantListener = completionHandler;
+      HttpRequest_AddParticipant.make_request(this, http_object, id, password);
     }
 
-    // TODO: joinSession
     public void joinSession(long id, string password, bool startPaused, AddParticipantListener completionHandler)
     {
-      
+      joinSession(id, password, completionHandler);
       if (startPaused) pauseEvents();
     }
 

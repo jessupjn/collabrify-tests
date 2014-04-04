@@ -19,7 +19,7 @@ namespace Collabrify_wp8.Http_Requests
     ///
     /// makes a warmup request to the server and returns a response object in the form of RESPONSE_
     /// </summary> 
-    public static void make_request(CollabrifyClient c, HttpRequest__Object obj)
+    public static void make_request(CollabrifyClient c, HttpRequest__Object obj, long id, string password)
     {
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST;
@@ -31,11 +31,9 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.participant_gmail = c.participant.getEmail();
       cs_pb.participant_notification_id = c.participant.getId().ToString();
       cs_pb.participant_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
-      cs_pb.session_id = c.session.getId();
-      if (c.session.getIsPasswordProtected())
-      {
-        cs_pb.session_password = "";
-      }
+
+      cs_pb.session_id = id;
+      cs_pb.session_password = password;
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 
