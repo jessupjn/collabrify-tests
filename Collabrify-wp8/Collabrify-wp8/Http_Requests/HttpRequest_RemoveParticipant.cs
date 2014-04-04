@@ -6,6 +6,7 @@ using Collabrify_v2.CollabrifyProtocolBuffer;
 using Collabrify_wp8.Http_Requests;
 using System.Net;
 using Collabrify_wp8.Collabrify;
+using System.Diagnostics;
 
 namespace Collabrify_wp8.Http_Requests
 {
@@ -32,6 +33,7 @@ namespace Collabrify_wp8.Http_Requests
       }
       cs_pb.accessing_participant_id = c.participant.getId();
       cs_pb.to_be_removed_participant_id = c.participant.getId();
+      Debug.WriteLine("ID: " + c.participant.getId());
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 

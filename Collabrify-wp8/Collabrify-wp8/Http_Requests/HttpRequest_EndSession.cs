@@ -26,11 +26,10 @@ namespace Collabrify_wp8.Http_Requests
       Request_EndSession_PB cs_pb = new Request_EndSession_PB();
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
-      cs_pb.session_id = 1;
-      cs_pb.session_password = "";
-      cs_pb.owner_id = c.currentSessionOwner().getId();
+      cs_pb.session_id = c.session.getId();
+      cs_pb.owner_id = c.participant.getId();
 
-      HttpWebRequest request = obj.BuildRequest( req_pb );
+      HttpWebRequest request = obj.BuildRequest( req_pb, cs_pb );
 
       try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }
       catch (WebException e) { System.Diagnostics.Debug.WriteLine("  -- EXCEPTION THROWN \n" + e.Message); }

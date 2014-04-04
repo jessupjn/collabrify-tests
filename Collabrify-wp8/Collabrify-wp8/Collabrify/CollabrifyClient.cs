@@ -101,9 +101,11 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
                   CreateSession_Args cs = new CreateSession_Args(e.specificResponsePB);
                   this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
+                  this.participant = session.getOwner();  
                   Debug.WriteLine("OWNER DISPLAY NAME: " + session.getOwner().getDisplayName());
                   Debug.WriteLine("OWNER ID: " + session.getOwner().getId());
-                  this.participant = session.getOwner();
+                  Debug.WriteLine("PARTICIPANT NAME: " + cs.getReturnedData().owner.display_name);
+                  Debug.WriteLine("PARTICIPANT ID: " + cs.getReturnedData().owner.participant_id);
                   if (createSessionListener != null) createSessionListener.Invoke(cs);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST:
@@ -119,6 +121,8 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.DELETE_USER:
                   break;
               case CollabrifyRequestType_PB.END_SESSION_REQUEST:
+                  RemoveParticipant_Args es = new RemoveParticipant_Args(e.specificResponsePB);
+                  if (removeParticipantListener != null) removeParticipantListener.Invoke(es);
                   break;
               case CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST:
                   break;
@@ -225,12 +229,13 @@ namespace Collabrify_wp8.Collabrify
 
       removeParticipantListener = completionHandler;
       if (session.getOwner().getId() == participant.getId() && deleteSession)
-        removeParticipantListener += delegate
-        {
-          HttpRequest_DeleteSession.make_request(this, http_object);
-        };
-
-      HttpRequest_RemoveParticipant.make_request(this, http_object);
+      {
+        HttpRequest_EndSession.make_request(this, http_object);
+      }
+      else
+      {
+        HttpRequest_RemoveParticipant.make_request(this, http_object);
+      }
     }
 
     // TODO: broadcast
