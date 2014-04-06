@@ -22,7 +22,7 @@ namespace Collabrify_wp8.Http_Requests
       Request_EndSession_PB cs_pb = new Request_EndSession_PB();
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
-      cs_pb.session_id = c.session.getId();
+      cs_pb.session_id = c.getSession().getId();
       cs_pb.owner_id = c.participant.getId();
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);

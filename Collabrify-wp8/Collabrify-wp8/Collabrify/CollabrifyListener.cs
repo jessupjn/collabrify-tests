@@ -8,6 +8,8 @@ using Collabrify_wp8.Http_Requests;
 
 namespace Collabrify_wp8.Collabrify
 {
+    // Delegates that correspond to the different types of responses that the server backend
+    // will send to us.
     public delegate void CollabrifyEventListener(CollabrifyEventArgs e);
     public delegate void AddEventListener(AddEvent_Args e);
     public delegate void AddParticipantListener(AddParticipant_Args e);
@@ -34,6 +36,9 @@ namespace Collabrify_wp8.Collabrify
     public delegate void UpdateUserListener(UpdateUser_Args e);
     public delegate void WarmupListener(Warmup_Args e);
 
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
+
     public class CollabrifyEventArgs : EventArgs
     {
       public CollabrifyRequestType_PB type;
@@ -48,257 +53,309 @@ namespace Collabrify_wp8.Collabrify
         response = response_pb;
       }
 
-    }
+    } // CollabrifyEventArgs
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class AddEvent_Args : EventArgs
     {
-      private Response_AddEvent_PB returned_data;
+      public Response_AddEvent_PB returned_data;
       public AddEvent_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_AddEvent_PB;
       }
-      public Response_AddEvent_PB getReturnedData() { return returned_data; }
-    }
+    } // AddEvent_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class AddParticipant_Args : EventArgs
     {
-      private Response_AddParticipant_PB returned_data;
+      public Response_AddParticipant_PB returned_data;
       public AddParticipant_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_AddParticipant_PB;
       }
-      public Response_AddParticipant_PB getReturnedData() { return returned_data; }
-    }
+    } // AddParticipant_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class AddToBaseFile_Args : EventArgs
     {
-      private Response_AddToBaseFile_PB returned_data;
+      public Response_AddToBaseFile_PB returned_data;
       public AddToBaseFile_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_AddToBaseFile_PB;
       }
-      public Response_AddToBaseFile_PB getReturnedData() { return returned_data; }
-    }
+    } // AddToBaseFile_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class CreateOrGetUser_Args : EventArgs
     {
-      private Response_CreateOrGetUser_PB returned_data;
+      public Response_CreateOrGetUser_PB returned_data;
       public CreateOrGetUser_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_CreateOrGetUser_PB;
       }
-      public Response_CreateOrGetUser_PB getReturnedData() { return returned_data; }
-    }
+    } // CreateOrGetUser_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class CreateSession_Args : EventArgs
     {
-      private Response_CreateSession_PB returned_data;
+      public Response_CreateSession_PB returned_data;
       public CreateSession_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_CreateSession_PB;
       }
-      public Response_CreateSession_PB getReturnedData() { return returned_data; }
-    }
+    } // CreateSession_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class CreateSessionWithBaseFile_Args : EventArgs
     {
-      private Response_CreateSessionWithBaseFile_PB returned_data;
+      public Response_CreateSessionWithBaseFile_PB returned_data;
       public CreateSessionWithBaseFile_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_CreateSessionWithBaseFile_PB;
       }
-      public Response_CreateSessionWithBaseFile_PB getReturnedData() { return returned_data; }
-    }
+    } // CreateSessionWithBaseFile_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class DeleteSession_Args : EventArgs
     {
-      private Response_DeleteSession_PB returned_data;
+      public Response_DeleteSession_PB returned_data;
       public DeleteSession_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_DeleteSession_PB;
       }
-      public Response_DeleteSession_PB getReturnedData() { return returned_data; }
-    }
+    } // DeleteSession_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class DeleteAllSessions_Args : EventArgs
     {
-      private Response_DeleteAllSessions_PB returned_data;
+      public Response_DeleteAllSessions_PB returned_data;
       public DeleteAllSessions_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_DeleteAllSessions_PB;
       }
-      public Response_DeleteAllSessions_PB getReturnedData() { return returned_data; }
-    }
+    } // DeleteAllSessions_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class EndSession_Args : EventArgs
     {
-      private Response_EndSession_PB returned_data;
+      public Response_EndSession_PB returned_data;
       public EndSession_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_EndSession_PB;
       }
-      public Response_EndSession_PB getReturnedData() { return returned_data; }
-    }
+    } // EndSession_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetBaseFile_Args : EventArgs
     {
-      private Response_GetBaseFile_PB returned_data;
+      public Response_GetBaseFile_PB returned_data;
       public GetBaseFile_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetBaseFile_PB;
       }
-      public Response_GetBaseFile_PB getReturnedData() { return returned_data; }
-    }
+    } // GetBaseFile_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetCurrentOrderID_Args : EventArgs
     {
-      private Response_GetCurrentOrderID_PB returned_data;
+      public Response_GetCurrentOrderID_PB returned_data;
       public GetCurrentOrderID_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetCurrentOrderID_PB;
       }
-      public Response_GetCurrentOrderID_PB getReturnedData() { return returned_data; }
-    }
+    } // GetCurrentOrderID_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetEvent_Args : EventArgs
     {
-      private Response_GetEvent_PB returned_data;
+      public Response_GetEvent_PB returned_data;
       public GetEvent_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetEvent_PB;
       }
-      public Response_GetEvent_PB getReturnedData() { return returned_data; }
-    }
+    } // GetEvent_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetEventBatch_Args : EventArgs
     {
-      private Response_GetEventBatch_PB returned_data;
+      public Response_GetEventBatch_PB returned_data;
       public GetEventBatch_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetEventBatch_PB;
       }
-      public Response_GetEventBatch_PB getReturnedData() { return returned_data; }
-    }
+    } // GetEventBatch_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetFromBaseFile_Args : EventArgs
     {
-      private Response_GetFromBaseFile_PB returned_data;
+      public Response_GetFromBaseFile_PB returned_data;
       public GetFromBaseFile_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetFromBaseFile_PB;
       }
-      public Response_GetFromBaseFile_PB getReturnedData() { return returned_data; }
-    }
+    } // GetFromBaseFile_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetLastEventByParticipant_Args : EventArgs
     {
-      private Response_GetLastEventByParticipant_PB returned_data;
+      public Response_GetLastEventByParticipant_PB returned_data;
       public GetLastEventByParticipant_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetLastEventByParticipant_PB;
       }
-      public Response_GetLastEventByParticipant_PB getReturnedData() { return returned_data; }
-    }
+    } // GetLastEventByParticipant_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetNotificationID_Args : EventArgs
     {
-      private Response_GetNotificationID_PB returned_data;
+      public Response_GetNotificationID_PB returned_data;
       public GetNotificationID_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetNotificationID_PB;
       }
-      public Response_GetNotificationID_PB getReturnedData() { return returned_data; }
-    }
+    } // GetNotificationID_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetParticipant_Args : EventArgs
     {
-      private Response_GetParticipant_PB returned_data;
+      public Response_GetParticipant_PB returned_data;
       public GetParticipant_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetParticipant_PB;
       }
-      public Response_GetParticipant_PB getReturnedData() { return returned_data; }
-    }
+    } // GetParticipant_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class GetSession_Args : EventArgs
     {
-      private Response_GetSession_PB returned_data;
+      public Response_GetSession_PB returned_data;
       public GetSession_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_GetSession_PB;
       }
-      public Response_GetSession_PB getReturnedData() { return returned_data; }
-    }
+    } // GetSession_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class ListAccounts_Args : EventArgs
     {
-      private Response_ListAccounts_PB returned_data;
+      public Response_ListAccounts_PB returned_data;
       public ListAccounts_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_ListAccounts_PB;
       }
-      public Response_ListAccounts_PB getReturnedData() { return returned_data; }
-    }
+    } // ListAccounts_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class ListSessions_Args : EventArgs
     {
-      private Response_ListSessions_PB returned_data;
+      public Response_ListSessions_PB returned_data;
       public ListSessions_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_ListSessions_PB;
       }
-      public Response_ListSessions_PB getReturnedData() { return returned_data; }
-    }
+    } // ListSessions_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class PreventFurtherJoins_Args : EventArgs
     {
-      private Response_PreventFurtherJoins_PB returned_data;
+      public Response_PreventFurtherJoins_PB returned_data;
       public PreventFurtherJoins_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_PreventFurtherJoins_PB;
       }
-      public Response_PreventFurtherJoins_PB getReturnedData() { return returned_data; }
-    }
+    } // PreventFurtherJoins_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class RemoveParticipant_Args : EventArgs
     {
-      private Response_RemoveParticipant_PB returned_data;
+      public Response_RemoveParticipant_PB returned_data;
       public RemoveParticipant_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_RemoveParticipant_PB;
       }
-      public Response_RemoveParticipant_PB getReturnedData() { return returned_data; }
-    }
+    } // RemoveParticipant_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class UpdateNotificationID_Args : EventArgs
     {
-      private Response_UpdateNotificationID_PB returned_data;
+      public Response_UpdateNotificationID_PB returned_data;
       public UpdateNotificationID_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_UpdateNotificationID_PB;
       }
-      public Response_UpdateNotificationID_PB getReturnedData() { return returned_data; }
-    }
+    } // UpdateNotificationID_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class UpdateUser_Args : EventArgs
     {
-      private Response_UpdateUser returned_data;
+      public Response_UpdateUser returned_data;
       public UpdateUser_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_UpdateUser;
       }
-      public Response_UpdateUser getReturnedData() { return returned_data; }
-    }
+    } // UpdateUser_Args
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
     public class Warmup_Args : EventArgs
     {
-      private Response_Warmup_PB returned_data;
+      public Response_Warmup_PB returned_data;
       public Warmup_Args(object _returned_data)
       {
         returned_data = _returned_data as Response_Warmup_PB;
       }
-      public Response_Warmup_PB getReturnedData() { return returned_data; }
-    }
+    } // Warmup_Args
 
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
 
 }
