@@ -11,9 +11,10 @@ namespace Collabrify_wp8.Http_Requests
 {
   class HttpRequest_CreateOrGetUser : HttpRequest__Object
   {
+
+    // -------------------------------------------------------------------------
+
     /// <summary>
-    /// baseURL
-    ///
     /// makes a warmup request to the server and returns a response object in the form of RESPONSE_
     /// </summary> 
     public static void make_request(CollabrifyClient c, HttpRequest__Object obj)
@@ -26,9 +27,19 @@ namespace Collabrify_wp8.Http_Requests
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 
-      try { request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request); }
-      catch (WebException e) { System.Diagnostics.Debug.WriteLine("  -- EXCEPTION THROWN \n" + e.Message); }
+      try
+      {
+        request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request);
+      }
+      catch (WebException e)
+      {
+        System.Diagnostics.Debug.WriteLine("  -- EXCEPTION THROWN \n" + e.Message);
+      }
 
-    }
+    } // make_request
+
+    // -------------------------------------------------------------------------
+
   }
 }
+
