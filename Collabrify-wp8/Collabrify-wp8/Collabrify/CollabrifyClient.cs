@@ -58,10 +58,19 @@ namespace Collabrify_wp8.Collabrify
     private event UpdateUserListener updateUserListener;
     private event WarmupListener warmupListener;
 
+    private event receivedEvent receivedEvent;
+    private event receivedBaseFileChunk receivedEvent;
+    private event uploadedBaseFileWithSize receivedEvent;
+    private event participantJoined receivedEvent;
+    private event participantLeft receivedEvent;
+    private event sessionEnded receivedEvent;
+    private event clientDidEnterBackground participantLeftSession;
+
+
     // CONSTRUCTOR
-    public CollabrifyClient(CollabrifyParticipant _participant, string _accountGmail, string _access_token, bool _get_latest)
+    public CollabrifyClient(string _gmail, string _displayName, string _accountGmail, string _access_token, bool _get_latest)
     {
-      participant = _participant;
+      participant = new CollabrifyParticipant(0, _displayName, _gmail, 0);
       accountGmail = _accountGmail;
       accessToken = _access_token;
       getLatest = _get_latest;
