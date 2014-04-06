@@ -27,7 +27,7 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
       cs_pb.session_id = c.currentSessionID();
-      if(c.session.getIsPasswordProtected())
+      if(c.getSession().getIsPasswordProtected())
       {
         cs_pb.session_password = "";
       }

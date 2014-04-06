@@ -32,10 +32,10 @@ namespace Collabrify_wp8
         public MainPage()
         {
           this.InitializeComponent();
-          c = new CollabrifyClient("A", "wp8-collabrify@umich.edu", "82763BDBCA", true);
 
           CollabrifyParticipant p = new CollabrifyParticipant(1, "JACK AND JILL", "jessupjn@umich.edu", 123);
-          c.participant = p;
+          c = new CollabrifyClient(p, "wp8-collabrify@umich.edu", "82763BDBCA", true);
+
           //c.ReturnInformation += new ChangedEventHander(updateInfo);
         }
 
