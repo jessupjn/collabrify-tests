@@ -58,13 +58,13 @@ namespace Collabrify_wp8.Collabrify
     private event UpdateUserListener updateUserListener;
     private event WarmupListener warmupListener;
 
-    private event receivedEvent receivedEvent;
-    private event receivedBaseFileChunk receivedEvent;
-    private event uploadedBaseFileWithSize receivedEvent;
-    private event participantJoined receivedEvent;
-    private event participantLeft receivedEvent;
-    private event sessionEnded receivedEvent;
-    private event clientDidEnterBackground participantLeftSession;
+    //private event receivedEvent receivedEvent;
+    //private event receivedBaseFileChunk receivedEvent;
+    //private event uploadedBaseFileWithSize receivedEvent;
+    //private event participantJoined receivedEvent;
+    //private event participantLeft receivedEvent;
+    //private event sessionEnded receivedEvent;
+    //private event clientDidEnterBackground participantLeftSession;
 
 
     // CONSTRUCTOR
