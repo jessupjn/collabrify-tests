@@ -100,12 +100,20 @@ namespace Collabrify_wp8.Collabrify
           switch (e.type)
           {
               case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
+                  AddEvent_Args ae = new AddEvent_Args(e.specificResponsePB);
+                  if (addEventListener != null) addEventListener.Invoke(ae);
                   break;
               case CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST:
+                  AddParticipant_Args ap = new AddParticipant_Args(e.specificResponsePB);
+                  if (addParticipantListener != null) addParticipantListener.Invoke(ap);
                   break;
               case CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST:
+                  AddToBaseFile_Args atbf = new AddToBaseFile_Args(e.specificResponsePB);
+                  if (addToBaseFileListener != null) addToBaseFileListener.Invoke(atbf);
                   break;
               case CollabrifyRequestType_PB.CREATE_OR_GET_USER:
+                  CreateOrGetUser_Args cogu = new CreateOrGetUser_Args(e.specificResponsePB);
+                  if (createOrGetUserListener != null) createOrGetUserListener.Invoke(cogu);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
                   CreateSession_Args cs = new CreateSession_Args(e.specificResponsePB);
@@ -114,12 +122,16 @@ namespace Collabrify_wp8.Collabrify
                   if (createSessionListener != null) createSessionListener.Invoke(cs);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST:
+                  CreateSessionWithBaseFile_Args cswbf = new CreateSessionWithBaseFile_Args(e.specificResponsePB);
+                  if (createSessionWithBaseFileListener != null) createSessionWithBaseFileListener.Invoke(cswbf);
                   break;
               case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
                   DeleteSession_Args ds = new DeleteSession_Args(e.specificResponsePB);
                   if (deleteSessionListener != null) deleteSessionListener.Invoke(ds);
                   break;
               case CollabrifyRequestType_PB.DELETE_ALL_SESSIONS_REQUEST:
+                  DeleteAllSessions_Args das = new DeleteAllSessions_Args(e.specificResponsePB);
+                  if (deleteAllSessionsListener != null) deleteAllSessionsListener.Invoke(das);
                   break;
               case CollabrifyRequestType_PB.DELETE_OLD_SESSIONS_REQUEST:
                   break;
@@ -130,40 +142,67 @@ namespace Collabrify_wp8.Collabrify
                   if (removeParticipantListener != null) removeParticipantListener.Invoke(es);
                   break;
               case CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST:
+                  GetBaseFile_Args gbf = new GetBaseFile_Args(e.specificResponsePB);
+                  if (getBaseFileListener != null) getBaseFileListener.Invoke(gbf);
                   break;
               case CollabrifyRequestType_PB.GET_CURRENT_ORDER_ID_REQUEST:
+                  GetCurrentOrderID_Args gcoi = new GetCurrentOrderID_Args(e.specificResponsePB);
+                  if (getCurrentOrderIDListener != null) getCurrentOrderIDListener.Invoke(gcoi);
                   break;
               case CollabrifyRequestType_PB.GET_EVENT_BATCH_REQUEST:
+                  GetEventBatch_Args geb = new GetEventBatch_Args(e.specificResponsePB);
+                  if (getEventBatchListener != null) getEventBatchListener.Invoke(geb);
                   break;
               case CollabrifyRequestType_PB.GET_EVENT_REQUEST:
+                  GetEvent_Args ge = new GetEvent_Args(e.specificResponsePB);
+                  if (getEventListener != null) getEventListener.Invoke(ge);
                   break;
               case CollabrifyRequestType_PB.GET_FROM_BASE_FILE_REQUEST:
+                  GetFromBaseFile_Args gfbf = new GetFromBaseFile_Args(e.specificResponsePB);
+                  if (getFromBaseFileListener != null) getFromBaseFileListener.Invoke(gfbf);
                   break;
               case CollabrifyRequestType_PB.GET_LAST_EVENT_BY_PARTICIPANT_REQUEST:
+                  GetLastEventByParticipant_Args glebp = new GetLastEventByParticipant_Args(e.specificResponsePB);
                   break;
               case CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST:
+                  GetCurrentOrderID_Args gcoi = new GetCurrentOrderID_Args(e.specificResponsePB);
+                  if (getCurrentOrderIDListener != null) getCurrentOrderIDListener.Invoke(gcoi);
                   break;
               case CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST:
+                  GetParticipant_Args gp = new GetParticipant_Args(e.specificResponsePB);
+                  if (getParticipantListener != null) getParticipantListener.Invoke(gp);
                   break;
               case CollabrifyRequestType_PB.GET_SESSION_REQUEST:
+                  GetSession_Args gs = new GetSession_Args(e.specificResponsePB);
+                  if (getSessionListener != null) getSessionListener.Invoke(gs);
                   break;
               case CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST:
+                  ListAccounts_Args la = new ListAccounts_Args(e.specificResponsePB);
+                  if (listAccountsListener != null) listAccountsListener.Invoke(la);
                   break;
               case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
                   ListSessions_Args ls = new ListSessions_Args(e.specificResponsePB);
                   if (listSessionsListener != null) listSessionsListener.Invoke(ls);
                   break;
               case CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST:
+                  PreventFurtherJoins_Args pfj = new PreventFurtherJoins_Args(e.specificResponsePB);
+                  if (preventFurtherJoinsListener != null) preventFurtherJoinsListener.Invoke(pfj);
                   break;
               case CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST:
                   RemoveParticipant_Args rp = new RemoveParticipant_Args(e.specificResponsePB);
                   if (removeParticipantListener != null) removeParticipantListener.Invoke(rp);
                   break;
               case CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET:
+                  Debug.WriteLine("Error:");
+                  Debug.WriteLine("Request Type Was Not Set");
                   break;
               case CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST:
+                  UpdateNotificationID_Args uni = new UpdateNotificationID_Args(e.specificResponsePB);
+                  if (updateNotificationIDListener != null) updateNotificationIDListener.Invoke(uni);
                   break;
               case CollabrifyRequestType_PB.UPDATE_USER:
+                  UpdateUser_Args uu = new UpdateUser_Args(e.specificResponsePB);
+                  if (updateUserListener != null) updateUserListener.Invoke(uu);
                   break;
               case CollabrifyRequestType_PB.WARMUP_REQUEST:
                   break;
