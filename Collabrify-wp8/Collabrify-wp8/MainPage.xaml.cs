@@ -60,7 +60,9 @@ namespace Collabrify_wp8
           else if (RequestType.Name == "ListSessions")
           {
             ResponseTextBlock.Text = "List Sessions";
-            //c.makeListSession();
+            List<string> l = new List<string>();
+            l.Add("[none]");
+            c.listSessions(l);
           }
           else if (RequestType.Name == "LeaveSession")
           {
