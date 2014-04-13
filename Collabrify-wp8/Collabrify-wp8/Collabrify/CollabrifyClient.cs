@@ -18,6 +18,8 @@ namespace Collabrify_wp8.Collabrify
 
   public class CollabrifyClient
   {
+
+    #region Variables 
     // Session and participant objects.
     public CollabrifySession session = null;
     public CollabrifyParticipant participant = null;
@@ -27,7 +29,6 @@ namespace Collabrify_wp8.Collabrify
     // Information pertinant to the developers credentials.
     private readonly String accountGmail;
     private readonly String accessToken;
-
 
     // An object that helps with making the individual http requests.
     private HttpRequest__Object http_object = new HttpRequest__Object();
@@ -66,6 +67,10 @@ namespace Collabrify_wp8.Collabrify
     //private event sessionEnded receivedEvent;
     //private event clientDidEnterBackground participantLeftSession;
 
+    #endregion 
+
+    #region Constructor
+ 
     // CONSTRUCTOR
     public CollabrifyClient(string _gmail, string _displayName, string _accountGmail, string _access_token, bool _get_latest)
     {
@@ -78,10 +83,12 @@ namespace Collabrify_wp8.Collabrify
       HttpRequest_Warmup.make_request(this, http_object);
     } // CONSTRUCTOR
 
+    #endregion
 
     // ------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------
 
+    #region HttpRequestReturned
 
     private void httpReturned(CollabrifyEventArgs e)
     {
@@ -171,10 +178,12 @@ namespace Collabrify_wp8.Collabrify
 
     } // httpReturned
 
+#endregion 
+
     // ------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------
 
-
+    #region Public Functions
 
     // PUBLICALLY AVAILABLE FUNCTIONS AND METHODS TO THE DEVELOPER.
     // ------------------------------------------------------------------------------
@@ -392,5 +401,6 @@ namespace Collabrify_wp8.Collabrify
 
     // ------------------------------------------------------------------------------
 
+    #endregion 
   }
 }
