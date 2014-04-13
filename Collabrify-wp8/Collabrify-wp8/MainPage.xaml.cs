@@ -41,7 +41,7 @@ namespace Collabrify_wp8
         private void updateInfo(object sender, EventArgs e)
         {
 
-        }
+        } 
 
         private void Button1_Click(object sender, RoutedEventArgs e){
           if (RequestType.Name == "Warmup")
@@ -60,7 +60,7 @@ namespace Collabrify_wp8
           else if (RequestType.Name == "ListSessions")
           {
             ResponseTextBlock.Text = "List Sessions";
-            c.makeListSession();
+            //c.makeListSession();
           }
           else if (RequestType.Name == "LeaveSession")
           {
