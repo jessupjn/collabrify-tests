@@ -71,9 +71,6 @@ J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\uk-UA\Microso
 J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\uz-Latn-UZ\Microsoft.Phone.Controls.Toolkit.resources.dll
 J:\Github\collabrify-tests\Collabrify-wp8\Collabrify-wp8\Bin\Debug\vi-VN\Microsoft.Phone.Controls.Toolkit.resources.dll
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csprojResolveAssemblyReference.cache
-C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\App.g.cs
-C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\MainPage.g.cs
-C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.g.resources
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify_wp8.Resources.AppResources.resources
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csproj.GenerateResource.Cache
 C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.dll

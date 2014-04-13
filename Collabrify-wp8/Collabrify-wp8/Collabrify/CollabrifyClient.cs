@@ -165,8 +165,8 @@ namespace Collabrify_wp8.Collabrify
                   GetLastEventByParticipant_Args glebp = new GetLastEventByParticipant_Args(e.specificResponsePB);
                   break;
               case CollabrifyRequestType_PB.GET_NOTIFICATION_ID_REQUEST:
-                  GetCurrentOrderID_Args gcoi = new GetCurrentOrderID_Args(e.specificResponsePB);
-                  if (getCurrentOrderIDListener != null) getCurrentOrderIDListener.Invoke(gcoi);
+                  GetCurrentOrderID_Args gni = new GetCurrentOrderID_Args(e.specificResponsePB);
+                  if (getCurrentOrderIDListener != null) getCurrentOrderIDListener.Invoke(gni);
                   break;
               case CollabrifyRequestType_PB.GET_PARTICIPANT_REQUEST:
                   GetParticipant_Args gp = new GetParticipant_Args(e.specificResponsePB);
