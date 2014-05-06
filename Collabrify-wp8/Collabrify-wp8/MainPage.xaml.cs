@@ -61,7 +61,7 @@ namespace Collabrify_wp8
           {
             ResponseTextBlock.Text = "List Sessions";
             List<string> l = new List<string>();
-            l.Add("[none]");
+            l.Add("TestTag");
             c.listSessions(l);
           }
           else if (RequestType.Name == "LeaveSession")

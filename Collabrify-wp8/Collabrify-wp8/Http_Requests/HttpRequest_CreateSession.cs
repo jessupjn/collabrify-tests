@@ -10,17 +10,6 @@ namespace Collabrify_wp8.Http_Requests
   public class HttpRequest_CreateSession : HttpRequest__Object
   {
 
-    public static long SessionID;
-
-    // -------------------------------------------------------------------------
-
-    public HttpRequest_CreateSession()
-    {
-      SessionID = 0;
-    }
-
-    // -------------------------------------------------------------------------
-
     /// <summary>
     /// makes a warmup request to the server and returns a response object in the form of RESPONSE_
     /// </summary> 
@@ -45,14 +34,13 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
       cs_pb.owner_display_name = c.participant.getDisplayName();
-      cs_pb.owner_gmail = c.participant.getEmail();
+      cs_pb.owner_notification_id = c.participant.getUserID();
 
       if (participantLimit > 0)
       {
         cs_pb.participant_limit = participantLimit;
       }
 
-      cs_pb.owner_notification_id = "0";
       cs_pb.owner_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);

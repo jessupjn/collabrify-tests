@@ -13,6 +13,7 @@ namespace Collabrify_wp8.Http_Requests
   {
     // Private Variables
     private static readonly string BASE_URI = "http://collabrify-cloud.appspot.com/request";
+    private static readonly string BASE_URI2 = "http://154.collabrify-cloud.appspot.com/echo-pb";
     private CollabrifyRequest_PB collabrify_req_pb;
     private CollabrifyResponse_PB collabrify_resp_pb;
     private object secondary_pb;
@@ -39,11 +40,10 @@ namespace Collabrify_wp8.Http_Requests
     public HttpWebRequest BuildRequest(CollabrifyRequest_PB req_pb,
             object _secondary_pb = null, object _trail_info = null)
     {
-      HttpWebRequest request = HttpWebRequest.CreateHttp(BASE_URI);
+      HttpWebRequest request = HttpWebRequest.CreateHttp(BASE_URI2);
       request.ContentType = "application/x-www-form-urlencoded";
       request.Method = "POST";
-      request.Credentials = new NetworkCredential("wp8-collabrify@umich.edu",
-                                                  "82763BDBCA");
+      //request.Credentials = new NetworkCredential("wp8-collabrify@umich.edu", "82763BDBCA");
 
       collabrify_req_pb = req_pb;
       if (_secondary_pb != null) secondary_pb = _secondary_pb;
@@ -67,7 +67,7 @@ namespace Collabrify_wp8.Http_Requests
         Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, collabrify_req_pb, PrefixStyle.Base128, 0);
 
         byte[] byteArr = ms.ToArray();
-        postStream.Write(byteArr, 0, byteArr.Length);
+        //postStream.Write(byteArr, 0, byteArr.Length);
 
         if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
         {
@@ -158,6 +158,18 @@ namespace Collabrify_wp8.Http_Requests
         else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST)
         {
           Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, (Request_ListSessions_PB)secondary_pb, PrefixStyle.Base128, 0);
+
+          /*
+          string url = @"~\CollabrifyTest.txt";
+          Debug.WriteLine("WRITING FILE: " + url);
+          using (FileStream file = new FileStream("file.bin", FileMode.Create, System.IO.FileAccess.Write))
+          {
+            byte[] bytes = ms2.ToArray();
+            file.Write(bytes, 0, bytes.Length);
+            ms.Close();
+          }
+
+          */
         }
         else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST)
         {

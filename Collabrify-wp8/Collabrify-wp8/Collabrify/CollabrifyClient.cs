@@ -59,6 +59,8 @@ namespace Collabrify_wp8.Collabrify
     private event UpdateUserListener updateUserListener;
     private event WarmupListener warmupListener;
 
+
+    private WebBrowser browser;
     //private event receivedEvent receivedEvent;
     //private event receivedBaseFileChunk receivedEvent;
     //private event uploadedBaseFileWithSize receivedEvent;
@@ -78,9 +80,10 @@ namespace Collabrify_wp8.Collabrify
       accountGmail = _accountGmail;
       accessToken = _access_token;
       getLatest = _get_latest;
+      
 
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
-      HttpRequest_Warmup.make_request(this, http_object);
+      //HttpRequest_Warmup.make_request(this, http_object);
     } // CONSTRUCTOR
 
     #endregion
@@ -325,9 +328,9 @@ namespace Collabrify_wp8.Collabrify
     // ------------------------------------------------------------------------------
 
     // TODO: listSessions
-    public List<CollabrifySession> listSessions(List<string> tags) 
-    { 
-      return new List<CollabrifySession>(); 
+    public void listSessions(List<string> tags) 
+    {
+      HttpRequest_ListSessions.make_request(this, http_object, tags); 
     } // listSessions
 
     // ------------------------------------------------------------------------------

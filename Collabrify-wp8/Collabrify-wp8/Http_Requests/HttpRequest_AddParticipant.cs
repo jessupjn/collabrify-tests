@@ -23,7 +23,7 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
       cs_pb.participant_display_name = c.participant.getDisplayName();
-      cs_pb.participant_gmail = c.participant.getEmail();
+      cs_pb.participant_user_id = c.participant.getUserID();
       cs_pb.participant_notification_id = c.participant.getId().ToString();
       cs_pb.participant_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
 
