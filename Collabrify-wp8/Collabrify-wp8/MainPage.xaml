@@ -14,14 +14,14 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+  <!--LayoutRoot is the root grid where all page content is placed-->
+  <Grid x:Name="LayoutRoot" Background="White">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
 
-        <!-- LOCALIZATION NOTE:
+    <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
             keys in the app's neutral language resource file (AppResources.resx) then
             replace the hard-coded text value between the attributes' quotation marks
@@ -40,20 +40,21 @@
             CurrentUICulture of the app at run time.
          -->
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MVP Demo" Margin="9,-7,0,0" Foreground="Black" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+    <!--TitlePanel contains the name of the application and page title-->
+    <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+      <TextBlock Text="MVP Demo" Margin="9,-7,0,0" Foreground="Black" Style="{StaticResource PhoneTextTitle1Style}"/>
+    </StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="270" />
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <!--ContentPanel - place additional content here-->
+    <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,32">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="602" />
+        <RowDefinition Height="0*"/>
+      </Grid.RowDefinitions>
 
-            <TextBlock x:Name="TextBlock1" Grid.Row="0" HorizontalAlignment="Left" Text="Select an option and press send event." TextWrapping="Wrap" Margin="12,12,12,12" FontSize="18"/>
+      <!-- 
+          <TextBlock x:Name="TextBlock1" Grid.Row="0" HorizontalAlignment="Left" Text="Select an option and press send event." TextWrapping="Wrap" Margin="12,12,12,12" FontSize="18"/>
             <StackPanel Grid.Row="1">
                 <TextBlock x:Name="ResponseTite" HorizontalAlignment="Left" Text="Response" FontWeight="SemiBold" TextWrapping="Wrap" Margin="12,0,0,0" FontSize="25"/>
 
@@ -61,26 +62,29 @@
                     <TextBlock x:Name="ResponseTextBlock" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="12,12,12,12" FontSize="25"/>
                 </Grid>
             </StackPanel>
-            
-            <StackPanel Grid.Row="2">
-                <toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" Foreground="Black"  BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
+          -->
+
+      <StackPanel Grid.Row="1" x:Name="stk">
+        <!--<toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" Foreground="Black"  BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
                     <toolkit:ListPickerItem x:Name="Warmup" Content="Warmup Request"/>
                     <toolkit:ListPickerItem x:Name="CreateSession" Content="Create Session"/>
                     <toolkit:ListPickerItem x:Name="LeaveSession" Content="Leave Session"/>
                     <toolkit:ListPickerItem x:Name="ListSessions" Content="List Sessions"/>
                 </toolkit:ListPicker>
-                <Button x:Name="Button2" Click="Button2_Click" Height="100" FontWeight="Thin" Background="Black" Content="reset" FontSize="40"/>
                 <Button x:Name="Button1" Click="Button1_Click" Height="100" FontWeight="Thin" Background="Blue" Content="send event" FontSize="40"/>
-            </StackPanel>
- </Grid>
+                -->
+        <Button x:Name="Button2" Click="Button2_Click" Height="100" FontWeight="Thin" Background="Blue" Content="get browser" FontSize="40"/>
+        <phone:WebBrowser Height="500" x:Name="browser" Source="http://facebook.com"/>
+      </StackPanel>
+    </Grid>
 
-        <!--Uncomment to see an alignment grid to help ensure your controls are
+    <!--Uncomment to see an alignment grid to help ensure your controls are
             aligned on common boundaries.  The image has a top margin of -32px to
             account for the System Tray. Set this to 0 (or remove the margin altogether)
             if the System Tray is hidden.
 
             Before shipping remove this XAML and the image itself.-->
-        <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
-    </Grid>
+    <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
+  </Grid>
 
 </phone:PhoneApplicationPage>

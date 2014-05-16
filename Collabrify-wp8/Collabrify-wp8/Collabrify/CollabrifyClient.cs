@@ -59,6 +59,7 @@ namespace Collabrify_wp8.Collabrify
     private event UpdateUserListener updateUserListener;
     private event WarmupListener warmupListener;
 
+    ChannelAPI channelAPI;
     //private event receivedEvent receivedEvent;
     //private event receivedBaseFileChunk receivedEvent;
     //private event uploadedBaseFileWithSize receivedEvent;
@@ -81,8 +82,10 @@ namespace Collabrify_wp8.Collabrify
 
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
       HttpRequest_Warmup.make_request(this, http_object);
-    } // CONSTRUCTOR
 
+      channelAPI = new ChannelAPI(_access_token);
+    } // CONSTRUCTOR
+    public WebBrowser getB() { return channelAPI.getBrowser(); }
     #endregion
 
     // ------------------------------------------------------------------------------
@@ -325,9 +328,9 @@ namespace Collabrify_wp8.Collabrify
     // ------------------------------------------------------------------------------
 
     // TODO: listSessions
-    public List<CollabrifySession> listSessions(List<string> tags) 
-    { 
-      return new List<CollabrifySession>(); 
+    public void listSessions(List<string> tags) 
+    {
+      HttpRequest_ListSessions.make_request(this, http_object, tags); 
     } // listSessions
 
     // ------------------------------------------------------------------------------

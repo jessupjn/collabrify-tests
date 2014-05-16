@@ -1,23 +1,10 @@
-﻿using System;
+﻿using Collabrify_wp8.Collabrify;
+using Microsoft.Phone.Controls;
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using Collabrify_wp8.Resources;
-using System.Threading;
-using Collabrify_v2.CollabrifyProtocolBuffer;
-using System.Runtime.Serialization;
-using System.IO;
-using ProtoBuf;
-using Collabrify_wp8.Http_Requests;
-using Collabrify_wp8.Collabrify;
-using System.Diagnostics;
 
 namespace Collabrify_wp8
 {
@@ -26,7 +13,6 @@ namespace Collabrify_wp8
 
         public ListPickerItem RequestType = new ListPickerItem();
         CollabrifyClient c;
-
 
         // Constructor
         public MainPage()
@@ -46,12 +32,12 @@ namespace Collabrify_wp8
         private void Button1_Click(object sender, RoutedEventArgs e){
           if (RequestType.Name == "Warmup")
           {
-            ResponseTextBlock.Text = "Warmup";
+            //ResponseTextBlock.Text = "Warmup";
 
           }
           else if (RequestType.Name == "CreateSession")
           {
-            ResponseTextBlock.Text = "Create Session";
+            //ResponseTextBlock.Text = "Create Session";
             List<string> tags = new List<string>();
             tags.Add("[none]");
             Random rd = new Random();
@@ -59,14 +45,14 @@ namespace Collabrify_wp8
           }
           else if (RequestType.Name == "ListSessions")
           {
-            ResponseTextBlock.Text = "List Sessions";
+            //ResponseTextBlock.Text = "List Sessions";
             List<string> l = new List<string>();
-            l.Add("[none]");
+            l.Add("TagTesting");
             c.listSessions(l);
           }
           else if (RequestType.Name == "LeaveSession")
           {
-            ResponseTextBlock.Text = "Delete Session";
+            //ResponseTextBlock.Text = "Delete Session";
             c.leaveSession(true, delegate{});
           }
           else Debug.WriteLine(RequestType.Name);
@@ -74,8 +60,16 @@ namespace Collabrify_wp8
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            // clear response text
-            ResponseTextBlock.Text = "Foo";
+          WebBrowser b = c.getB();
+          browser = b;
+
+          browser.Navigating += delegate { Debug.WriteLine("Navigating"); };
+
+          var js = "window.location.reload(true);";
+          //b.InvokeScript("eval", js);
+
+          b.Navigate(new Uri("/home.html", UriKind.Relative));
+          browser.Navigate(new Uri("/home.html", UriKind.Relative));
         }
 
         private void OptionSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)

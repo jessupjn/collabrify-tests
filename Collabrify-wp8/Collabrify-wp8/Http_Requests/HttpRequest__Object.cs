@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace Collabrify_wp8.Http_Requests
 {
@@ -157,7 +158,9 @@ namespace Collabrify_wp8.Http_Requests
         }
         else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST)
         {
-          Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, (Request_ListSessions_PB)secondary_pb, PrefixStyle.Base128, 0);
+          Serializer.SerializeWithLengthPrefix<Request_ListSessions_PB>(ms2, secondary_pb as Request_ListSessions_PB, PrefixStyle.Base128, 0);
+          Request_ListSessions_PB r = secondary_pb as Request_ListSessions_PB;
+ 
         }
         else if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST)
         {
