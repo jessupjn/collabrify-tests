@@ -3,6 +3,8 @@ using Microsoft.Phone.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -61,15 +63,20 @@ namespace Collabrify_wp8
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
           WebBrowser b = c.getB();
-          browser = b;
+          //browser = b;
 
           browser.Navigating += delegate { Debug.WriteLine("Navigating"); };
 
           var js = "window.location.reload(true);";
           //b.InvokeScript("eval", js);
 
-          b.Navigate(new Uri("/home.html", UriKind.Relative));
-          browser.Navigate(new Uri("/home.html", UriKind.Relative));
+          string html = null;
+          using (var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("Collabrify_wp8.Resources.home.html"))
+          using (var r = new StreamReader(s))
+            html = r.ReadToEnd();
+
+          browser.NavigateToString(html);
+          b.NavigateToString(html);
         }
 
         private void OptionSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
