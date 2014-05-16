@@ -10,7 +10,7 @@ namespace Collabrify_wp8.Collabrify
   {
     private readonly long id;
     private readonly string displayName;
-    private readonly string email;
+    private readonly string userID;
     private readonly long joinTime;
 
     // ---------------------------------------------------------------------------
@@ -20,17 +20,17 @@ namespace Collabrify_wp8.Collabrify
     {
       id = participant.participant_id;
       displayName = participant.display_name;
-      email = participant.g_mail;
+      userID = participant.user_id;
       joinTime = participant.joined_timestamp;
     } // ctor
 
     // ---------------------------------------------------------------------------
 
-    public CollabrifyParticipant(long id_, string displayName_, string email_, long joinTime_)
+    public CollabrifyParticipant(long id_, string displayName_, string userID_, long joinTime_)
     {
       id = id_;
       displayName = displayName_;
-      email = email_;
+      userID = userID_;
       joinTime = joinTime_;
     } // ctor
 
@@ -50,9 +50,9 @@ namespace Collabrify_wp8.Collabrify
 
     // -------------------------------------------------------------------------
 
-    public string getEmail()
+    public string getUserID()
     {
-      return email;
+      return userID;
     } // getEmail
 
     // -------------------------------------------------------------------------

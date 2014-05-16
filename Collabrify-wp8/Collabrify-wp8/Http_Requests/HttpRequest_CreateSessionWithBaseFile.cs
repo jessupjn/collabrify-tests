@@ -36,7 +36,7 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.account_gmail = c.getAccountGmail();
       cs_pb.access_token = c.getAccessToken();
       cs_pb.owner_display_name = c.participant.getDisplayName();
-      cs_pb.owner_gmail = c.participant.getEmail();
+      cs_pb.owner_user_id = c.participant.getUserID();
 
       if (participantLimit > 0)
       {

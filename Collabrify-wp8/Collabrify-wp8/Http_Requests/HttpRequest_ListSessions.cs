@@ -26,6 +26,12 @@ namespace Collabrify_wp8.Http_Requests
       foreach (string s in tags) cs_pb.session_tag.Add(s);
       cs_pb.limit_query_to_organization_account = true;
       cs_pb.use_subset_query = true;
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.access_token = c.getAccessToken();
+      foreach (string s in tags)
+      {
+        cs_pb.session_tag.Add(s);
+      }
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 

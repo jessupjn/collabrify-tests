@@ -176,7 +176,7 @@ namespace Collabrify_wp8.Collabrify
       // remove any participant that is still incomplete
       foreach ( CollabrifyParticipant p in participants.Values )
       {
-        if( p.getEmail().Equals(PARTICIPANT_UPDATE_STRING) )
+        if( p.getUserID().Equals(PARTICIPANT_UPDATE_STRING) )
         {
           participants.Remove(p.getId());
         }
