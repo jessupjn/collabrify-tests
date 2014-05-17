@@ -20,6 +20,8 @@ namespace Collabrify_wp8.Collabrify
   {
 
     #region Variables 
+    private readonly string LOG_TAG = "COLLABRIFY-CLIENT";
+
     // Session and participant objects.
     public CollabrifySession session = null;
     public CollabrifyParticipant participant = null;
@@ -85,7 +87,6 @@ namespace Collabrify_wp8.Collabrify
 
       channelAPI = new ChannelAPI(_access_token);
     } // CONSTRUCTOR
-    public WebBrowser getB() { return channelAPI.getBrowser(); }
     #endregion
 
     // ------------------------------------------------------------------------------
@@ -99,7 +100,7 @@ namespace Collabrify_wp8.Collabrify
 
       if (e.response.success_flag)
       {
-          Debug.WriteLine(e.type.ToString() + " was successful.\n");
+          Debug.WriteLine(LOG_TAG + ": " + e.type.ToString() + " was successful.\n");
           switch (e.type)
           {
               case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
@@ -196,8 +197,7 @@ namespace Collabrify_wp8.Collabrify
                   if (removeParticipantListener != null) removeParticipantListener.Invoke(rp);
                   break;
               case CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET:
-                  Debug.WriteLine("Error:");
-                  Debug.WriteLine("Request Type Was Not Set");
+                  Debug.WriteLine(LOG_TAG + ":\n\tError:\n\tRequest Type Was Not Set");
                   break;
               case CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST:
                   UpdateNotificationID_Args uni = new UpdateNotificationID_Args(e.specificResponsePB);
@@ -213,9 +213,9 @@ namespace Collabrify_wp8.Collabrify
       } // if
       else
       {
-          Debug.WriteLine(e.type.ToString() + " Failed:");
-          Debug.WriteLine("Exception Type: " + e.response.exception.exception_type.ToString());
-          Debug.WriteLine("Exception Cause: " + e.response.exception.cause.ToString() + "\n");
+          Debug.WriteLine(LOG_TAG + ":\n\t" + e.type.ToString() + " Failed:");
+          Debug.WriteLine("\tException Type: " + e.response.exception.exception_type.ToString());
+          Debug.WriteLine("\tException Cause: " + e.response.exception.cause.ToString() + "\n");
       }
 
     } // httpReturned

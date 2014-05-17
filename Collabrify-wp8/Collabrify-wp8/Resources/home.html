@@ -5,6 +5,16 @@
   <body bgcolor="#E6E6FA">
     <script type="text/javascript" src="https://talkgadget.google.com/talkgadget/channel.js"></script>
     <script language="javascript">
+      // Allows debugging in the console for testing
+      var console;
+      if (window.external) {
+        console = {};
+        console.log = function (message) {
+          window.external.notify(message);
+        }
+      }
+
+      // Available functions for ChannelAPI use.
       var channel;
       var socket;
       function closeConnection() { if (socket) { socket.close() } }
@@ -13,9 +23,24 @@
       function onMessage(a) { window.external.notify("message:" + a.data) }
       function onClose() { window.external.notify("onClose:") }
       function onOpen() { window.external.notify("onOpen::") }
-      window.onload = function () { window.external.notify("onLoad::") }
-      function test() { control.test() }
+      window.onload = function () { window.external.notify("onLoad::");}
+      function test() { console.log("hi jack"); }
+      window.alert = function (m, a) {
+        console.log("ALERT: " + m)
+        switch(m)
+        {
+          case "closeConnection":
+            closeConnection();
+            break;
+          case "connectToServer":
+            connectToServer(a);
+            break;
+          case "test":
+            test();
+            break;
+
+        }
+      }
     </script>
-    hi
   </body>
 </html>
