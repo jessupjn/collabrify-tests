@@ -97,7 +97,7 @@ namespace Collabrify_wp8.Collabrify
     private void httpReturned(CollabrifyEventArgs e)
     {
       /* Handles the response from the server within the CollabrifyClient object */
-
+      Debug.WriteLine(e.response);
       if (e.response.success_flag)
       {
           Debug.WriteLine(LOG_TAG + ": " + e.type.ToString() + " was successful.\n");

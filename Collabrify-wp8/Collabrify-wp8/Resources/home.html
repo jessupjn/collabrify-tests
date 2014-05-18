@@ -19,28 +19,11 @@
       var socket;
       function closeConnection() { if (socket) { socket.close() } }
       function connectToServer(a) { channel = new goog.appengine.Channel(a); socket = channel.open(); socket.onopen = onOpen; socket.onmessage = onMessage; socket.onerror = onError; socket.onClose = onClose }
-      function onError(a) { window.external.notify("errors::" + a.code + a.description) }
+      function onError(a) { window.external.notify("errors::" + a.code + "|" + a.description) }
       function onMessage(a) { window.external.notify("message:" + a.data) }
       function onClose() { window.external.notify("onClose:") }
       function onOpen() { window.external.notify("onOpen::") }
       window.onload = function () { window.external.notify("onLoad::");}
-      function test() { console.log("hi jack"); }
-      window.alert = function (m, a) {
-        console.log("ALERT: " + m)
-        switch(m)
-        {
-          case "closeConnection":
-            closeConnection();
-            break;
-          case "connectToServer":
-            connectToServer(a);
-            break;
-          case "test":
-            test();
-            break;
-
-        }
-      }
     </script>
   </body>
 </html>

@@ -41,30 +41,43 @@ namespace Collabrify_wp8.Collabrify
     // CONSTRUCTOR
     public ChannelAPI(string token)
     {
-      this.mToken = token;
-
+      Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
+      // set default variables and token.
       listener = new ChannelAPIEventListener();
+      setToken(token);
+      mChannelClosed = true;
+      Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
 
       // Builds the browser object
-      browser = new WebBrowser();
-      browser.IsScriptEnabled = true;
-      browser.IsGeolocationEnabled = true;
-      browser.ScriptNotify += ScriptCallback;
-      browser.LoadCompleted += delegate
+      try
       {
-        connect();
-      };
+        browser = new WebBrowser();
+        browser.IsScriptEnabled = true;
+        browser.ScriptNotify += ScriptCallback;
+        browser.LoadCompleted += delegate
+        {
+          Debug.WriteLine(LOG_TAG + ": attempting to connect.");
+          connect();
+        };
+      }
+      catch( Exception ex)
+      {
+        Debug.WriteLine(LOG_TAG + ": " + ex.Source);
+        Debug.WriteLine("\t" + ex.Message);
+
+      }
 
       string html = null;
       using (var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("Collabrify_wp8.Resources.home.html"))
       using (var r = new StreamReader(s))
       html = r.ReadToEnd();
+      Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
 
       browser.NavigateToString(html);
     } // CONSTRUCTOR
     #endregion
 
-    #region Public Functions
+    #region Private Functions
 
     // ScriptCallback
     private void ScriptCallback(object sender, NotifyEventArgs e)
@@ -86,7 +99,7 @@ namespace Collabrify_wp8.Collabrify
           channelClosed();
           break;
         case "errors::":
-          channelError("","");
+          channelError(e.Value.Substring(8));
           break;
         case "message:":
           channelMessageReceived(e.Value.Substring(8));
@@ -98,9 +111,13 @@ namespace Collabrify_wp8.Collabrify
     }// ScriptCallback
 
     // connect
-    public bool connect()
+    private bool connect()
     {
-      if (!isTokenValid()) return false;
+      if (!isTokenValid())
+      {
+        Debug.WriteLine(LOG_TAG + ": Token is not valid.");
+        return false;
+      }
 
       Debug.WriteLine(LOG_TAG + ": connecting using token: " + this.mToken);
 
@@ -109,15 +126,26 @@ namespace Collabrify_wp8.Collabrify
       return true;
     } // connect
 
-    // TODO: isTokenValid
+    // setToken
+    private bool setToken(string token)
+    {
+      if (token != null && !token.Equals(""))
+      {
+        this.mToken = token;
+        this.mTimeTokenWasReceivedMillis = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        return true;
+      }
+      Debug.WriteLine(LOG_TAG + ": setToken - token cannot be null or empty");
+      return false;
+    }// setToken
+
+    // isTokenValid
     private bool isTokenValid()
     {
-      return true;
+      long currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+      return mToken != null && mToken != "" && currentTime < mTimeTokenWasReceivedMillis + TOKEN_VALID_LENGTH_MILLIS;
     } // isTokenValid
 
-    #endregion
-
-    #region Private Functions
     // pageLoaded
     private void pageLoaded()
     {
@@ -142,14 +170,16 @@ namespace Collabrify_wp8.Collabrify
     private void channelMessageReceived(string message)
     {
       Debug.WriteLine(LOG_TAG + ": channelMessageReceived");
-      listener.onChannelAPIUpdateEvent();
+      listener.onChannelAPIUpdateEvent(message);
     }// channelMessageReceived
 
     // channelError
-    private void channelError(string code, string description)
+    private void channelError(string message)
     {
+      string code = message.Substring(0, message.IndexOf('|'));
+      string description = message.Substring(message.IndexOf('|') + 1);
       Debug.WriteLine(LOG_TAG + ": channelError");
-      listener.onChannelAPIError();
+      listener.onChannelAPIError(code, description);
     } // channelError
     #endregion
   }
@@ -171,12 +201,13 @@ namespace Collabrify_wp8.Collabrify
 
     }
 
-    public void onChannelAPIError()
+    public void onChannelAPIError(string code, string description)
     {
-
+      Debug.WriteLine("\tCode: " + code);
+      Debug.WriteLine("\tDescription: " + description);
     }
 
-    public void onChannelAPIUpdateEvent()
+    public void onChannelAPIUpdateEvent(string message)
     {
 
     }
