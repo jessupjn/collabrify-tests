@@ -13,16 +13,16 @@ namespace Collabrify_wp8.Http_Requests
     /// <summary>
     /// makes a warmup request to the server and returns a response object in the form of RESPONSE_
     /// </summary> 
-    public static void make_request(CollabrifyClient c, HttpRequest__Object obj)
+    public static void make_request(CollabrifyClient c, HttpRequest__Object obj, long session_id, string session_password)
     {
       CollabrifyRequest_PB req_pb = new CollabrifyRequest_PB();
       req_pb.request_type = CollabrifyRequestType_PB.GET_SESSION_REQUEST;
 
       Request_GetSession_PB cs_pb = new Request_GetSession_PB();
-      cs_pb.account_gmail = c.getAccountGmail();
-      cs_pb.access_token = c.getAccessToken();
-      cs_pb.session_id = 1;
-      cs_pb.session_password = "";
+      //cs_pb.account_gmail = c.getAccountGmail();
+      //cs_pb.access_token = c.getAccessToken();
+      cs_pb.session_id = session_id;
+      cs_pb.session_password = session_password;
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 

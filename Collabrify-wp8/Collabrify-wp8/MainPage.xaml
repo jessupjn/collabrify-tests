@@ -49,33 +49,21 @@
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,32">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
-        <RowDefinition Height="270" />
-        <RowDefinition Height="0*"/>
+        <RowDefinition Height="400*" />
       </Grid.RowDefinitions>
 
       
           <TextBlock x:Name="TextBlock1" Grid.Row="0" HorizontalAlignment="Left" Text="Select an option and press send event." TextWrapping="Wrap" Margin="12,12,12,12" FontSize="18"/>
-            <StackPanel Grid.Row="1">
-                <TextBlock x:Name="ResponseTite" HorizontalAlignment="Left" Text="Response" FontWeight="SemiBold" TextWrapping="Wrap" Margin="12,0,0,0" FontSize="25"/>
-
-                <Grid Background="LightGray" Margin="12" Height="220">
-                    <TextBlock x:Name="ResponseTextBlock" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="12,12,12,12" FontSize="25"/>
-                </Grid>
-            </StackPanel>
-          
-
-      <StackPanel Grid.Row="1" x:Name="stk">
-        <toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" Foreground="Black"  BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
+          <StackPanel Grid.Row="1">
+              <TextBlock x:Name="ResponseTite" HorizontalAlignment="Left" Text="Response" FontWeight="SemiBold" TextWrapping="Wrap" Margin="12,0,0,0" FontSize="25"/>
+              <toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" Foreground="Black"  BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
                     <toolkit:ListPickerItem x:Name="Warmup" Content="Warmup Request"/>
                     <toolkit:ListPickerItem x:Name="CreateSession" Content="Create Session"/>
                     <toolkit:ListPickerItem x:Name="LeaveSession" Content="Leave Session"/>
                     <toolkit:ListPickerItem x:Name="ListSessions" Content="List Sessions"/>
                 </toolkit:ListPicker>
                 <Button x:Name="Button1" Click="Button1_Click" Height="100" FontWeight="Thin" Background="Blue" Content="send event" FontSize="40"/>
-               
-        <Button x:Name="Button2" Click="Button2_Click" Height="100" FontWeight="Thin" Background="Blue" Content="get browser" FontSize="40"/>
-        <phone:WebBrowser Height="500" x:Name="browser" IsScriptEnabled="True" IsGeolocationEnabled="True"/>
-      </StackPanel>
+            </StackPanel>
     </Grid>
 
     <!--Uncomment to see an alignment grid to help ensure your controls are
