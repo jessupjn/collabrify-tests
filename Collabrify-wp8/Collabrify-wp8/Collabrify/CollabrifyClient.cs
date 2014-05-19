@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -61,7 +62,7 @@ namespace Collabrify_wp8.Collabrify
     private event UpdateUserListener updateUserListener;
     private event WarmupListener warmupListener;
 
-    ChannelAPI channelAPI;
+    private ChannelAPI channelAPI;
     //private event receivedEvent receivedEvent;
     //private event receivedBaseFileChunk receivedEvent;
     //private event uploadedBaseFileWithSize receivedEvent;
@@ -70,6 +71,7 @@ namespace Collabrify_wp8.Collabrify
     //private event sessionEnded receivedEvent;
     //private event clientDidEnterBackground participantLeftSession;
 
+    private Dispatcher d;
     #endregion 
 
     #region Constructor
@@ -85,7 +87,8 @@ namespace Collabrify_wp8.Collabrify
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
       HttpRequest_Warmup.make_request(this, http_object);
 
-      channelAPI = new ChannelAPI(_access_token);
+      channelAPI = new ChannelAPI();
+
     } // CONSTRUCTOR
     #endregion
 
@@ -97,7 +100,6 @@ namespace Collabrify_wp8.Collabrify
     private void httpReturned(CollabrifyEventArgs e)
     {
       /* Handles the response from the server within the CollabrifyClient object */
-      Debug.WriteLine(e.response);
       if (e.response.success_flag)
       {
           Debug.WriteLine(LOG_TAG + ": " + e.type.ToString() + " was successful.\n");
@@ -122,7 +124,8 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
                   CreateSession_Args cs = new CreateSession_Args(e.specificResponsePB);
                   this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
-                  this.participant = session.getOwner();  
+                  this.participant = session.getOwner();
+                  channelAPI.connect(cs.returned_data.owner.notification_id);
                   if (createSessionListener != null) createSessionListener.Invoke(cs);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST:
@@ -220,6 +223,12 @@ namespace Collabrify_wp8.Collabrify
 
     } // httpReturned
 
+    // ------------------------------------------------------------------------------
+
+    private void channelNotification()
+    {
+
+    } // channelNotification
 #endregion 
 
     // ------------------------------------------------------------------------------

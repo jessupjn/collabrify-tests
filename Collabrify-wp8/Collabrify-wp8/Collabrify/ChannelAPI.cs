@@ -6,6 +6,8 @@ using System.IO;
 using System.Windows;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Windows.System.Threading;
+using System.Threading;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -35,18 +37,20 @@ namespace Collabrify_wp8.Collabrify
     // channel so it should be treated as a secret.
     private string mToken;
 
+    // an event that fires whenever a notification arrives from the channel.
+    public event CollabrifyEventListener channelNotification;
+
+    Thread t;
 
     #region Constructor
     
     // CONSTRUCTOR
-    public ChannelAPI(string token)
-    {
+    public ChannelAPI()
+    { 
       Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
       // set default variables and token.
       listener = new ChannelAPIEventListener();
-      setToken(token);
       mChannelClosed = true;
-      Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
 
       // Builds the browser object
       try
@@ -56,25 +60,23 @@ namespace Collabrify_wp8.Collabrify
         browser.ScriptNotify += ScriptCallback;
         browser.LoadCompleted += delegate
         {
-          Debug.WriteLine(LOG_TAG + ": attempting to connect.");
-          connect();
         };
       }
       catch( Exception ex)
       {
         Debug.WriteLine(LOG_TAG + ": " + ex.Source);
         Debug.WriteLine("\t" + ex.Message);
-
       }
 
       string html = null;
       using (var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("Collabrify_wp8.Resources.home.html"))
       using (var r = new StreamReader(s))
       html = r.ReadToEnd();
-      Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
 
       browser.NavigateToString(html);
+
     } // CONSTRUCTOR
+
     #endregion
 
     #region Private Functions
@@ -110,18 +112,31 @@ namespace Collabrify_wp8.Collabrify
       }
     }// ScriptCallback
 
-    // connect
-    private bool connect()
+    public bool connect(string token)
     {
+
+      setToken(token);
+
       if (!isTokenValid())
       {
         Debug.WriteLine(LOG_TAG + ": Token is not valid.");
         return false;
       }
 
-      Debug.WriteLine(LOG_TAG + ": connecting using token: " + this.mToken);
-
-      browser.InvokeScript("connectToServer", mToken);
+      try
+      {
+        Deployment.Current.Dispatcher.BeginInvoke(delegate
+        {
+          Debug.WriteLine(LOG_TAG + ": attempting to connect with token:" + token);
+          this.browser.InvokeScript("connectToServer", mToken);
+        });
+      }
+      catch (Exception e)
+      {
+        Debug.WriteLine(LOG_TAG + ": " + e.Source);
+        Debug.WriteLine("\t" + e.Message);
+      }
+      
 
       return true;
     } // connect
@@ -156,20 +171,28 @@ namespace Collabrify_wp8.Collabrify
     private void channelOpen()
     {
       Debug.WriteLine(LOG_TAG + ": channelOpen");
+
+      mChannelClosed = false;
+
       listener.onChannelAPIOpen();
+
     }// channelOpen
 
     // channelClosed
     private void channelClosed()
     {
       Debug.WriteLine(LOG_TAG + ": channelClosed");
+
+      mChannelClosed = true;
+
       listener.onChannelAPIClosed();
     }// channelClosed
 
     // channelMessageReceived
     private void channelMessageReceived(string message)
     {
-      Debug.WriteLine(LOG_TAG + ": channelMessageReceived");
+      Debug.WriteLine(LOG_TAG + ": update was received on channel");
+
       listener.onChannelAPIUpdateEvent(message);
     }// channelMessageReceived
 

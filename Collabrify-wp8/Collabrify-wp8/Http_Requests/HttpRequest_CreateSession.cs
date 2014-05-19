@@ -21,6 +21,7 @@ namespace Collabrify_wp8.Http_Requests
       Random rd = new Random();
       Request_CreateSession_PB cs_pb = new Request_CreateSession_PB();
       cs_pb.owner_display_name = c.participant.getDisplayName();
+      cs_pb.owner_user_id = c.participant.getUserID();
       cs_pb.session_name = name;
       if (password != "") 
       {
