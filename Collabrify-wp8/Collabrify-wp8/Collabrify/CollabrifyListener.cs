@@ -8,10 +8,17 @@ using Collabrify_wp8.Http_Requests;
 
 namespace Collabrify_wp8.Collabrify
 {
-    // Delegates that correspond to the HTTP requests returning and the completion handlers that will be called after a function has returned.
+    // Delegates that correspond to the HTTP requests returning and the completion handlers that will be called after a function has
+    // returned as well as events from the Channel API.
     public delegate void CollabrifyEventListener(CollabrifyEventArgs e);
-
     public delegate void CompletionHandler(CollabrifyClient c);
+    public delegate void ReceivedEvent();
+    public delegate void ReceivedBaseFileChunk();
+    public delegate void UploadedBaseFileWithSize();
+    public delegate void ParticipantJoined();
+    public delegate void ParticipantLeft();
+    public delegate void SessionEnded();
+    public delegate void ClientDidEnterBackground();
 
     // ------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------

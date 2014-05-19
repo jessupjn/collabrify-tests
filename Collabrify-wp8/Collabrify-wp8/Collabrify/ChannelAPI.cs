@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Phone.Controls;
+using System;
 using System.Diagnostics;
-using Microsoft.Phone.Controls;
 using System.IO;
-using System.Windows;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using Windows.System.Threading;
-using System.Threading;
+using System.Windows;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -36,11 +32,6 @@ namespace Collabrify_wp8.Collabrify
     // The token we use to create the channel. Anyone with this token can listen in on the
     // channel so it should be treated as a secret.
     private string mToken;
-
-    // an event that fires whenever a notification arrives from the channel.
-    public event CollabrifyEventListener channelNotification;
-
-    Thread t;
 
     #region Constructor
     
@@ -79,6 +70,55 @@ namespace Collabrify_wp8.Collabrify
 
     #endregion
 
+    #region Public Functions
+
+    public bool connect(string token)
+    {
+
+      setToken(token);
+
+      if (!isTokenValid())
+      {
+        Debug.WriteLine(LOG_TAG + ": Token is not valid.");
+        return false;
+      }
+
+      try
+      {
+        Deployment.Current.Dispatcher.BeginInvoke(delegate
+        {
+          Debug.WriteLine(LOG_TAG + ": attempting to connect with token:" + token);
+          this.browser.InvokeScript("connectToServer", mToken);
+        });
+      }
+      catch (Exception e)
+      {
+        Debug.WriteLine(LOG_TAG + ": " + e.Source);
+        Debug.WriteLine("\t" + e.Message);
+      }
+
+      return true;
+    } // connect
+
+    public void disconnect()
+    {
+      try
+      {
+        Deployment.Current.Dispatcher.BeginInvoke(delegate
+        {
+          Debug.WriteLine(LOG_TAG + ": attempting to disconnect");
+          this.browser.InvokeScript("closeConnection");
+        });
+      }
+      catch (Exception e)
+      {
+        Debug.WriteLine(LOG_TAG + ": " + e.Source);
+        Debug.WriteLine("\t" + e.Message);
+      }
+    } // disconnect
+
+    #endregion
+
     #region Private Functions
 
     // ScriptCallback
@@ -111,35 +151,6 @@ namespace Collabrify_wp8.Collabrify
           break;
       }
     }// ScriptCallback
-
-    public bool connect(string token)
-    {
-
-      setToken(token);
-
-      if (!isTokenValid())
-      {
-        Debug.WriteLine(LOG_TAG + ": Token is not valid.");
-        return false;
-      }
-
-      try
-      {
-        Deployment.Current.Dispatcher.BeginInvoke(delegate
-        {
-          Debug.WriteLine(LOG_TAG + ": attempting to connect with token:" + token);
-          this.browser.InvokeScript("connectToServer", mToken);
-        });
-      }
-      catch (Exception e)
-      {
-        Debug.WriteLine(LOG_TAG + ": " + e.Source);
-        Debug.WriteLine("\t" + e.Message);
-      }
-      
-
-      return true;
-    } // connect
 
     // setToken
     private bool setToken(string token)
@@ -207,6 +218,8 @@ namespace Collabrify_wp8.Collabrify
     #endregion
   }
 
+  #region Channel API Listener
+
   // ChannelAPIEventListener
   class ChannelAPIEventListener
   {
@@ -235,4 +248,6 @@ namespace Collabrify_wp8.Collabrify
 
     }
   } // ChannelAPIEventListener
+
+  #endregion
 }

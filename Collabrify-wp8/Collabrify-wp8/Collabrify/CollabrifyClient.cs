@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Collabrify_wp8.Collabrify;
-using Collabrify_v2.CollabrifyProtocolBuffer;
-using System.IO;
-using System.Threading;
+﻿using Collabrify_v2.CollabrifyProtocolBuffer;
 using Collabrify_wp8.Http_Requests;
-using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Phone.Controls;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -40,15 +30,14 @@ namespace Collabrify_wp8.Collabrify
     private event CompletionHandler mCompletionHandler;
 
     private ChannelAPI channelAPI;
-    //private event receivedEvent receivedEvent;
-    //private event receivedBaseFileChunk receivedEvent;
-    //private event uploadedBaseFileWithSize receivedEvent;
-    //private event participantJoined receivedEvent;
-    //private event participantLeft receivedEvent;
-    //private event sessionEnded receivedEvent;
-    //private event clientDidEnterBackground participantLeftSession;
+    private event ReceivedEvent receivedEvent;
+    private event ReceivedBaseFileChunk receivedBaseFileChunk;
+    private event UploadedBaseFileWithSize uploadedBaseFileWithSize;
+    private event ParticipantJoined participantJoined;
+    private event ParticipantLeft participantLeft;
+    private event SessionEnded sessionEnded;
+    private event ClientDidEnterBackground clientDidEnterBackground;
 
-    private Dispatcher d;
     #endregion 
 
     #region Constructor
@@ -138,6 +127,7 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST:
                   break;
               case CollabrifyRequestType_PB.REMOVE_PARTICIPANT_REQUEST:
+                  channelAPI.disconnect();
                   break;
               case CollabrifyRequestType_PB.REQUEST_TYPE_NOT_SET:
                   Debug.WriteLine(LOG_TAG + ":\n\tError:\n\tRequest Type Was Not Set");
@@ -255,7 +245,9 @@ namespace Collabrify_wp8.Collabrify
       mCompletionHandler = completionHandler;
       if (session.getOwner().getId() == participant.getId() && deleteSession)
       {
-        HttpRequest_EndSession.make_request(this, http_object);
+        HttpRequest_RemoveParticipant.make_request(this, http_object);
+
+        //HttpRequest_EndSession.make_request(this, http_object);
       }
       else
       {
