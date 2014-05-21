@@ -55,6 +55,7 @@ namespace Collabrify_wp8.Collabrify
 
       channelAPI = new ChannelAPI();
 
+      eventsPaused = false;
     } // CONSTRUCTOR
     #endregion
 
@@ -245,9 +246,7 @@ namespace Collabrify_wp8.Collabrify
       mCompletionHandler = completionHandler;
       if (session.getOwner().getId() == participant.getId() && deleteSession)
       {
-        HttpRequest_RemoveParticipant.make_request(this, http_object);
-
-        //HttpRequest_EndSession.make_request(this, http_object);
+        HttpRequest_EndSession.make_request(this, http_object);
       }
       else
       {
@@ -257,10 +256,11 @@ namespace Collabrify_wp8.Collabrify
 
     // ------------------------------------------------------------------------------
 
-    // TODO: broadcast
     public void broadcast(byte[] data, string eventType)
     {
-      if( !eventsPaused ) HttpRequest_AddEvent.make_request(this, http_object, data, eventType);
+      mCompletionHandler = null;
+      if (!eventsPaused) HttpRequest_AddEvent.make_request(this, http_object, data, eventType);
+      else Debug.WriteLine(LOG_TAG + ": events are paused... cannot broadcast.");
     } // broadcast
 
     // ------------------------------------------------------------------------------
@@ -268,6 +268,7 @@ namespace Collabrify_wp8.Collabrify
     // TODO: listSessions
     public void listSessions(List<string> tags) 
     {
+      mCompletionHandler = null;
       HttpRequest_ListSessions.make_request(this, http_object, tags); 
     } // listSessions
 

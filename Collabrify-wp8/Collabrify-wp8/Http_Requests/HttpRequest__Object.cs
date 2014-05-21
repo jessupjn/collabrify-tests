@@ -12,6 +12,8 @@ namespace Collabrify_wp8.Http_Requests
 
   public class HttpRequest__Object
   {
+    private static readonly string LOG_TAG = "HTTP_OBJECT";
+
     // Private Variables
     private static readonly string BASE_URI = "http://collabrify-cloud.appspot.com/request";
     private CollabrifyRequest_PB collabrify_req_pb;
@@ -69,6 +71,8 @@ namespace Collabrify_wp8.Http_Requests
 
         byte[] byteArr = ms.ToArray();
         postStream.Write(byteArr, 0, byteArr.Length);
+
+        Debug.WriteLine(LOG_TAG + ": Beginning " + collabrify_req_pb.request_type + " request...");
 
         if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
         {

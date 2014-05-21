@@ -25,6 +25,7 @@ namespace Collabrify_wp8.Http_Requests
       cs_pb.event_data = data;
       cs_pb.event_type = eventType;
       cs_pb.session_id = c.currentSessionID();
+      cs_pb.participant_id = c.participant.getId();
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 

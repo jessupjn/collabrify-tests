@@ -56,13 +56,15 @@
           <TextBlock x:Name="TextBlock1" Grid.Row="0" HorizontalAlignment="Left" Text="Select an option and press send event." TextWrapping="Wrap" Margin="12,12,12,12" FontSize="18"/>
           <StackPanel Grid.Row="1">
               <TextBlock x:Name="ResponseTite" HorizontalAlignment="Left" Text="Response" FontWeight="SemiBold" TextWrapping="Wrap" Margin="12,0,0,0" FontSize="25"/>
-              <toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" Foreground="Black"  BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
-                    <toolkit:ListPickerItem x:Name="Warmup" Content="Warmup Request"/>
-                    <toolkit:ListPickerItem x:Name="CreateSession" Content="Create Session"/>
-                    <toolkit:ListPickerItem x:Name="LeaveSession" Content="Leave Session"/>
-                    <toolkit:ListPickerItem x:Name="ListSessions" Content="List Sessions"/>
-                </toolkit:ListPicker>
-                <Button x:Name="Button1" Click="Button1_Click" Height="100" FontWeight="Thin" Background="Blue" Content="send event" FontSize="40"/>
+            <TextBox x:Name="textfield" BorderBrush="Blue" Text="test string" />
+            <toolkit:ListPicker Grid.Row="2" x:Name="OptionSelection" Foreground="Black"  BorderBrush="Black" SelectionChanged="OptionSelection_SelectionChanged">
+          <toolkit:ListPickerItem x:Name="CreateSession" Content="Create Session"/>
+          <toolkit:ListPickerItem x:Name="JoinSession" Content="Join Session"/>
+          <toolkit:ListPickerItem x:Name="LeaveSession" Content="Leave Session"/>
+          <toolkit:ListPickerItem x:Name="ListSessions" Content="List Sessions"/>
+          <toolkit:ListPickerItem x:Name="Broadcast" Content="Broadcast"/>
+        </toolkit:ListPicker>
+               <Button x:Name="Button1" Click="Button1_Click" Height="100" FontWeight="Thin" Background="Blue" Content="send event" FontSize="40"/>
             </StackPanel>
     </Grid>
 

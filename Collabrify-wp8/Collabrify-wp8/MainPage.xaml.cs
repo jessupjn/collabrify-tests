@@ -1,5 +1,6 @@
 ﻿using Collabrify_wp8.Collabrify;
 using Microsoft.Phone.Controls;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +22,8 @@ namespace Collabrify_wp8
         {
           this.InitializeComponent();
 
-          c = new CollabrifyClient("jessupjn@umich.edu", "JACK AND JILL", "wp8-collabrify@umich.edu", "82763BDBCA", true);
+          //c = new CollabrifyClient("jessupjn@umich.edu", "JACK AND JILL", "wp8-collabrify@umich.edu", "82763BDBCA", true);
+          c = new CollabrifyClient("haha@umich.edu", "jacky", "wp8-collabrify@umich.edu", "82763BDBCA", true);
 
           //c.ReturnInformation += new ChangedEventHander(updateInfo);
         }
@@ -32,10 +34,10 @@ namespace Collabrify_wp8
         } 
 
         private void Button1_Click(object sender, RoutedEventArgs e){
-          if (RequestType.Name == "Warmup")
+          if (RequestType.Name == "JoinSession")
           {
             //ResponseTextBlock.Text = "Warmup";
-
+            c.joinSession(Convert.ToInt64(textfield.Text),"", delegate { });
           }
           else if (RequestType.Name == "CreateSession")
           {
@@ -43,7 +45,12 @@ namespace Collabrify_wp8
             List<string> tags = new List<string>();
             tags.Add("[none]");
             Random rd = new Random();
-            c.createSession(rd.Next(1, 9999999).ToString(), tags, "", true, delegate { });
+            c.createSession(rd.Next(1, 9999999).ToString(), tags, "", false, delegate {
+              Deployment.Current.Dispatcher.BeginInvoke(delegate
+              {
+                textfield.Text = c.getSession().getId().ToString();
+              });
+            });
           }
           else if (RequestType.Name == "ListSessions")
           {
@@ -56,6 +63,17 @@ namespace Collabrify_wp8
           {
             //ResponseTextBlock.Text = "Delete Session";
             c.leaveSession(true, delegate{});
+          }
+          else if (RequestType.Name == "Broadcast")
+          {
+            //ResponseTextBlock.Text = "Delete Session";
+            Debug.WriteLine("Broadcast: '" + textfield.Text + "'");
+
+            MemoryStream ms = new MemoryStream();
+            Serializer.SerializeWithLengthPrefix<string>(ms, textfield.Text, PrefixStyle.Base128);
+            byte[] byteArray = ms.ToArray();
+
+            c.broadcast(byteArray, "coolEvent");
           }
           else Debug.WriteLine(RequestType.Name);
         }

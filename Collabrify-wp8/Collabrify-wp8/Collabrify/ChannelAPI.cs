@@ -245,7 +245,7 @@ namespace Collabrify_wp8.Collabrify
 
     public void onChannelAPIUpdateEvent(string message)
     {
-
+      Debug.WriteLine("\tMessage: " + message);
     }
   } // ChannelAPIEventListener
 
