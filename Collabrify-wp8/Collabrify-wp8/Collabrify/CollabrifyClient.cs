@@ -14,7 +14,7 @@ namespace Collabrify_wp8.Collabrify
     private readonly string LOG_TAG = "COLLABRIFY-CLIENT";
 
     // Session and participant objects.
-    public CollabrifySession session = null;
+    private CollabrifySession session = null;
     public CollabrifyParticipant participant = null;
     private bool getLatest;
     private bool eventsPaused = false;
@@ -24,19 +24,20 @@ namespace Collabrify_wp8.Collabrify
     private readonly String accessToken;
 
     // An object that helps with making the individual http requests.
-    private HttpRequest__Object http_object = new HttpRequest__Object();
+    private HttpRequest__Object http_object;
 
     // event that is invoked upon completion of some requests
     private event CompletionHandler mCompletionHandler;
 
     private ChannelAPI channelAPI;
-    private event ReceivedEvent receivedEvent;
-    private event ReceivedBaseFileChunk receivedBaseFileChunk;
-    private event UploadedBaseFileWithSize uploadedBaseFileWithSize;
-    private event ParticipantJoined participantJoined;
-    private event ParticipantLeft participantLeft;
-    private event SessionEnded sessionEnded;
-    private event ClientDidEnterBackground clientDidEnterBackground;
+
+    public event ReceivedEvent receivedEvent;
+    public event ReceivedBaseFileChunk receivedBaseFileChunk;
+    public event UploadedBaseFileWithSize uploadedBaseFileWithSize;
+    public event ParticipantJoined participantJoined;
+    public event ParticipantLeft participantLeft;
+    public event SessionEnded sessionEnded;
+    public event ClientDidEnterBackground clientDidEnterBackground;
 
     #endregion 
 
@@ -46,14 +47,17 @@ namespace Collabrify_wp8.Collabrify
     public CollabrifyClient(string _gmail, string _displayName, string _accountGmail, string _access_token, bool _get_latest)
     {
       participant = new CollabrifyParticipant(0, _displayName, _gmail, 0);
+      http_object = new HttpRequest__Object();
+      channelAPI = new ChannelAPI(this);
+
       accountGmail = _accountGmail;
       accessToken = _access_token;
       getLatest = _get_latest;
 
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
-      HttpRequest_Warmup.make_request(this, http_object);
+      channelAPI.channelEvent += new ChannelEventListener(channelNotification);
 
-      channelAPI = new ChannelAPI();
+      HttpRequest_Warmup.make_request(this, http_object);
 
       eventsPaused = false;
     } // CONSTRUCTOR
@@ -153,8 +157,16 @@ namespace Collabrify_wp8.Collabrify
 
     // ------------------------------------------------------------------------------
 
-    private void channelNotification()
+    private void channelNotification(ChannelEventArgs e)
     {
+      if (e.type == NotificationMessageType_PB.ADD_EVENT_NOTIFICATION) ;
+      else if (e.type == NotificationMessageType_PB.ADD_PARTICIPANT_NOTIFICATION) ;
+      else if (e.type == NotificationMessageType_PB.END_SESSION_NOTIFICATION) ;
+      else if (e.type == NotificationMessageType_PB.NOTIFICATION_MESSAGE_TYPE_NOT_SET) ;
+      else if (e.type == NotificationMessageType_PB.ON_CHANNEL_CONNECTED_NOTIFICATION) ;
+      else if (e.type == NotificationMessageType_PB.PREVENT_FURTHER_JOINS_NOTIFICATION) ;
+      else if (e.type == NotificationMessageType_PB.REMOVE_PARTICIPANT_NOTIFICATION) ;
+      else if (e.type == NotificationMessageType_PB.TRANSIENT_MESSAGE_NOTIFICATION) ;
 
     } // channelNotification
 #endregion 
@@ -352,10 +364,14 @@ namespace Collabrify_wp8.Collabrify
 
     // ------------------------------------------------------------------------------
 
-    // TODO: current_session_participants
     public List<CollabrifyParticipant> currentSessionParticipants() 
     {
-      return new List<CollabrifyParticipant>();
+      List<CollabrifyParticipant> list = new List<CollabrifyParticipant>();
+      foreach (CollabrifyParticipant p in session.getParticipants())
+      {
+        list.Add(p);
+      }
+      return list;
     } // currentSessionParticipants
 
     // ------------------------------------------------------------------------------

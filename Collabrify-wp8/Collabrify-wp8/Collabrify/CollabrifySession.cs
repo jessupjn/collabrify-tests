@@ -162,9 +162,8 @@ namespace Collabrify_wp8.Collabrify
 
     // ---------------------------------------------------------------------------
 
-    protected void updateParticipantInfo(List<Participant_PB> participantList)
+    public void updateParticipantInfo(List<Participant_PB> participantList)
     {
-      // TODO left out printMethodName(TAG)
       foreach ( Participant_PB p in participantList )
       {
         if( participants.ContainsKey(p.participant_id))
@@ -237,7 +236,7 @@ namespace Collabrify_wp8.Collabrify
 
     // ---------------------------------------------------------------------------
 
-    protected CollabrifyParticipant getParticipant(long id)
+    public CollabrifyParticipant getParticipant(long id)
     {
       IEnumerable<KeyValuePair<long, CollabrifyParticipant> > result = participants.Where(x => x.Key == id);
       if (result.Count() > 0) { // return if found
@@ -250,7 +249,7 @@ namespace Collabrify_wp8.Collabrify
 
     // ---------------------------------------------------------------------------
 
-    protected ReadOnlyObservableCollection< CollabrifyParticipant > getParticipants()
+    public ReadOnlyObservableCollection< CollabrifyParticipant > getParticipants()
     {
       ObservableCollection<CollabrifyParticipant> result = new ObservableCollection<CollabrifyParticipant>();
 

@@ -11,6 +11,7 @@ namespace Collabrify_wp8.Collabrify
     // Delegates that correspond to the HTTP requests returning and the completion handlers that will be called after a function has
     // returned as well as events from the Channel API.
     public delegate void CollabrifyEventListener(CollabrifyEventArgs e);
+    public delegate void ChannelEventListener(ChannelEventArgs e);
     public delegate void CompletionHandler(CollabrifyClient c);
     public delegate void ReceivedEvent();
     public delegate void ReceivedBaseFileChunk();
@@ -38,6 +39,24 @@ namespace Collabrify_wp8.Collabrify
       } // CTOR
 
     } // CollabrifyEventArgs
+
+    // ------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------
+
+    public class ChannelEventArgs : EventArgs
+    {
+      public NotificationMessageType_PB type;
+      public CollabrifyNotification_PB response;
+      public object specificResponsePB;
+
+      public ChannelEventArgs(CollabrifyNotification_PB response_pb, object specific_response_pb)
+      {
+        response = response_pb;
+        type = response_pb.notification_message_type;
+        specificResponsePB = specific_response_pb;
+      } // CTOR
+
+    } // ChannelEventArgs
 
     // ------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------

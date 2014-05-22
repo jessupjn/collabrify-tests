@@ -1,4 +1,6 @@
-﻿using Microsoft.Phone.Controls;
+﻿using Collabrify_v2.CollabrifyProtocolBuffer;
+using Microsoft.Phone.Controls;
+using ProtoBuf;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -18,9 +20,6 @@ namespace Collabrify_wp8.Collabrify
 
     // Runs the javascript to connect to the ChannelAPI.
     private WebBrowser browser;
-    
-    // Listens for events back from the javascript running in the browser.
-    private ChannelAPIEventListener listener;
 
     // When the object received the token. Every 2 hours te token must be refreshed and this is
     // what's used to reference if the token needs to be refreshed or not.
@@ -33,15 +32,18 @@ namespace Collabrify_wp8.Collabrify
     // channel so it should be treated as a secret.
     private string mToken;
 
+    private CollabrifyClient client;
+
+    public event ChannelEventListener channelEvent;
     #region Constructor
     
     // CONSTRUCTOR
-    public ChannelAPI()
+    public ChannelAPI(CollabrifyClient c)
     { 
       Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
-      // set default variables and token.
-      listener = new ChannelAPIEventListener();
       mChannelClosed = true;
+
+      client = c;
 
       // Builds the browser object
       try
@@ -126,7 +128,7 @@ namespace Collabrify_wp8.Collabrify
     {
       if(e.Value.Length < 8)
       {
-        Debug.WriteLine(LOG_TAG + ":\nScriptNotify: " + e.Value);
+        Debug.WriteLine(LOG_TAG + ": ScriptNotify: " + e.Value);
         return;
       }
       switch( e.Value.Substring(0,8) )
@@ -147,12 +149,13 @@ namespace Collabrify_wp8.Collabrify
           channelMessageReceived(e.Value.Substring(8));
           break;
         default:
-          Debug.WriteLine(LOG_TAG + ":\nScriptNotify: " + e.Value);
+          Debug.WriteLine(LOG_TAG + ": ScriptNotify: " + e.Value);
           break;
       }
-    }// ScriptCallback
+    } // ScriptCallback
 
-    // setToken
+    // ------------------------------------------------------------------------------
+
     private bool setToken(string token)
     {
       if (token != null && !token.Equals(""))
@@ -163,91 +166,110 @@ namespace Collabrify_wp8.Collabrify
       }
       Debug.WriteLine(LOG_TAG + ": setToken - token cannot be null or empty");
       return false;
-    }// setToken
+    } // setToken
 
-    // isTokenValid
+    // ------------------------------------------------------------------------------
+
     private bool isTokenValid()
     {
       long currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
       return mToken != null && mToken != "" && currentTime < mTimeTokenWasReceivedMillis + TOKEN_VALID_LENGTH_MILLIS;
     } // isTokenValid
 
-    // pageLoaded
+    // ------------------------------------------------------------------------------
+
     private void pageLoaded()
     {
       Debug.WriteLine(LOG_TAG + ": pageLoaded");
-    }// pageLoaded
+    } // pageLoaded
 
-    // channelOpen
+    // ------------------------------------------------------------------------------
+
     private void channelOpen()
     {
       Debug.WriteLine(LOG_TAG + ": channelOpen");
 
       mChannelClosed = false;
 
-      listener.onChannelAPIOpen();
-
     }// channelOpen
 
-    // channelClosed
+    // ------------------------------------------------------------------------------
+
     private void channelClosed()
     {
       Debug.WriteLine(LOG_TAG + ": channelClosed");
 
       mChannelClosed = true;
 
-      listener.onChannelAPIClosed();
     }// channelClosed
 
-    // channelMessageReceived
+    // ------------------------------------------------------------------------------
+
+    private void channelError(string message)
+    {
+      Debug.WriteLine(LOG_TAG + ": channelError");
+      Debug.WriteLine("\tCode: " + message.Substring(0, message.IndexOf('|')));
+      Debug.WriteLine("\tDescription: " + message.Substring(message.IndexOf('|') + 1));
+    } // channelError
+
+    // ------------------------------------------------------------------------------
+
     private void channelMessageReceived(string message)
     {
       Debug.WriteLine(LOG_TAG + ": update was received on channel");
 
-      listener.onChannelAPIUpdateEvent(message);
+      Debug.WriteLine("\tMessage: " + message);
+
+      MemoryStream stream = new MemoryStream();
+      StreamWriter writer = new StreamWriter(stream);
+      writer.Write(message);
+      writer.Flush();
+      stream.Position = 0;
+
+      CollabrifyNotification_PB response = Serializer.DeserializeWithLengthPrefix<CollabrifyNotification_PB>(stream, PrefixStyle.None);
+      object specific_response = 0;
+
+      if(response.notification_message_type == NotificationMessageType_PB.NOTIFICATION_MESSAGE_TYPE_NOT_SET)
+      {
+
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.ON_CHANNEL_CONNECTED_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_OnChannelConnected_PB>(stream, PrefixStyle.None);
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.ADD_EVENT_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_AddEvent_PB>(stream, PrefixStyle.None);
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.ADD_PARTICIPANT_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_AddParticipant_PB>(stream, PrefixStyle.None);
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.REMOVE_PARTICIPANT_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_RemoveParticipant_PB>(stream, PrefixStyle.None);
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.END_SESSION_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_EndSession_PB>(stream, PrefixStyle.None);
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.PREVENT_FURTHER_JOINS_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_PreventFurtherJoins_PB>(stream, PrefixStyle.None);
+      }
+      else if(response.notification_message_type == NotificationMessageType_PB.TRANSIENT_MESSAGE_NOTIFICATION)
+      {
+        specific_response = Serializer.DeserializeWithLengthPrefix<Notification_TransientMessage_PB>(stream, PrefixStyle.None);
+      }
+
+      ChannelEventArgs args = new ChannelEventArgs(response, specific_response);
+
+      if (channelEvent != null) channelEvent.Invoke(args); 
     }// channelMessageReceived
 
-    // channelError
-    private void channelError(string message)
-    {
-      string code = message.Substring(0, message.IndexOf('|'));
-      string description = message.Substring(message.IndexOf('|') + 1);
-      Debug.WriteLine(LOG_TAG + ": channelError");
-      listener.onChannelAPIError(code, description);
-    } // channelError
+    // ------------------------------------------------------------------------------
+
     #endregion
   }
 
-  #region Channel API Listener
-
-  // ChannelAPIEventListener
-  class ChannelAPIEventListener
-  {
-    public ChannelAPIEventListener()
-    {
-    }
-
-    public void onChannelAPIOpen()
-    {
-
-    }
-
-    public void onChannelAPIClosed()
-    {
-
-    }
-
-    public void onChannelAPIError(string code, string description)
-    {
-      Debug.WriteLine("\tCode: " + code);
-      Debug.WriteLine("\tDescription: " + description);
-    }
-
-    public void onChannelAPIUpdateEvent(string message)
-    {
-      Debug.WriteLine("\tMessage: " + message);
-    }
-  } // ChannelAPIEventListener
-
-  #endregion
 }

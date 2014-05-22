@@ -22,8 +22,8 @@ namespace Collabrify_wp8
         {
           this.InitializeComponent();
 
-          //c = new CollabrifyClient("jessupjn@umich.edu", "JACK AND JILL", "wp8-collabrify@umich.edu", "82763BDBCA", true);
-          c = new CollabrifyClient("haha@umich.edu", "jacky", "wp8-collabrify@umich.edu", "82763BDBCA", true);
+          c = new CollabrifyClient("jessupjn@umich.edu", "JACK AND JILL", "wp8-collabrify@umich.edu", "82763BDBCA", true);
+          //c = new CollabrifyClient("haha@umich.edu", "jacky", "wp8-collabrify@umich.edu", "82763BDBCA", true);
 
           //c.ReturnInformation += new ChangedEventHander(updateInfo);
         }
