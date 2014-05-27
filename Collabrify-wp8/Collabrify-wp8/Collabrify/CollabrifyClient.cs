@@ -70,7 +70,7 @@ namespace Collabrify_wp8.Collabrify
 
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
       channelAPI.channelEvent += new ChannelEventListener(channelNotification);
-      channelAPI.neg1error += new ChannelEventListener(channelNeg1Error);
+      //channelAPI.neg1error += new ChannelEventListener(channelNeg1Error);
 
       HttpRequest_Warmup.make_request(this, http_object);
 
@@ -87,7 +87,7 @@ namespace Collabrify_wp8.Collabrify
       Debug.WriteLine(LOG_TAG + ": Channel API Neg 1 error.");
       channelAPI = new ChannelAPI(this, delegate
       {
-        channelAPI.connect(this.notificationID);
+        //channelAPI.connect(this.notificationID);
       });
       channelAPI.channelEvent += new ChannelEventListener(channelNotification);
       channelAPI.neg1error += new ChannelEventListener(channelNeg1Error);
@@ -99,6 +99,9 @@ namespace Collabrify_wp8.Collabrify
       if (e.response.success_flag)
       {
           Debug.WriteLine(LOG_TAG + ": " + e.type.ToString() + " was successful.\n");
+
+          List<CollabrifySession> sessionList = new List<CollabrifySession>();
+
           switch (e.type)
           {
               case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
@@ -135,6 +138,7 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.DELETE_USER:
                   break;
               case CollabrifyRequestType_PB.END_SESSION_REQUEST:
+                  this.channelAPI.disconnect();
                   break;
               case CollabrifyRequestType_PB.GET_BASE_FILE_REQUEST:
                   break;
@@ -157,6 +161,10 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.LIST_ACCOUNTS_REQUEST:
                   break;
               case CollabrifyRequestType_PB.LIST_SESSIONS_REQUEST:
+                  foreach(Session_PB s in (e.specificResponsePB as Response_ListSessions_PB).session)
+                  {
+                    sessionList.Add( new CollabrifySession(s) );
+                  }
                   break;
               case CollabrifyRequestType_PB.PREVENT_FURTHER_JOINS_REQUEST:
                   break;
@@ -176,10 +184,20 @@ namespace Collabrify_wp8.Collabrify
                   //HttpRequest_CreateOrGetUser.make_request(this, http_object);
                   break;
           } // switch
+
           if (mCompletionHandler != null)
           {
             Deployment.Current.Dispatcher.BeginInvoke(delegate {
+              mListSessionsCompletionHandler += delegate { mListSessionsCompletionHandler = null; };
               mCompletionHandler.Invoke(this);
+            });
+          }
+          if(mListSessionsCompletionHandler != null)
+          {
+            Deployment.Current.Dispatcher.BeginInvoke(delegate
+            {
+              mListSessionsCompletionHandler += delegate { mListSessionsCompletionHandler = null; };
+              mListSessionsCompletionHandler.Invoke(sessionList);
             });
           }
       } // if
@@ -278,7 +296,6 @@ namespace Collabrify_wp8.Collabrify
 
     // ------------------------------------------------------------------------------
 
-    // TODO: createSessionWithBaseFile
     public void createSessionWithBaseFile(string name, List<string> tags, string password, bool startPaused, CompletionHandler completionHandler)
     {
       createSessionWithBaseFile(name, tags, password, 0, startPaused, completionHandler);
@@ -290,9 +307,8 @@ namespace Collabrify_wp8.Collabrify
     public void createSessionWithBaseFile(string name, List<string> tags, string password, int participantLimit, bool startPaused, CompletionHandler completionHandler)
     {
       mCompletionHandler = completionHandler;
-      HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password, participantLimit);
-
       if (startPaused) pauseEvents();
+      HttpRequest_CreateSessionWithBaseFile.make_request(this, http_object, name, tags, password, participantLimit);
     } // createSessionWithBaseFile
 
     // ------------------------------------------------------------------------------
@@ -307,15 +323,14 @@ namespace Collabrify_wp8.Collabrify
 
     public void joinSession(long id, string password, bool startPaused, CompletionHandler completionHandler)
     {
-      joinSession(id, password, completionHandler);
       if (startPaused) pauseEvents();
+      joinSession(id, password, completionHandler);
     } // joinSession
 
     // ------------------------------------------------------------------------------
 
     public void leaveSession(bool deleteSession, CompletionHandler completionHandler)
     {
-
       mCompletionHandler = completionHandler;
       if (session.getOwner().getId() == participant.getId() && deleteSession)
       {
@@ -331,16 +346,17 @@ namespace Collabrify_wp8.Collabrify
 
     public void broadcast(byte[] data, string eventType)
     {
-      mCompletionHandler = null;
-      if (!eventsPaused) HttpRequest_AddEvent.make_request(this, http_object, data, eventType);
+      if (this.isInSession() == false) Debug.WriteLine(LOG_TAG + ": Create/Join a session to broadcast.");
+      else if (!eventsPaused) HttpRequest_AddEvent.make_request(this, http_object, data, eventType);
       else Debug.WriteLine(LOG_TAG + ": events are paused... cannot broadcast.");
     } // broadcast
 
     // ------------------------------------------------------------------------------
 
-    // TODO: listSessions
-    public void listSessions(List<string> tags) 
+    // TODO: finish listSessions
+    public void listSessions(List<string> tags, ListSessionsCompletionHandler completionHandler) 
     {
+      mListSessionsCompletionHandler = completionHandler;
       mCompletionHandler = null;
       HttpRequest_ListSessions.make_request(this, http_object, tags); 
     } // listSessions

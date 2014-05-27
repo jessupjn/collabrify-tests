@@ -54,21 +54,16 @@ namespace Collabrify_wp8
           }
           else if (RequestType.Name == "ListSessions")
           {
-            //ResponseTextBlock.Text = "List Sessions";
             List<string> l = new List<string>();
             l.Add("TagTesting");
-            c.listSessions(l);
+            c.listSessions(l, delegate { } );
           }
           else if (RequestType.Name == "LeaveSession")
           {
-            //ResponseTextBlock.Text = "Delete Session";
             c.leaveSession(true, delegate{});
           }
           else if (RequestType.Name == "Broadcast")
           {
-            //ResponseTextBlock.Text = "Delete Session";
-            Debug.WriteLine("Broadcast: '" + textfield.Text + "'");
-
             MemoryStream ms = new MemoryStream();
             Serializer.SerializeWithLengthPrefix<string>(ms, textfield.Text, PrefixStyle.Base128);
             byte[] byteArray = ms.ToArray();
