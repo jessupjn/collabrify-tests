@@ -13,6 +13,7 @@ namespace Collabrify_wp8.Collabrify
     public delegate void CollabrifyEventListener(CollabrifyEventArgs e);
     public delegate void ChannelEventListener(ChannelEventArgs e);
     public delegate void CompletionHandler(CollabrifyClient c);
+    public delegate void ListSessionsCompletionHandler(List<CollabrifySession> response);
     public delegate void ReceivedEvent();
     public delegate void ReceivedBaseFileChunk();
     public delegate void UploadedBaseFileWithSize();
@@ -51,9 +52,12 @@ namespace Collabrify_wp8.Collabrify
 
       public ChannelEventArgs(CollabrifyNotification_PB response_pb, object specific_response_pb)
       {
-        response = response_pb;
-        type = response_pb.notification_message_type;
-        specificResponsePB = specific_response_pb;
+        if (response_pb != null)
+        {
+          response = response_pb;
+          type = response_pb.notification_message_type;
+          specificResponsePB = specific_response_pb;
+        }
       } // CTOR
 
     } // ChannelEventArgs

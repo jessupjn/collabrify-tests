@@ -211,3 +211,6 @@ C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-w
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\MainPage.g.cs
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.g.resources
 C:\Users\JillC_000\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.csprojResolveAssemblyReference.cache
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\App.g.cs
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\MainPage.g.cs
+C:\Users\Jack\Documents\GitHub\collabrify-tests\Collabrify-wp8\Collabrify-wp8\obj\Debug\Collabrify-wp8.g.resources

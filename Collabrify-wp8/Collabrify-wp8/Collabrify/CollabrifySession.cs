@@ -50,37 +50,6 @@ namespace Collabrify_wp8.Collabrify
 
     // ---------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public int getBaseFileSize()
     {
       return baseFileSize;

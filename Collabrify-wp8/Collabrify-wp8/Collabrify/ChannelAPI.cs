@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -35,10 +36,12 @@ namespace Collabrify_wp8.Collabrify
     private CollabrifyClient client;
 
     public event ChannelEventListener channelEvent;
+    public event ChannelEventListener neg1error;
+
     #region Constructor
     
     // CONSTRUCTOR
-    public ChannelAPI(CollabrifyClient c)
+    public ChannelAPI(CollabrifyClient c, LoadCompletedEventHandler del = null)
     { 
       Debug.WriteLine(LOG_TAG + ": building ChannelAPI.");
       mChannelClosed = true;
@@ -51,9 +54,8 @@ namespace Collabrify_wp8.Collabrify
         browser = new WebBrowser();
         browser.IsScriptEnabled = true;
         browser.ScriptNotify += ScriptCallback;
-        browser.LoadCompleted += delegate
-        {
-        };
+        browser.LoadCompleted += delegate { };
+        if(del != null) browser.LoadCompleted += del;
       }
       catch( Exception ex)
       {
@@ -207,9 +209,21 @@ namespace Collabrify_wp8.Collabrify
 
     private void channelError(string message)
     {
-      Debug.WriteLine(LOG_TAG + ": channelError");
-      Debug.WriteLine("\tCode: " + message.Substring(0, message.IndexOf('|')));
-      Debug.WriteLine("\tDescription: " + message.Substring(message.IndexOf('|') + 1));
+      if (message.Substring(0, message.IndexOf('|')) == "-1")
+      {
+        Debug.WriteLine(LOG_TAG + ": channelError -1");
+        Deployment.Current.Dispatcher.BeginInvoke(delegate
+        {
+          ChannelEventArgs args = new ChannelEventArgs(null, null);
+          if (neg1error != null) neg1error.Invoke(args);
+        });
+      }
+      else
+      {
+        Debug.WriteLine(LOG_TAG + ": channelError");
+        Debug.WriteLine("\tCode: " + message.Substring(0, message.IndexOf('|')));
+        Debug.WriteLine("\tDescription: " + message.Substring(message.IndexOf('|') + 1));
+      }
     } // channelError
 
     // ------------------------------------------------------------------------------

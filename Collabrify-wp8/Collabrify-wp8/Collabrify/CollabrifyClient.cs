@@ -40,8 +40,10 @@ namespace Collabrify_wp8.Collabrify
 
     // event that is invoked upon completion of some requests
     private event CompletionHandler mCompletionHandler;
+    private event ListSessionsCompletionHandler mListSessionsCompletionHandler;
 
     private ChannelAPI channelAPI;
+    private string notificationID;
 
     public event ReceivedEvent receivedEvent;
     public event ReceivedBaseFileChunk receivedBaseFileChunk;
@@ -68,6 +70,7 @@ namespace Collabrify_wp8.Collabrify
 
       http_object.HttpRequestDone += new CollabrifyEventListener(httpReturned);
       channelAPI.channelEvent += new ChannelEventListener(channelNotification);
+      channelAPI.neg1error += new ChannelEventListener(channelNeg1Error);
 
       HttpRequest_Warmup.make_request(this, http_object);
 
@@ -79,6 +82,16 @@ namespace Collabrify_wp8.Collabrify
     // ------------------------------------------------------------------------------
 
     #region HttpRequestReturned
+    private void channelNeg1Error(ChannelEventArgs e)
+    {
+      Debug.WriteLine(LOG_TAG + ": Channel API Neg 1 error.");
+      channelAPI = new ChannelAPI(this, delegate
+      {
+        channelAPI.connect(this.notificationID);
+      });
+      channelAPI.channelEvent += new ChannelEventListener(channelNotification);
+      channelAPI.neg1error += new ChannelEventListener(channelNeg1Error);
+    }
 
     private void httpReturned(CollabrifyEventArgs e)
     {
@@ -91,23 +104,27 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.ADD_EVENT_REQUEST:
                   break;
               case CollabrifyRequestType_PB.ADD_PARTICIPANT_REQUEST:
-                this.session = new CollabrifySession((e.specificResponsePB as Response_AddParticipant_PB).session);
-                this.participant = new CollabrifyParticipant((e.specificResponsePB as Response_AddParticipant_PB).participant);
-                channelAPI.connect((e.specificResponsePB as Response_AddParticipant_PB).participant.notification_id);
-                break;
+                  this.session = new CollabrifySession((e.specificResponsePB as Response_AddParticipant_PB).session);
+                  this.participant = new CollabrifyParticipant((e.specificResponsePB as Response_AddParticipant_PB).participant);
+                  this.notificationID = (e.specificResponsePB as Response_AddParticipant_PB).participant.notification_id;
+                  channelAPI.connect( notificationID );
+                  break;
               case CollabrifyRequestType_PB.ADD_TO_BASE_FILE_REQUEST:
                   break;
               case CollabrifyRequestType_PB.CREATE_OR_GET_USER:
                   break;
-              case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST:
-                  this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
-                  this.participant = session.getOwner();
-                  channelAPI.connect((e.specificResponsePB as Response_CreateSession_PB).owner.notification_id);
+              case CollabrifyRequestType_PB.CREATE_SESSION_REQUEST: 
+                    this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSession_PB).session);
+                    this.participant = session.getOwner();
+                    this.notificationID = (e.specificResponsePB as Response_CreateSession_PB).owner.notification_id;
+                    channelAPI.connect(this.notificationID);
                   break;
               case CollabrifyRequestType_PB.CREATE_SESSION_WITH_BASE_FILE_REQUEST:
                   this.session = new CollabrifySession((e.specificResponsePB as Response_CreateSessionWithBaseFile_PB).session);
                   this.participant = session.getOwner();
-                  channelAPI.connect((e.specificResponsePB as Response_CreateSessionWithBaseFile_PB).owner.notification_id);
+                  this.notificationID = (e.specificResponsePB as Response_CreateSessionWithBaseFile_PB).owner.notification_id;
+                  try { channelAPI.connect((e.specificResponsePB as Response_CreateSessionWithBaseFile_PB).owner.notification_id); }
+                  catch (Exception ex) { Debug.WriteLine(LOG_TAG + ":\n" + ex.Message); }
                   break;
               case CollabrifyRequestType_PB.DELETE_SESSION_REQUEST:
                   break;
@@ -193,7 +210,7 @@ namespace Collabrify_wp8.Collabrify
       }
       else if (e.type == NotificationMessageType_PB.NOTIFICATION_MESSAGE_TYPE_NOT_SET)
       {
-
+      
       }
       else if (e.type == NotificationMessageType_PB.ON_CHANNEL_CONNECTED_NOTIFICATION)
       {
