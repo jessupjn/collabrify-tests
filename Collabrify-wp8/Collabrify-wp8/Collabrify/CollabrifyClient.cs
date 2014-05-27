@@ -3,6 +3,7 @@ using Collabrify_wp8.Http_Requests;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows;
 
 namespace Collabrify_wp8.Collabrify
 {
@@ -142,9 +143,13 @@ namespace Collabrify_wp8.Collabrify
               case CollabrifyRequestType_PB.UPDATE_USER:
                   break;
               case CollabrifyRequestType_PB.WARMUP_REQUEST:
+                  //HttpRequest_CreateOrGetUser.make_request(this, http_object);
                   break;
           } // switch
-          if (mCompletionHandler != null) mCompletionHandler.Invoke(this);
+          if (mCompletionHandler != null)
+          {
+            Deployment.Current.Dispatcher.BeginInvoke(delegate { mCompletionHandler.Invoke(this); });
+          }
       } // if
       else
       {

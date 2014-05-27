@@ -24,6 +24,7 @@ namespace Collabrify_wp8.Http_Requests
 
       Request_CreateOrGetUser_PB cs_pb = new Request_CreateOrGetUser_PB();
       cs_pb.create_if_does_not_exist = true;
+      cs_pb.user_id = c.participant.getUserID();
 
       HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb);
 
