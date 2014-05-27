@@ -21,10 +21,10 @@
       var channel;
       var socket;
       function closeConnection() { if (socket) { socket.close() } }
-      function onError(a) { window.external.notify("errors::" + a.code + "|" + a.description) }
-      function onMessage(a) { window.external.notify("message:" + a.data) }
-      function onClose() { window.external.notify("onClose:") }
-      function onOpen() { window.external.notify("onOpen::") }
+      function onError(a) {     window.external.notify("errors::" + a.code + "|" + a.description) }
+      function onMessage(a) {   window.external.notify("message:" + a.data)                       }
+      function onClose() {      window.external.notify("onClose:")                                }
+      function onOpen() {       window.external.notify("onOpen::")                                }
       function connectToServer(a) { channel = new goog.appengine.Channel(a); socket = channel.open(); socket.onopen = onOpen; socket.onmessage = onMessage; socket.onerror = onError; socket.onclose = onClose }
       window.onload = function () { window.external.notify("onLoad::");}
     </script>

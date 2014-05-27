@@ -8,6 +8,17 @@ using System.Windows;
 namespace Collabrify_wp8.Collabrify
 {
 
+  // QUESTIONS FOR GROUP:
+  // 1: CHANNEL ERROR OF -1
+  // 2: WHAT TO DO IN CASE OF CHANNEL EVENTS
+  // 3: HOW TO MAKE SOME CLASSES ONLY VISIBLE WITHIN DLL FILE.
+  //
+  //
+  //
+  //
+  //
+
+
   public class CollabrifyClient
   {
 
@@ -139,6 +150,8 @@ namespace Collabrify_wp8.Collabrify
                   Debug.WriteLine(LOG_TAG + ":\n\tError:\n\tRequest Type Was Not Set");
                   break;
               case CollabrifyRequestType_PB.UPDATE_NOTIFICATION_ID_REQUEST:
+                  this.participant = new CollabrifyParticipant((e.specificResponsePB as Response_UpdateNotificationID_PB).participant);
+                  this.session = new CollabrifySession((e.specificResponsePB as Response_UpdateNotificationID_PB).session);
                   break;
               case CollabrifyRequestType_PB.UPDATE_USER:
                   break;
@@ -148,7 +161,9 @@ namespace Collabrify_wp8.Collabrify
           } // switch
           if (mCompletionHandler != null)
           {
-            Deployment.Current.Dispatcher.BeginInvoke(delegate { mCompletionHandler.Invoke(this); });
+            Deployment.Current.Dispatcher.BeginInvoke(delegate {
+              mCompletionHandler.Invoke(this);
+            });
           }
       } // if
       else
@@ -164,14 +179,38 @@ namespace Collabrify_wp8.Collabrify
 
     private void channelNotification(ChannelEventArgs e)
     {
-      if (e.type == NotificationMessageType_PB.ADD_EVENT_NOTIFICATION) ;
-      else if (e.type == NotificationMessageType_PB.ADD_PARTICIPANT_NOTIFICATION) ;
-      else if (e.type == NotificationMessageType_PB.END_SESSION_NOTIFICATION) ;
-      else if (e.type == NotificationMessageType_PB.NOTIFICATION_MESSAGE_TYPE_NOT_SET) ;
-      else if (e.type == NotificationMessageType_PB.ON_CHANNEL_CONNECTED_NOTIFICATION) ;
-      else if (e.type == NotificationMessageType_PB.PREVENT_FURTHER_JOINS_NOTIFICATION) ;
-      else if (e.type == NotificationMessageType_PB.REMOVE_PARTICIPANT_NOTIFICATION) ;
-      else if (e.type == NotificationMessageType_PB.TRANSIENT_MESSAGE_NOTIFICATION) ;
+      if (e.type == NotificationMessageType_PB.ADD_EVENT_NOTIFICATION)
+      {
+        
+      }
+      else if (e.type == NotificationMessageType_PB.ADD_PARTICIPANT_NOTIFICATION)
+      {
+
+      }
+      else if (e.type == NotificationMessageType_PB.END_SESSION_NOTIFICATION)
+      {
+
+      }
+      else if (e.type == NotificationMessageType_PB.NOTIFICATION_MESSAGE_TYPE_NOT_SET)
+      {
+
+      }
+      else if (e.type == NotificationMessageType_PB.ON_CHANNEL_CONNECTED_NOTIFICATION)
+      {
+
+      }
+      else if (e.type == NotificationMessageType_PB.PREVENT_FURTHER_JOINS_NOTIFICATION)
+      {
+
+      }
+      else if (e.type == NotificationMessageType_PB.REMOVE_PARTICIPANT_NOTIFICATION)
+      {
+
+      }
+      else if (e.type == NotificationMessageType_PB.TRANSIENT_MESSAGE_NOTIFICATION)
+      {
+
+      }
 
     } // channelNotification
 #endregion 

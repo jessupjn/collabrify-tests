@@ -30,6 +30,13 @@ namespace Collabrify_wp8.Http_Requests
 
       HttpWebRequest request = obj.BuildRequest(req_pb);
 
+      Request_GetEvent_PB cs_pb = new Request_GetEvent_PB();
+      cs_pb.access_token = c.getAccessToken();
+      cs_pb.account_gmail = c.getAccountGmail();
+      cs_pb.participant_id = c.participant.getId();
+      cs_pb.session_id = c.getSession().getId();
+      cs_pb.order_id = c.getSession().getCurrentOrderId();
+      
       try
       {
         request.BeginGetRequestStream(new AsyncCallback(obj.getReqStream), request);

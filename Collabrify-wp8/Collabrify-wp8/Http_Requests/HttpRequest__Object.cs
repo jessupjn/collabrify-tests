@@ -49,9 +49,8 @@ namespace Collabrify_wp8.Http_Requests
                                                   "82763BDBCA");
 
       collabrify_req_pb = req_pb;
-      if (_secondary_pb != null) secondary_pb = _secondary_pb;
-      if (_trail_info != null) trail_info = _trail_info;
-
+      secondary_pb = _secondary_pb;
+      trail_info = _trail_info;
 
       return request;
     } //BuildRequest
@@ -67,6 +66,8 @@ namespace Collabrify_wp8.Http_Requests
 
         MemoryStream ms = new MemoryStream();
         MemoryStream ms2 = new MemoryStream();
+        MemoryStream ms3 = new MemoryStream();
+
         Serializer.SerializeWithLengthPrefix<CollabrifyRequest_PB>(ms, collabrify_req_pb, PrefixStyle.Base128, 0);
 
         byte[] byteArr = ms.ToArray();
@@ -190,13 +191,21 @@ namespace Collabrify_wp8.Http_Requests
         }
 
         // if the second memory stream has data in it - add it to the request.
-        if (ms2.Length > 0) writeSecondObject(ms2, postStream);
+        if (ms2.Length > 0)
+        {
+          byteArr = ms2.ToArray();
+          postStream.Write(byteArr, 0, byteArr.Length);
+        }
+
+        // if there is a basefile, add it to the end of the request.
+        if (trail_info != null) postStream.Write((byte[])trail_info, 0, byteArr.Length);
 
         // close the request stream.
         postStream.Close();
 
         // get our response.
         request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
+
       } // try
       catch (WebException e)
       {
@@ -207,14 +216,6 @@ namespace Collabrify_wp8.Http_Requests
 
     // -------------------------------------------------------------------------
 
-    private void writeSecondObject(MemoryStream ms, Stream postStream)
-    {
-      byte[] byteArr = ms.ToArray();
-      postStream.Write(byteArr, 0, byteArr.Length);
-    } // writeSecondObject
-
-    // -------------------------------------------------------------------------
-
     private void GetResponseCallback(IAsyncResult asynchronousResult)
     {
       try
@@ -222,15 +223,12 @@ namespace Collabrify_wp8.Http_Requests
         HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
         HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
 
-        string responseString = "FAIL";
-
         //to read server response 
         Stream streamResponse = response.GetResponseStream();
         try
         {
           collabrify_resp_pb = Serializer.DeserializeWithLengthPrefix<CollabrifyResponse_PB>(streamResponse, PrefixStyle.Base128, 0);
 
-          responseString = collabrify_resp_pb.success_flag.ToString();
           returned_secondary_pb = null;
           if (collabrify_req_pb.request_type == CollabrifyRequestType_PB.ADD_EVENT_REQUEST)
           {
@@ -347,17 +345,24 @@ namespace Collabrify_wp8.Http_Requests
             returned_secondary_pb = Serializer.DeserializeWithLengthPrefix<Response_Warmup_PB>(streamResponse, PrefixStyle.Base128, 0);
           }
 
-          // ========================================================
-          // sets information that is used by the client upon return
+          // invokes an event that is returned to the cliend object.
           CollabrifyEventArgs e = new CollabrifyEventArgs(collabrify_resp_pb, returned_secondary_pb, collabrify_req_pb.request_type);
-          OnChanged(e);
-          // ========================================================
 
-        }
+          try
+          {
+            if (HttpRequestDone != null) HttpRequestDone.Invoke(e);
+            else Debug.WriteLine("Changed event is null");
+          } // try
+          catch 
+          {
+            Debug.WriteLine("OnChanged exception...");
+          } // catch
+
+        } // try
         catch (Exception e)
         {
-          System.Diagnostics.Debug.WriteLine("EXCEPTION string\nMessage: " + e.Message.ToString() + "\ndata: " + e.Data.ToString() + "\n -- \n" + e.StackTrace.ToString());
-        }
+          System.Diagnostics.Debug.WriteLine(LOG_TAG + " Error:\nMessage: " + e.Message.ToString() + "\ndata: " + e.Data.ToString() + "\n -- \n" + e.StackTrace.ToString());
+        } // catch
 
         // Close the stream object
         streamResponse.Close();
@@ -368,12 +373,7 @@ namespace Collabrify_wp8.Http_Requests
       } // try
       catch (WebException e)
       {
-        //Handle non success exception here  
-        HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-
-        System.Diagnostics.Debug.WriteLine("responses suck");
-        System.Diagnostics.Debug.WriteLine(e.Message);
-
+        System.Diagnostics.Debug.WriteLine(LOG_TAG + " Error:\nMessage: " + e.Message.ToString() + "\ndata: " + e.Data.ToString() + "\n -- \n" + e.StackTrace.ToString());
       } // catch
     } // GetResponseCallback
 

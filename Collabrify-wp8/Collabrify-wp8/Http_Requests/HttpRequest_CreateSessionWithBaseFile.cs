@@ -45,8 +45,8 @@ namespace Collabrify_wp8.Http_Requests
 
       cs_pb.owner_notification_id = "0";
       cs_pb.owner_notification_type = NotificationMediumType_PB.COLLABRIFY_CLOUD_CHANNEL;
-
-      HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb /* TODO THIRD REALM FOR BASE FILE */);
+      byte[] baseFile = null;
+      HttpWebRequest request = obj.BuildRequest(req_pb, cs_pb, baseFile);
 
       try
       {
